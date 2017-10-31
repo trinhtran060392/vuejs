@@ -14,7 +14,6 @@ const getters = {
 // actions
 const actions = {
   getAllProjects ({ commit }) {
-    console.log(1)
     data.getProjects(projects => {
       commit(types.RECEIVE_PROJECTS, { projects })
     })
@@ -27,7 +26,6 @@ const actions = {
 // mutations
 const mutations = {
   [types.RECEIVE_PROJECTS] (state, { projects }) {
-    console.log(projects)
     state.all = projects
   },
   [types.ADD_PROJECT] (state, project) {

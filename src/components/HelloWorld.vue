@@ -1,12 +1,23 @@
 <template>
   <div class="hello">
     <li v-for="project in projects">{{ project.id }}</li>
+    <div>
+      <input type="text" name="name" v-model="newProject.id">
+    </div>
+    <div>
+      <a href="" @click="addProject(newProject)">Add Project</a>
+    </div>
   </div>
 </template>
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
   export default {
+    data: function () {
+      return {
+        newProject: {}
+      }
+    },
     computed: mapGetters({
       projects: 'allProjects'
     }),
@@ -14,7 +25,6 @@
       'addProject'
     ]),
     created () {
-      console.log(0)
       this.$store.dispatch('getAllProjects')
     }
   }
