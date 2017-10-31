@@ -1,0 +1,4 @@
+export const ADD_PROJECT = 'ADD_PROJECT'
+export const INCREMENT = 'INCREMENT'
+export const DECREMENT = 'DECREMENT'
+export const RECEIVE_PROJECTS = 'RECEIVE_PROJECTS'

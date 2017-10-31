@@ -1,32 +1,21 @@
 <template>
   <div class="hello">
-    <h1>{{ count }}</h1>
-    <button @click="increment(10)">Increment count</button>
-    <button @click="decrement">Decrement count</button>
-
-    <button @click="addProject">Add project</button>
-    <li v-for="project in projects">{{ project.name }}</li>
+    <li v-for="project in projects">{{ project.id }}</li>
   </div>
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   export default {
-    data: function () {
-      return {
-        projects: []
-      }
-    },
-    computed: {
-      count () {
-        return this.$store.state.count
-      }
-    },
-    methods: {
-      ...mapActions(['increment', 'decrement']),
-      addProject () {
-        this.projects.push({name: 'NameDemo'})
-      }
+    computed: mapGetters({
+      projects: 'allProjects'
+    }),
+    methods: mapActions([
+      'addProject'
+    ]),
+    created () {
+      console.log(0)
+      this.$store.dispatch('getAllProjects')
     }
   }
 </script>
