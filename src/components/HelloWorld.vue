@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
-    <li v-for="project in projects">{{ project.id }}</li>
+    <li v-for="project in projects">
+        <router-link :to="{ path: 'project', params: { id: 123 }}">{{ project.id }}</router-link>
+    </li>
     <div>
       <input type="text" name="name" :value="newProject.id" @input="updateNewProject">
     </div>

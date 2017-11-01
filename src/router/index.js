@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import MainLayout from '@/components/MainLayout'
 import HelloWorld from '@/components/HelloWorld'
-import TodoItem from '@/components/TodoItem'
+import LoginView from '@/components/LoginView'
+import ProjectView from '@/components/ProjectView'
 
 Vue.use(Router)
 
@@ -9,13 +11,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: HelloWorld
+      component: MainLayout,
+      children: [
+        { path: '', component: HelloWorld },
+        { path: 'project/:id', component: ProjectView, props: true }
+      ]
     }, {
-
-      path: 'todo',
-      name: 'Hello.Todo',
-      component: TodoItem
+      path: '/login',
+      component: LoginView
     }
   ]
 })
