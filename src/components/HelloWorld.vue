@@ -2,10 +2,10 @@
   <div class="hello">
     <li v-for="project in projects">{{ project.id }}</li>
     <div>
-      <input type="text" name="name" v-model="newProject.id">
+      <input type="text" name="name" :value="newProject.id" @input="updateNewProject">
     </div>
     <div>
-      <a href="" @click="addProject(newProject)">Add Project</a>
+      <a @click="addProject">Add Project</a>
     </div>
   </div>
 </template>
@@ -13,16 +13,12 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
   export default {
-    data: function () {
-      return {
-        newProject: {}
-      }
-    },
     computed: mapGetters({
-      projects: 'allProjects'
+      projects: 'allProjects',
+      newProject: 'newProject'
     }),
     methods: mapActions([
-      'addProject'
+      'addProject', 'updateNewProject'
     ]),
     created () {
       this.$store.dispatch('getAllProjects')

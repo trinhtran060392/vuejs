@@ -3,12 +3,14 @@ import * as types from '../mutation-types'
 
 // initial state
 const state = {
-  all: []
+  all: [],
+  newProject: {}
 }
 
 // getters
 const getters = {
-  allProjects: state => state.all
+  allProjects: state => state.all,
+  newProject: state => state.newProject
 }
 
 // actions
@@ -18,8 +20,12 @@ const actions = {
       commit(types.RECEIVE_PROJECTS, { projects })
     })
   },
-  addProjects ({ commit }, project) {
-    commit(types.ADD_PROJECT, project)
+  addProject ({ commit }) {
+    let newProjectUpdated = { id: state.newProject.id }
+    commit(types.ADD_PROJECT, newProjectUpdated)
+  },
+  updateNewProject ({ commit }, e) {
+    commit(types.UPDATE_NEWPROJECT, e.target.value)
   }
 }
 
@@ -30,6 +36,9 @@ const mutations = {
   },
   [types.ADD_PROJECT] (state, project) {
     state.all.push(project)
+  },
+  [types.UPDATE_NEWPROJECT] (state, id) {
+    state.newProject.id = id
   }
 }
 
