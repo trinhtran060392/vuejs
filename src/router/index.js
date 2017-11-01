@@ -14,7 +14,7 @@ export default new Router({
       component: MainLayout,
       children: [
         { path: '', component: HelloWorld },
-        { path: 'project/:id', component: ProjectView, props: true }
+        { path: 'project/:projectId', name: 'project', component: ProjectView, props: true }
       ]
     }, {
       path: '/login',
