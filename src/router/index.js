@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MainLayout from '@/components/MainLayout'
-import HelloWorld from '@/components/HelloWorld'
+import Dashboard from '@/components/Dashboard'
 import LoginView from '@/components/LoginView'
 import ProjectView from '@/components/ProjectView'
 
@@ -13,7 +13,7 @@ export default new Router({
       path: '/',
       component: MainLayout,
       children: [
-        { path: '', component: HelloWorld },
+        { path: '', component: Dashboard },
         { path: 'project/:projectId', name: 'project', component: ProjectView, props: true }
       ]
     }, {

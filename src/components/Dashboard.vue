@@ -1,8 +1,13 @@
 <template>
-  <div class="hello">
-    <li v-for="project in projects">
+  <div class="hello content">
+    <div v-for="project in projects" class="pr-container">
+        <div class="project-id inline-style">
         <router-link :to="{ name: 'project', params: { projectId: project.id }}">{{ project.id }}</router-link>
-    </li>
+      </div>
+      <div class="remove-pr inline-style">
+        <button @click="removePr(project.id)">Remove</button>
+      </div>
+    </div>
     <div>
       <input type="text" name="name" :value="newProject.id" @input="updateNewProject">
     </div>
@@ -20,7 +25,7 @@
       newProject: 'newProject'
     }),
     methods: mapActions([
-      'addProject', 'updateNewProject'
+      'addProject', 'updateNewProject', 'removePr'
     ]),
     created () {
       this.$store.dispatch('getAllProjects')
@@ -30,6 +35,12 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.pr-container {
+  padding: 10px;
+}
+.inline-style {
+  display: inline-block;
+}
 h1, h2 {
   font-weight: normal;
 }
@@ -46,5 +57,8 @@ li {
 
 a {
   color: #42b983;
+}
+.hello {
+  min-height: 500px;
 }
 </style>
