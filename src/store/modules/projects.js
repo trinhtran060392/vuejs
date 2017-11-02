@@ -5,13 +5,15 @@ import * as types from '../mutation-types'
 // initial state
 const state = {
   all: [],
-  newProject: {}
+  newProject: {},
+  selected: {}
 }
 
 // getters
 const getters = {
   allProjects: state => state.all,
-  newProject: state => state.newProject
+  newProject: state => state.newProject,
+  selected: state => state.selected
 }
 
 // actions
@@ -30,6 +32,12 @@ const actions = {
   },
   updateNewProject ({ commit }, e) {
     commit(types.UPDATE_NEWPROJECT, e.target.value)
+  },
+  editPr ({ commit }, id) {
+    commit(types.EDIT_PR, id)
+  },
+  updateProject ({ commit }, e) {
+    commit(types.UPDATE_CURRENT_PROJECT, e.target.value)
   }
 }
 
@@ -50,6 +58,19 @@ const mutations = {
       return project.id === id
     })
     state.all.splice(index, 1)
+  },
+  [types.EDIT_PR] (state, id) {
+    let project = _.find(state.all, project => {
+      return project.id === id
+    })
+    state.selected = project
+  },
+  [types.UPDATE_CURRENT_PROJECT] (state, id) {
+    let index = _.findIndex(state.all, project => {
+      return state.selected.id === project.id
+    })
+    state.all[index].id = id
+    state.selected = {}
   }
 }
 

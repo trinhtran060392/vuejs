@@ -3,9 +3,13 @@
     <div v-for="project in projects" class="pr-container">
         <div class="project-id inline-style">
         <router-link :to="{ name: 'project', params: { projectId: project.id }}">{{ project.id }}</router-link>
+        <input type="text" :value="project.id" v-if="selected.id===project.id" @keyup.enter="updateProject">
       </div>
       <div class="remove-pr inline-style">
         <button @click="removePr(project.id)">Remove</button>
+      </div>
+      <div class="inline-style">
+        <button @click="editPr(project.id)">Edit</button>
       </div>
     </div>
     <div>
@@ -22,10 +26,11 @@
   export default {
     computed: mapGetters({
       projects: 'allProjects',
-      newProject: 'newProject'
+      newProject: 'newProject',
+      selected: 'selected'
     }),
     methods: mapActions([
-      'addProject', 'updateNewProject', 'removePr'
+      'addProject', 'updateNewProject', 'removePr', 'editPr', 'updateProject'
     ]),
     created () {
       this.$store.dispatch('getAllProjects')
