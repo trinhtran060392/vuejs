@@ -4,6 +4,7 @@ import MainLayout from '@/components/MainLayout'
 import Dashboard from '@/components/Dashboard'
 import LoginView from '@/components/LoginView'
 import ProjectView from '@/components/ProjectView'
+import ResultImageView from '@/components/ResultImageView'
 
 Vue.use(Router)
 
@@ -19,6 +20,9 @@ export default new Router({
     }, {
       path: '/login',
       component: LoginView
+    }, {
+      path: '/result',
+      component: ResultImageView
     }
   ]
 })

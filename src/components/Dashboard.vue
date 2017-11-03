@@ -1,5 +1,8 @@
 <template>
   <div class="hello content">
+    <div class="file-upload">
+      <FileUpload></FileUpload>
+    </div>
     <div v-for="project in projects" class="pr-container">
         <div class="project-id inline-style">
         <router-link :to="{ name: 'project', params: { projectId: project.id }}">{{ project.id }}</router-link>
@@ -23,7 +26,12 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
+  import FileUpload from './FileUpload'
+
   export default {
+    components: {
+      FileUpload
+    },
     computed: mapGetters({
       projects: 'allProjects',
       newProject: 'newProject',

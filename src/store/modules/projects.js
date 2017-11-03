@@ -6,14 +6,16 @@ import * as types from '../mutation-types'
 const state = {
   all: [],
   newProject: {},
-  selected: {}
+  selected: {},
+  result: false
 }
 
 // getters
 const getters = {
   allProjects: state => state.all,
   newProject: state => state.newProject,
-  selected: state => state.selected
+  selected: state => state.selected,
+  result: state => state.result
 }
 
 // actions
@@ -38,6 +40,14 @@ const actions = {
   },
   updateProject ({ commit }, e) {
     commit(types.UPDATE_CURRENT_PROJECT, e.target.value)
+  },
+  checkEqual ({ commit }, img, assertImg) {
+    data.checkEqualImg(result => {
+      commit(types.ASSERT_IMAGE, result)
+    })
+  },
+  initResult ({ commit }) {
+    commit(types.INIT_RESULT)
   }
 }
 
@@ -71,6 +81,12 @@ const mutations = {
     })
     state.all[index].id = id
     state.selected = {}
+  },
+  [types.ASSERT_IMAGE] (state, result) {
+    state.result = result
+  },
+  [types.INIT_RESULT] (state) {
+    state.result = false
   }
 }
 

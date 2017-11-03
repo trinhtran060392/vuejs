@@ -4,6 +4,7 @@ const _projects = [
   {'id': 2, 'title': 'Project 2', 'price': 500.01, 'inventory': 2},
   {'id': 3, 'title': 'Project 3', 'price': 500.01, 'inventory': 2}
 ]
+const _result = true
 
 export default {
   getProjects (cb) {
@@ -17,5 +18,9 @@ export default {
         ? cb()
         : errorCb()
     }, 100)
+  },
+
+  checkEqualImg (cb) {
+    setTimeout(() => cb(_result), 100)
   }
 }
