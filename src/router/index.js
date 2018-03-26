@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import MainLayout from '@/components/MainLayout'
+import MainLayout from '@/components/layout/MainLayout'
 import Dashboard from '@/components/dashboard/Dashboard'
-import LoginView from '@/components/LoginView'
+import Profile from '@/components/profile/Profile'
 import User from '@/components/user/User'
-import ResultImageView from '@/components/ResultImageView'
 
 Vue.use(Router)
 
@@ -15,14 +14,9 @@ export default new Router({
       component: MainLayout,
       children: [
         { path: '', component: Dashboard },
-        { path: 'users/:userId', name: 'user', component: User, props: true }
+        { path: 'users/:userId', name: 'user', component: User, props: true },
+        { path: 'profile', component: Profile }
       ]
-    }, {
-      path: '/login',
-      component: LoginView
-    }, {
-      path: '/result',
-      component: ResultImageView
     }
   ]
 })

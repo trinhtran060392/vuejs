@@ -7,7 +7,8 @@ const state = {
   all: [],
   newProject: {},
   selected: {},
-  result: false
+  result: false,
+  isAuthenticated: false
 }
 
 // getters
@@ -15,7 +16,8 @@ const getters = {
   allProjects: state => state.all,
   newProject: state => state.newProject,
   selected: state => state.selected,
-  result: state => state.result
+  result: state => state.result,
+  isAuthenticated: state => state.isAuthenticated
 }
 
 // actions
@@ -48,6 +50,9 @@ const actions = {
   },
   initResult ({ commit }) {
     commit(types.INIT_RESULT)
+  },
+  changeStatus ({ commit }) {
+    commit(types.CHANGE_STATUS)
   }
 }
 
@@ -87,6 +92,9 @@ const mutations = {
   },
   [types.INIT_RESULT] (state) {
     state.result = false
+  },
+  [types.CHANGE_STATUS] (state) {
+    state.isAuthenticated = !state.isAuthenticated
   }
 }
 
