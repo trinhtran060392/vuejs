@@ -9,9 +9,11 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import Vuetify from 'vuetify'
+import VueCarousel from 'vue-carousel'
 
 Vue.use(VueResource)
 Vue.use(Vuetify)
+Vue.use(VueCarousel)
 
 export default {
   name: 'app'
