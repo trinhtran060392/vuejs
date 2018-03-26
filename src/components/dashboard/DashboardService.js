@@ -4,7 +4,7 @@ import Constant from '../shared/Constant'
 
 export default new Vue({
   methods: {
-    getShows () {
+    getUsers () {
       const url = `${Constant.entryPoint}/users`
       return this.$http.get(url, {
         headers: {

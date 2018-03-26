@@ -22,7 +22,7 @@
       }
     },
     created () {
-      DashboardService.getShows().then((response) => {
+      DashboardService.getUsers().then((response) => {
         return response.body
       }).then((response) => {
         let result = response.data
