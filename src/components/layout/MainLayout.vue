@@ -25,12 +25,14 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>
+        <img src="../../assets/static/logo.png">
+      </v-toolbar-title>
       
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat @click="openDashboard()">Link One</v-btn>
-        <v-btn flat>Link Two</v-btn>
-        <v-btn flat>Link Three</v-btn>
+        <v-btn flat v-for="menu in menus" :key="menu.path_id">
+          {{menu.name[0].text}}
+        </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-menu offset-y>
@@ -45,32 +47,46 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
-          <v-flex shrink>
-            <v-tooltip right>
-              <v-btn
-                icon
-                large
-                :href="source"
-                target="_blank"
-                slot="activator"
-              >
-                <v-icon large>code</v-icon>
-              </v-btn>
-              <span>Source</span>
-            </v-tooltip>
+          <v-flex>
             <router-view></router-view>
           </v-flex>
         </v-layout>
       </v-container>
+      <v-footer app>
+        <v-container>
+          <v-layout row wrap>
+            <v-flex md3 offset-md2 xs6 sm6>
+              <v-card class="img-container">
+                <img src="../../assets/static/ap1.png">
+              </v-card>
+            </v-flex>
+            <v-flex md3 offset-md2 xs6 sm6>
+              <v-card class="img-container">
+                <img src="../../assets/static/ap2.png">
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        
+      </v-footer>
+      <v-divider></v-divider>
+      <v-footer>
+        <v-container>
+          <p class="col-copry">Tổng công ty Viễn thông Viettel<br>
+          Trung tâm chăm sóc khách hàng: 18008119 (miễn phí)<br>
+          © 2017 All rights reserved.<br>
+          </p>
+        </v-container>
+      </v-footer>
     </v-content>
-    <v-footer app fixed>
-      <span>&copy; 2017</span>
-    </v-footer>
+    
   </v-app>
 </template>
 
 
 <script>
+  import DashboardService from '../dashboard/DashboardService'
+  import Ulti from '../shared/Ulti'
   export default {
     computed: {
       isAuthenticated () {
@@ -79,9 +95,9 @@
     },
     data () {
       return {
+        menus: [],
         items: [
-          {title: 'First'},
-          {title: 'Second'}
+          { title: 'One' }
         ]
       }
     },
@@ -96,6 +112,35 @@
       openDashboard () {
         this.$router.push('/')
       }
+    },
+    created () {
+      DashboardService.getCats().then((response) => {
+        return response.body
+      }).then((response) => {
+        let result = response.data
+        let cats = Ulti.getCategories(result)
+        let menus = Ulti.getMenus(result)
+        this.menus = menus
+        this.cats = cats
+        let sharedData = {}
+        sharedData.menus = menus
+        sharedData.cats = cats
+        this.$store.dispatch('setMenu', sharedData)
+      })
     }
   }
 </script>
+
+<style scoped>
+  .img-container {
+    background: rgba(10, 14, 21, 0.6);
+    border: 1px solid #292929;
+    padding: 10px;
+  }
+  .application .theme--dark.card, .theme--dark .card {
+    background-color: none;
+  }
+  .application .theme--dark.toolbar, .theme--dark .toolbar {
+    background-color: transparent;
+  }
+</style>

@@ -7,11 +7,9 @@
 <script>
 
 import Vue from 'vue'
-import VueResource from 'vue-resource'
 import Vuetify from 'vuetify'
 import VueCarousel from 'vue-carousel'
 
-Vue.use(VueResource)
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
 
@@ -26,6 +24,18 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #ffffff;
 }
+body {
+  background-color: #0E1623;
+}
+.application.theme--dark {
+  background-color: transparent;
+}
+.application .theme--dark.footer, .theme--dark .footer {
+  height: auto !important;
+  background-color: transparent;
+  position: relative;
+}
+
 </style>
