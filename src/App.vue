@@ -9,13 +9,21 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import VueCarousel from 'vue-carousel'
+import VueResource from 'vue-resource'
+import Constant from './components/shared/Constant'
 
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
+Vue.use(VueResource)
 
 export default {
   name: 'app'
 }
+
+Vue.http.interceptors.push((request, next) => {
+  request.headers.set('Authorization', `Bearer ${Constant.guestToken}`)
+  next()
+})
 </script>
 
 <style>

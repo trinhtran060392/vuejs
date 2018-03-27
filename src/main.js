@@ -4,12 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 import router from './router'
-import VueResource from 'vue-resource'
-import Constant from './components/shared/Constant'
 
 Vue.config.productionTip = false
-
-Vue.use(VueResource)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -17,12 +13,4 @@ new Vue({
   store,
   template: '<App/>',
   components: { App }
-})
-
-Vue.http.interceptors.push({
-  request (request) {
-    console.log(request)
-    request.headers['Authorization'] = `Bearer ${Constant.guestToken}`
-    return request
-  }
 })

@@ -23,7 +23,7 @@
 
 <script>
   import { Carousel, Slide } from 'vue-carousel'
-  // import DashboardService from './DashboardService'
+  import DashboardService from './DashboardService'
   export default {
     components: {
       Carousel, Slide
@@ -40,15 +40,15 @@
     },
     watch: {
       cats: function (val) {
-        // console.log(this.cats)
-        // for (let i = 0; i < this.cats.length; i++) {
-        //   var temp = this.cats[i].categoryConfig
-        //   DashboardService.getCatContent(temp.value).then((response) => {
-        //     return response.body
-        //   }).then((data) => {
-        //     console.log(data)
-        //   })
-        // }
+        console.log(this.cats)
+        for (let i = 0; i < this.cats.length; i++) {
+          var temp = this.cats[i].categoryConfig
+          DashboardService.getCatContent(temp.value).then((response) => {
+            return response.body
+          }).then((data) => {
+            console.log(data)
+          })
+        }
       }
     }
   }

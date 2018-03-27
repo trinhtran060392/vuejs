@@ -5,7 +5,7 @@ import Constant from '../shared/Constant'
 export default new Vue({
   methods: {
     getCats () {
-      const url = `${Constant.entryPoint}/api1/contents/menus?child=all&version=Web_Live&access_token=00536aefb1f78bca51f8b3fde6f643c5`
+      const url = `${Constant.entryPoint}/api1/contents/menus?child=all&version=Web_Live`
       return this.$http.get(url, {
         headers: {
           'Content-Type': 'application/json'
