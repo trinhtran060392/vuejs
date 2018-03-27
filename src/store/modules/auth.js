@@ -10,7 +10,12 @@ const state = {
   result: false,
   isAuthenticated: false
 }
-
+// setters
+const setters = {
+  setStatus (isAuthenticated) {
+    state.isAuthenticated = isAuthenticated
+  }
+}
 // getters
 const getters = {
   allProjects: state => state.all,
@@ -102,5 +107,6 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
+  setters
 }

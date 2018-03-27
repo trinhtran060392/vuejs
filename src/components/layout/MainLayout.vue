@@ -3,9 +3,8 @@
     <v-navigation-drawer
       clipped
       fixed
-      v-model="drawer"
-      app
-    v-if="isAuthenticated">
+      v-model="isAuthenticated"
+      app>
       <v-list dense>
         <v-list-tile @click="">
           <v-list-tile-action>
@@ -26,11 +25,10 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Application</v-toolbar-title>
       
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat>Link One</v-btn>
+        <v-btn flat @click="openDashboard()">Link One</v-btn>
         <v-btn flat>Link Two</v-btn>
         <v-btn flat>Link Three</v-btn>
       </v-toolbar-items>
@@ -84,8 +82,7 @@
         items: [
           {title: 'First'},
           {title: 'Second'}
-        ],
-        drawer: true
+        ]
       }
     },
     props: {
@@ -95,6 +92,9 @@
       openMenu () {
         this.$router.push('profile')
         this.$store.dispatch('changeStatus')
+      },
+      openDashboard () {
+        this.$router.push('/')
       }
     }
   }
