@@ -2,9 +2,7 @@
 <template>
   <div class="dashboard-container">
     <v-container v-for="item in homeData" :key="`${item.title}`">
-      <div> 
-        {{item.title}}
-      </div>
+      <p class="text-sm-left text-xs-center">{{item.title}}</p>
       <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
         <slide v-for="i in item.data" :key="`3${i.id}`">
           <div class="vod-content">
@@ -64,15 +62,22 @@
 </script>
 
 <style>
+  .VueCarousel-wrapper {
+    padding: 30px 0;
+  }
   .vod-content {
     padding: 5px;
     max-height: 250px;
   }
   .vod-content:hover {
     transform: scale(1.2);
-    transition: all .3s ease-in-out
+    transition: all .3s ease-in-out;
+    cursor: pointer;
   }
   img {
     max-width: 100%;
+  }
+  .VueCarousel-dot {
+    display: none !important;
   }
 </style>
