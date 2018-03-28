@@ -80,4 +80,7 @@
   .VueCarousel-dot {
     display: none !important;
   }
+  .VueCarousel-navigation-button {
+    color: white !important;
+  }
 </style>
