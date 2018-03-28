@@ -45,5 +45,13 @@ body {
   background-color: transparent;
   position: relative;
 }
-
+.application .theme--dark.list, .theme--dark .list {
+  background-color: #0E1623;
+}
+.application.theme--dark a:hover {
+  color: #ffcc05;
+}
+.theme--dark .btn:hover {
+    color: #ffcc05;
+}
 </style>

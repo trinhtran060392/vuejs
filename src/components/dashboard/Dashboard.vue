@@ -31,6 +31,9 @@
     computed: {
       cats () {
         return this.$store.getters.cats
+      },
+      menus () {
+        return this.$store.getters.menus
       }
     },
     watch: {
@@ -42,9 +45,11 @@
           DashboardService.getCatContent(temp.value).then((response) => {
             obj.data = response
             this.homeData.push(obj)
-            console.log(obj)
           })
         }
+      },
+      menus: function (val) {
+        console.log(val)
       }
     },
     created () {
@@ -67,10 +72,10 @@
   }
   .vod-content {
     padding: 5px;
-    max-height: 250px;
+    max-height: 265px;
   }
   .vod-content:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     transition: all .3s ease-in-out;
     cursor: pointer;
   }

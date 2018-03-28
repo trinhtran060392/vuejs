@@ -30,15 +30,20 @@
       </v-toolbar-title>
       
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat v-for="menu in menus" :key="menu.path_id">
-          {{menu.name[0].text}}
-        </v-btn>
+        <v-menu open-on-hover offset-y v-for="menu in menus" :key="menu.path_id">
+          <v-btn flat slot="activator">{{menu.name[0].text}}</v-btn>
+          <v-list v-if="menu.children.length">
+            <v-list-tile v-for="item in menu.children" :key="item.path_id" @click="openSubMenu(item)">
+              <v-list-tile-title>{{ item.name[0].text }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <v-btn color="primary" dark slot="activator">Dropdown</v-btn>
         <v-list>
-          <v-list-tile v-for="item in items" :key="item.title" @click="openMenu()">
+          <v-list-tile v-for="item in items" :key="item.title">
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -105,12 +110,14 @@
       source: String
     },
     methods: {
-      openMenu () {
-        this.$router.push('profile')
-        this.$store.dispatch('changeStatus')
+      openMenu (menu) {
+        this.$router.push({ path: `/cat/${menu.id}` })
       },
       openDashboard () {
         this.$router.push('/')
+      },
+      openSubMenu (menu) {
+        console.log(menu)
       }
     },
     created () {

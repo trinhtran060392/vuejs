@@ -46,6 +46,11 @@ export default new Vue({
           result.push(temp)
         }
       }
+      for (let i = 0; i < result.length; i++) {
+        let temp = result[i]
+        let children = this.buildChildren(temp, data)
+        result[i].children = children
+      }
       return result
     },
     checkValidMenu (data) {
@@ -70,6 +75,28 @@ export default new Vue({
         vod.bigPhotoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}`
       }
       return vod
+    },
+    getCategoryIdOfMenu (menu) {
+      console.log(menu)
+      var categoryId = ''
+      for (let i = 0; i < menu.config.length; i++) {
+        let config = menu.config[i]
+        if (config.name === '__category') {
+          categoryId = config.value
+        }
+      }
+      return categoryId
+    },
+    buildChildren (menu, menuArray) {
+      let result = []
+      for (let i = 0; i < menuArray.length; i++) {
+        let temp = menuArray[i]
+        let size = temp.path_id.match(/\//g).length
+        if (size === 2 && temp.path_id.includes(menu.path_id) && menu.path_id !== '/WEB_HOME') {
+          result.push(temp)
+        }
+      }
+      return result
     }
   }
 })
