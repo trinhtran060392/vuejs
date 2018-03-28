@@ -68,6 +68,10 @@
     padding: 5px;
     max-height: 250px;
   }
+  .vod-content:hover {
+    transform: scale(1.2);
+    transition: all .3s ease-in-out
+  }
   img {
     max-width: 100%;
   }
