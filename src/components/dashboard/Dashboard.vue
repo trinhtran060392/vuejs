@@ -1,21 +1,16 @@
 
 <template>
   <div class="dashboard-container">
-    <v-container grid-list-md text-xs-center>
-      <v-layout row wrap>
-        <v-flex xs3 v-for="i in cats" :key="`3${i}`">
-          <v-card dark color="secondary">
-            <v-card-text class="px-0">
-              <router-link :to="{ name: 'user', params: { userId: i.id }}">{{ i.name[0].text }}</router-link>
-            </v-card-text>
-            
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
-    <v-container>
-      <carousel :autoplay="true">
-        <slide v-for="i in [1,2,3]" :key="`3${i}`"><span class="label">{{i}}</span></slide>
+    <v-container v-for="item in homeData" :key="`${item.title}`">
+      <div> 
+        {{item.title}}
+      </div>
+      <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
+        <slide v-for="i in item.data" :key="`3${i.id}`">
+          <div class="vod-content">
+            <img :src="i.photoUrl">
+          </div>
+        </slide>
       </carousel>
     </v-container>
   </div>
@@ -30,7 +25,9 @@
     },
     data () {
       return {
-        users: []
+        users: [],
+        homeData: [],
+        isLoadCompleted: false
       }
     },
     computed: {
@@ -40,20 +37,38 @@
     },
     watch: {
       cats: function (val) {
-        console.log(this.cats)
         for (let i = 0; i < this.cats.length; i++) {
-          var temp = this.cats[i].categoryConfig
+          let temp = this.cats[i].categoryConfig
+          let obj = {}
+          obj.title = this.cats[i].name[0].text
           DashboardService.getCatContent(temp.value).then((response) => {
-            return response.body
-          }).then((data) => {
-            console.log(data)
+            obj.data = response
+            this.homeData.push(obj)
+            console.log(obj)
           })
         }
+      }
+    },
+    created () {
+      for (let i = 0; i < this.cats.length; i++) {
+        let temp = this.cats[i].categoryConfig
+        let obj = {}
+        obj.title = this.cats[i].name[0].text
+        DashboardService.getCatContent(temp.value).then((response) => {
+          obj.data = response
+          this.homeData.push(obj)
+        })
       }
     }
   }
 </script>
 
-<style scoped>
-  
+<style>
+  .vod-content {
+    padding: 5px;
+    max-height: 250px;
+  }
+  img {
+    max-width: 100%;
+  }
 </style>

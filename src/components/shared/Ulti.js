@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import Vue from 'vue'
+import Constant from './Constant'
 
 export default new Vue({
   methods: {
@@ -62,6 +63,13 @@ export default new Vue({
       })
       if (isHidden) result = false
       return result
+    },
+    transformVod (vod) {
+      if (vod.program) {
+        vod.photoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}?width=215.000000&height=307.000000`
+        vod.bigPhotoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}`
+      }
+      return vod
     }
   }
 })
