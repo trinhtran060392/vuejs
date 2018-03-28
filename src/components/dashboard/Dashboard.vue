@@ -49,7 +49,6 @@
         }
       },
       menus: function (val) {
-        console.log(val)
       }
     },
     created () {

@@ -31,7 +31,7 @@
       
       <v-toolbar-items class="hidden-sm-and-down">
         <v-menu open-on-hover offset-y v-for="menu in menus" :key="menu.path_id">
-          <v-btn flat slot="activator">{{menu.name[0].text}}</v-btn>
+          <v-btn flat slot="activator" @click="openAllMenu(menu)">{{menu.name[0].text}}</v-btn>
           <v-list v-if="menu.children.length">
             <v-list-tile v-for="item in menu.children" :key="item.path_id" @click="openSubMenu(item)">
               <v-list-tile-title>{{ item.name[0].text }}</v-list-tile-title>
@@ -118,6 +118,28 @@
       },
       openSubMenu (menu) {
         console.log(menu)
+      },
+      openAllMenu (menu) {
+        console.log(menu)
+        let pathId = menu.path_id
+        if (pathId === '/WEB_HOME') {
+          this.$router.push({path: '/'})
+          return
+        }
+        let result = {}
+        result.id = menu.id
+        let array = []
+        for (let i = 0; i < menu.children.length; i++) {
+          let obj = {}
+          let temp = menu.children[i]
+          let catMenuId = Ulti.getCategoryIdOfMenu(temp)
+          obj.catMenuId = catMenuId
+          obj.title = temp.name[0].text
+          array.push(obj)
+        }
+        result.catMenuIds = array
+        this.$store.dispatch('setSubMenu', result)
+        this.$router.push({ path: `/cat/${menu.id}` })
       }
     },
     created () {

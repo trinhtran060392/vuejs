@@ -77,7 +77,6 @@ export default new Vue({
       return vod
     },
     getCategoryIdOfMenu (menu) {
-      console.log(menu)
       var categoryId = ''
       for (let i = 0; i < menu.config.length; i++) {
         let config = menu.config[i]
@@ -92,7 +91,7 @@ export default new Vue({
       for (let i = 0; i < menuArray.length; i++) {
         let temp = menuArray[i]
         let size = temp.path_id.match(/\//g).length
-        if (size === 2 && temp.path_id.includes(menu.path_id) && menu.path_id !== '/WEB_HOME') {
+        if (size === 2 && temp.path_id.includes(menu.path_id) && menu.path_id !== '/WEB_HOME' && !temp.path_id.includes('.PROMOTION')) {
           result.push(temp)
         }
       }
