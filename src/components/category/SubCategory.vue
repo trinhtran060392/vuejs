@@ -1,14 +1,14 @@
 
 <template>
-  <div class="dashboard-container">
-    <v-container>
-      <v-layout>
-        <v-flex xs2 v-for="i in catData" :key="`2${i.id}`">
-          <img :src="i.photoUrl">
+  <v-container grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs2 v-for="i in catData" :key="i.id">
+            <div class="vod-content">
+              <img :src="i.photoUrl">
+            </div>
         </v-flex>
       </v-layout>
     </v-container>
-  </div>
 </template>
 
 <script>
@@ -25,11 +25,23 @@
     },
     created () {
       let catId = this.$route.params.catId
-      console.log(catId)
       DashboardService.getCatContent(catId, 20).then((response) => {
         console.log(response)
         this.catData = response
       })
+    },
+    mounted () {
+      console.log(12345)
+    },
+    watch: {
+      '$route.params.catId' () {
+        let catId = this.$route.params.catId
+        console.log(this.$route)
+        DashboardService.getCatContent(catId, 20).then((response) => {
+          console.log(response)
+          this.catData = response
+        })
+      }
     }
   }
 </script>

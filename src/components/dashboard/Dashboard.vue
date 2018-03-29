@@ -66,22 +66,5 @@
 </script>
 
 <style>
-  .vod-content {
-    padding: 5px 10px;
-    max-height: 265px;
-  }
-  .vod-content:hover {
-    transform: scale(1.1);
-    transition: all .3s ease-in-out;
-    cursor: pointer;
-  }
-  img {
-    max-width: 100%;
-  }
-  .VueCarousel-dot {
-    display: none !important;
-  }
-  .VueCarousel-navigation-button {
-    color: white !important;
-  }
+
 </style>

@@ -16,7 +16,7 @@ export default new Router({
         { path: '', component: Dashboard },
         { path: 'profile', component: Profile },
         { path: 'cat/:catId', name: 'category', component: Category, props: true },
-        { path: 'subcat/:catId', name: 'sub-category', component: SubCategory, props: true }
+        { path: 'subcat/:menuId/:catId', name: 'sub-category', component: SubCategory, props: true }
       ]
     }
   ]

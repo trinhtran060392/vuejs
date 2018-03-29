@@ -50,13 +50,7 @@
       </v-menu>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
-        <v-layout>
-          <v-flex>
-            <router-view></router-view>
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <router-view></router-view>
       <v-footer app>
         <v-container>
           <v-layout row wrap>
@@ -118,7 +112,8 @@
       },
       openSubMenu (menu) {
         console.log(menu)
-        this.$router.push({ path: `/subcat/${menu.id}` })
+        let catId = Ulti.getCategoryIdOfMenu(menu)
+        this.$router.push({ path: `/subcat/${menu.id}/${catId}` })
       },
       openAllMenu (menu) {
         console.log(menu)
@@ -156,6 +151,7 @@
         sharedData.menus = menus
         sharedData.cats = cats
         this.$store.dispatch('setMenu', sharedData)
+        console.log(sharedData)
       })
     }
   }
