@@ -13,8 +13,11 @@ export default new Vue({
         }
       })
     },
-    getCatContent (categoryId) {
-      const url = `${Constant.entryPoint}/api1/contents/categories/${categoryId}/programs?until=now&include=product&popular=false&fortmat=long&limit=10`
+    getCatContent (categoryId, limit) {
+      let limitResult
+      if (!limit) limitResult = 10
+      else limitResult = limit
+      const url = `${Constant.entryPoint}/api1/contents/categories/${categoryId}/programs?until=now&include=product&popular=false&fortmat=long&limit=${limitResult}`
       return new Promise((resolve, reject) => {
         this.$http.get(url).then((response) => {
           let data = response.body.data

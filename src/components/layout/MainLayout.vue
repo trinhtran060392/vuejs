@@ -118,6 +118,7 @@
       },
       openSubMenu (menu) {
         console.log(menu)
+        this.$router.push({ path: `/subcat/${menu.id}` })
       },
       openAllMenu (menu) {
         console.log(menu)

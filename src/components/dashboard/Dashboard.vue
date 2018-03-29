@@ -66,11 +66,8 @@
 </script>
 
 <style>
-  .VueCarousel-wrapper {
-    padding: 30px 0;
-  }
   .vod-content {
-    padding: 5px;
+    padding: 5px 10px;
     max-height: 265px;
   }
   .vod-content:hover {
