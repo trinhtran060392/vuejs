@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire" dark>
+    <Login></Login>
     <v-navigation-drawer
       clipped
       fixed
@@ -40,14 +41,7 @@
         </v-menu>
       </v-toolbar-items>
       <v-spacer></v-spacer>
-      <v-menu offset-y>
-        <v-btn color="primary" dark slot="activator">Dropdown</v-btn>
-        <v-list>
-          <v-list-tile v-for="item in items" :key="item.title">
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+      <v-btn color="primary"  @click="openLogin()">Đăng nhập</v-btn>
     </v-toolbar>
     <v-content>
       <router-view></router-view>
@@ -87,7 +81,11 @@
   import DashboardService from '../dashboard/DashboardService'
   import Ulti from '../shared/Ulti'
   import _ from 'lodash'
+  import Login from '../login/Login'
   export default {
+    components: {
+      Login
+    },
     computed: {
       isAuthenticated () {
         return this.$store.getters.isAuthenticated
@@ -130,6 +128,9 @@
         let result = Ulti.getSubcategoryId(menu)
         this.$store.dispatch('setSubMenu', result)
         this.$router.push({ path: `/cat/${menu.id}` })
+      },
+      openLogin () {
+        this.$store.dispatch('showLoginDialog', true)
       }
     },
     created () {

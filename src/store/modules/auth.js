@@ -8,7 +8,8 @@ const state = {
   newProject: {},
   selected: {},
   result: false,
-  isAuthenticated: false
+  isAuthenticated: false,
+  showDialogLogin: false
 }
 // setters
 const setters = {
@@ -22,7 +23,8 @@ const getters = {
   newProject: state => state.newProject,
   selected: state => state.selected,
   result: state => state.result,
-  isAuthenticated: state => state.isAuthenticated
+  isAuthenticated: state => state.isAuthenticated,
+  showDialogLogin: state => state.showDialogLogin
 }
 
 // actions
@@ -58,6 +60,9 @@ const actions = {
   },
   changeStatus ({ commit }) {
     commit(types.CHANGE_STATUS)
+  },
+  showLoginDialog ({ commit }, isShow) {
+    commit(types.SHOW_LOGIN_DIALOG, isShow)
   }
 }
 
@@ -100,6 +105,9 @@ const mutations = {
   },
   [types.CHANGE_STATUS] (state) {
     state.isAuthenticated = !state.isAuthenticated
+  },
+  [types.SHOW_LOGIN_DIALOG] (state, isShow) {
+    state.showDialogLogin = isShow
   }
 }
 
