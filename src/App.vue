@@ -55,7 +55,7 @@ Vue.http.interceptors.push((request, next) => {
       color: #ffcc05;
   }
   .vod-content {
-    padding: 5px 10px;
+    padding: 20px 10px;
     height: 220px;
   }
   .vod-content:hover {
