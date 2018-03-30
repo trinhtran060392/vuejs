@@ -122,6 +122,10 @@
           this.$router.push({path: '/'})
           return
         }
+        if (menu.type === 'channel') {
+          this.$router.push({path: '/channels/default'})
+          return
+        }
         let result = {}
         result.id = menu.id
         let array = []
