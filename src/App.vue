@@ -26,16 +26,23 @@ Vue.http.interceptors.push((request, next) => {
 })
 </script>
 
-<style>
+<style lang="scss">
+
+  $yellow: #ffcc05;
+  $white: #ffffff;
+  $dark: #0E1623;
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #ffffff;
+    color: $white;
   }
   body {
-    background-color: #0E1623;
+    background-color: $dark;
+    .title-text {
+      color: $yellow;
+    }
   }
   .application.theme--dark {
     background-color: transparent;
@@ -46,13 +53,13 @@ Vue.http.interceptors.push((request, next) => {
     position: relative;
   }
   .application .theme--dark.list, .theme--dark .list {
-    background-color: #0E1623;
+    background-color: $dark;
   }
   .application.theme--dark a:hover {
-    color: #ffcc05;
+    color: $yellow;
   }
   .theme--dark .btn:hover {
-      color: #ffcc05;
+      color: $yellow;
   }
   .vod-content {
     padding: 20px 10px;
@@ -71,6 +78,6 @@ Vue.http.interceptors.push((request, next) => {
     display: none !important;
   }
   .VueCarousel-navigation-button {
-    color: white !important;
+    color: $white !important;
   }
 </style>

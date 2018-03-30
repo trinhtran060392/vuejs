@@ -2,7 +2,7 @@
 <template>
   <div class="dashboard-container">
     <v-container v-for="item in homeData" :key="`${item.title}`">
-      <p class="text-sm-left text-xs-center">{{item.title}}</p>
+      <p class="title-text text-sm-left text-xs-center">{{item.title}}</p>
       <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
         <slide v-for="i in item.data" :key="`3${i.id}`">
           <div class="vod-content">

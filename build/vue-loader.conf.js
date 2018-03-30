@@ -8,7 +8,12 @@ module.exports = {
     sourceMap: isProduction
       ? config.build.productionSourceMap
       : config.dev.cssSourceMap,
-    extract: isProduction
+    extract: isProduction,
+    options: {
+      loaders: {
+        scss: 'vue-style-loader!css-loader!sass-loader' // <style lang="scss">
+      }
+    }
   }),
   transformToRequire: {
     video: 'src',
