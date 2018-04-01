@@ -9,7 +9,7 @@ const state = {
   selected: {},
   result: false,
   isAuthenticated: false,
-  showDialogLogin: false
+  showLoginDialog: false
 }
 // setters
 const setters = {
@@ -24,7 +24,7 @@ const getters = {
   selected: state => state.selected,
   result: state => state.result,
   isAuthenticated: state => state.isAuthenticated,
-  showDialogLogin: state => state.showDialogLogin
+  showLoginDialog: state => state.showLoginDialog
 }
 
 // actions
@@ -107,7 +107,7 @@ const mutations = {
     state.isAuthenticated = !state.isAuthenticated
   },
   [types.SHOW_LOGIN_DIALOG] (state, isShow) {
-    state.showDialogLogin = isShow
+    state.showLoginDialog = isShow
   }
 }
 

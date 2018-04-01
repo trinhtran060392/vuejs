@@ -11,10 +11,12 @@ import Vuetify from 'vuetify'
 import VueCarousel from 'vue-carousel'
 import VueResource from 'vue-resource'
 import Constant from './components/shared/Constant'
+import VueLocalStorage from 'vue-localstorage'
 
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
 Vue.use(VueResource)
+Vue.use(VueLocalStorage)
 
 export default {
   name: 'app'
