@@ -86,6 +86,7 @@
 <script>
   import DashboardService from '../dashboard/DashboardService'
   import Ulti from '../shared/Ulti'
+  import _ from 'lodash'
   export default {
     computed: {
       isAuthenticated () {
@@ -126,18 +127,7 @@
           this.$router.push({path: '/channels/default'})
           return
         }
-        let result = {}
-        result.id = menu.id
-        let array = []
-        for (let i = 0; i < menu.children.length; i++) {
-          let obj = {}
-          let temp = menu.children[i]
-          let catMenuId = Ulti.getCategoryIdOfMenu(temp)
-          obj.catMenuId = catMenuId
-          obj.title = temp.name[0].text
-          array.push(obj)
-        }
-        result.catMenuIds = array
+        let result = Ulti.getSubcategoryId(menu)
         this.$store.dispatch('setSubMenu', result)
         this.$router.push({ path: `/cat/${menu.id}` })
       }
@@ -155,7 +145,15 @@
         sharedData.menus = menus
         sharedData.cats = cats
         this.$store.dispatch('setMenu', sharedData)
-        console.log(sharedData)
+        console.log(sharedData, 'on created main layout hook')
+        if (this.$route.name === 'category') {
+          let catId = this.$route.params.catId
+          let menu = _.find(menus, (menu) => {
+            return menu.id === catId
+          })
+          let result = Ulti.getSubcategoryId(menu)
+          this.$store.dispatch('setSubMenu', result)
+        }
       })
     }
   }

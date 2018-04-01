@@ -33,9 +33,10 @@
     },
     watch: {
       subMenus (val) {
+        console.log('watch cat update')
         this.catData = []
         let catIds = this.subMenus
-        console.log(catIds)
+        if (!catIds || !catIds.length) return
         for (let i = 0; i < catIds.length; i++) {
           let temp = catIds[i]
           let obj = {}
@@ -48,9 +49,10 @@
       }
     },
     created () {
-      console.log(this.$store.getters)
       this.catData = []
       let catIds = this.subMenus
+      console.log('create cat page')
+      if (!catIds || !catIds.length) return
       for (let i = 0; i < catIds.length; i++) {
         let temp = catIds[i]
         let obj = {}

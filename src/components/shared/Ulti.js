@@ -96,6 +96,21 @@ export default new Vue({
         }
       }
       return result
+    },
+    getSubcategoryId (menu) {
+      let result = {}
+      result.id = menu.id
+      let array = []
+      for (let i = 0; i < menu.children.length; i++) {
+        let obj = {}
+        let temp = menu.children[i]
+        let catMenuId = this.getCategoryIdOfMenu(temp)
+        obj.catMenuId = catMenuId
+        obj.title = temp.name[0].text
+        array.push(obj)
+      }
+      result.catMenuIds = array
+      return result
     }
   }
 })
