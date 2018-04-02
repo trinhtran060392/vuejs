@@ -163,6 +163,50 @@ export default new Vue({
       } else {
         return false
       }
+    },
+    buildPurchasablePackages (products) {
+      let purchasableProducts = []
+      for (let i = 0; i < products.length; i++) {
+        let product = products[i]
+        if (product.type !== 'single' && (product.cclass.indexOf('HANDHELD') !== -1 || product.cclass.indexOf('TV_SMART') !== -1)) {
+          let liteProduct = this.getLiteProduct(product)
+          if (this.checkVaidProduct(product)) purchasableProducts.push(liteProduct)
+        }
+      }
+      return purchasableProducts
+    },
+    getLiteProduct (product) {
+      return product
+    },
+    getDisplayProduct (data) {
+      let products = []
+      for (let i = 0; i < data.length; i++) {
+        let temp = data[i]
+        if (temp.hidden === 'false') products.push(temp)
+      }
+      return products
+    },
+    getProducts (data) {
+      let result = []
+      for (let i = 0; i < data.length; i++) {
+        let temp = data[i]
+        if (temp.product) {
+          result = result.concat(this.getDisplayProduct(temp.product))
+        }
+      }
+      return result
+    },
+    checkVaidProduct (product, checkPurchased) {
+      let temp = false
+      if (product.rental_periods && product.rental_periods.length && product.hidden === 'false') {
+        temp = true
+      }
+      if (!temp && checkPurchased) {
+        if (product.purchase) {
+          temp = true
+        }
+      }
+      return temp
     }
   }
 })

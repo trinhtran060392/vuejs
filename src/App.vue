@@ -45,6 +45,12 @@ Vue.http.interceptors.push((request, next) => {
     .title-text {
       color: $yellow;
     }
+    .navigation-drawer {
+      padding: 0;
+      .list {
+        height: 100%;
+      }
+    }
   }
   .application.theme--dark {
     background-color: transparent;

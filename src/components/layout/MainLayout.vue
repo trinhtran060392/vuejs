@@ -12,7 +12,7 @@
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Dashboard</v-list-tile-title>
+            <v-list-tile-title>Thông tin tài khoản</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="">
@@ -20,7 +20,7 @@
             <v-icon>settings</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Settings</v-list-tile-title>
+            <v-list-tile-title>Lịch sử giao dịch</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -166,7 +166,7 @@
         switch (item.type) {
           case 1:
             console.log(1)
-            this.$router.push({ path: 'account' })
+            this.$router.push({ path: '/account' })
             break
           default:
             break

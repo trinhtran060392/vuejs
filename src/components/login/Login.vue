@@ -1,42 +1,40 @@
 <template>
-  <v-layout row justify-center class="login-dialog">
-    <v-dialog v-model="showLoginDialog" persistent max-width="400px">
-      <v-card>
-        <v-toolbar class="header" >
-          <v-toolbar-title>ĐĂNG NHẬP</v-toolbar-title>
-   <!--         <v-btn icon @click.native="showLoginDialog = false" dark>
-            <v-icon>close</v-icon>
-          </v-btn> -->
-        </v-toolbar>
-        </v-card-title>
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
-                <v-text-field label="Số điện thoại " solo  v-model="user.phone" required></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field label="Mật khẩu " solo type="password" v-model="user.password" required>
-                </v-text-field>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-flex xs6>
-            <v-btn color="blue darken-1" class="btn-login" flat @click="login">  Đăng nhập
-            </v-btn>
-            <div class="btn-last">Quên mật khẩu</div>
-          </v-flex>
-          <v-flex xs6>
-            <v-btn color="blue darken-1" class="btn-login" flat @click.native="showLoginDialog = false">Đóng</v-btn>
-            <div class="btn-last">Đăng ký</div>
-          </v-flex>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-layout>
+  <v-dialog v-model="showLoginDialog" persistent max-width="400px">
+    <v-card>
+      <v-toolbar class="header" >
+        <v-toolbar-title>ĐĂNG NHẬP</v-toolbar-title>
+  <!--         <v-btn icon @click.native="showLoginDialog = false" dark>
+          <v-icon>close</v-icon>
+        </v-btn> -->
+      </v-toolbar>
+      </v-card-title>
+      <v-card-text>
+        <v-container grid-list-md>
+          <v-layout wrap>
+            <v-flex xs12>
+              <v-text-field label="Số điện thoại " solo  v-model="user.phone" required></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field label="Mật khẩu " solo type="password" v-model="user.password" required>
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-flex xs6>
+          <v-btn color="blue darken-1" class="btn-login" flat @click="login">  Đăng nhập
+          </v-btn>
+          <div class="btn-last">Quên mật khẩu</div>
+        </v-flex>
+        <v-flex xs6>
+          <v-btn color="blue darken-1" class="btn-login" flat @click.native="showLoginDialog = false">Đóng</v-btn>
+          <div class="btn-last">Đăng ký</div>
+        </v-flex>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
   import LoginService from '../login/LoginService'
