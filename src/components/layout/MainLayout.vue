@@ -46,7 +46,7 @@
         <v-menu offset-y>
           <v-btn color="primary" dark slot="activator">{{account.id}}</v-btn>
           <v-list>
-            <v-list-tile v-for="item in items" :key="item.title" @click="">
+            <v-list-tile v-for="item in items" :key="item.id" @click="clickSubAccount(item.id)">
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -112,7 +112,10 @@
       return {
         menus: [],
         items: [
-          { title: 'One' }
+          {
+            id: 'LOGOUT',
+            title: 'Đăng xuất'
+          }
         ],
         account: JSON.parse(this.$localStorage.get('accountInfo'))
       }
@@ -150,13 +153,19 @@
       openLogin () {
         this.$store.dispatch('showLoginDialog', true)
       },
-      outClick () {
-        console.log('out')
-      },
       setAccount () {
         let account = this.$localStorage.get('accountInfo')
         if (account) {
           this.account = JSON.parse(account)
+        }
+      },
+      clickSubAccount (id) {
+        switch (id) {
+          case 'LOGOUT':
+            this.$localStorage.remove('accountInfo')
+            this.account = undefined
+            this.$store.dispatch('changeStatus')
+            break
         }
       }
     },

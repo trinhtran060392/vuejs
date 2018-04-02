@@ -13,7 +13,7 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field label="Số điện thoại " solo  v-model="user.phone" required></v-text-field>
+                <v-text-field label="Số điện thoại " solo  v-model="user.phone" :rule="nameRules" required></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field label="Mật khẩu " solo type="password" v-model="user.password" required>
@@ -25,7 +25,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-flex xs6>
-            <v-btn color="blue darken-1" class="btn-login" flat @click="login">  Đăng nhập
+            <v-btn color="blue darken-1" class="btn-login" flat @click="login">Đăng nhập
             </v-btn>
             <div class="btn-last">Quên mật khẩu</div>
           </v-flex>
@@ -46,12 +46,10 @@
       showLoginDialog: {
       // getter
         get: function () {
-          console.log(this.$store.getters.showLoginDialog)
           return this.$store.getters.showLoginDialog
         },
         // setter
         set: function (newValue) {
-          console.log(newValue)
           this.$store.dispatch('showLoginDialog', false)
         }
       }
@@ -89,6 +87,7 @@
             this.$localStorage.set('accountInfo', accountInfoStr)
             this.$store.dispatch('showLoginDialog', false)
             this.$store.dispatch('changeStatus')
+            this.user = {}
           }
         })
       }
