@@ -9,7 +9,8 @@ const state = {
   selected: {},
   result: false,
   isAuthenticated: false,
-  showLoginDialog: false
+  showLoginDialog: false,
+  isInSettingPage: false
 }
 // setters
 const setters = {
@@ -24,7 +25,8 @@ const getters = {
   selected: state => state.selected,
   result: state => state.result,
   isAuthenticated: state => state.isAuthenticated,
-  showLoginDialog: state => state.showLoginDialog
+  showLoginDialog: state => state.showLoginDialog,
+  isInSettingPage: state => state.isInSettingPage
 }
 
 // actions
@@ -63,6 +65,9 @@ const actions = {
   },
   showLoginDialog ({ commit }, isShow) {
     commit(types.SHOW_LOGIN_DIALOG, isShow)
+  },
+  setIsInSettingPage ({ commit }, isSettingPage) {
+    commit(types.SET_SETTING_PAGE, isSettingPage)
   }
 }
 
@@ -108,6 +113,9 @@ const mutations = {
   },
   [types.SHOW_LOGIN_DIALOG] (state, isShow) {
     state.showLoginDialog = isShow
+  },
+  [types.SET_SETTING_PAGE] (state, isInSettingPage) {
+    state.isInSettingPage = isInSettingPage
   }
 }
 

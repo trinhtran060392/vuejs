@@ -3,13 +3,8 @@
 </template>
 <script>
   export default {
-    computed: {
-      isAuthenticated () {
-        return this.$store.getters.isAuthenticated
-      }
-    },
     created () {
-      console.log(this.isAuthenticated)
+      this.$store.dispatch('setIsInSettingPage', true)
     }
   }
 </script>

@@ -15,10 +15,10 @@ export default new Router({
       component: MainLayout,
       children: [
         { path: '', component: Dashboard },
-        { path: 'profile', component: Profile },
         { path: 'cat/:catId', name: 'category', component: Category, props: true },
         { path: 'subcat/:menuId/:catId', name: 'sub-category', component: SubCategory, props: true },
-        { path: 'channels/:channelId', name: 'channel', component: Channel }
+        { path: 'channels/:channelId', name: 'channel', component: Channel },
+        { path: 'account', name: 'account', component: Profile }
       ]
     }
   ]

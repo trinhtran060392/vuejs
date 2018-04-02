@@ -2,7 +2,7 @@
   <v-app id="inspire" dark>
     <Login></Login>
     <v-navigation-drawer
-      v-if="false"
+      v-if="isInSettingPage"
       clipped
       fixed
       app>
@@ -46,7 +46,7 @@
         <v-menu offset-y>
           <v-btn color="primary" dark slot="activator">{{account.id}}</v-btn>
           <v-list>
-            <v-list-tile v-for="item in items" :key="item.title" @click="">
+            <v-list-tile v-for="item in items" :key="item.title" @click="openProfile(item)">
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -106,13 +106,16 @@
           }
         }
         return this.$store.getters.isAuthenticated
+      },
+      isInSettingPage () {
+        return this.$store.getters.isInSettingPage
       }
     },
     data () {
       return {
         menus: [],
         items: [
-          { title: 'One' }
+          { title: 'Trang Tài Khoản', type: 1 }
         ],
         account: JSON.parse(this.$localStorage.get('accountInfo'))
       }
@@ -157,6 +160,16 @@
         let account = this.$localStorage.get('accountInfo')
         if (account) {
           this.account = JSON.parse(account)
+        }
+      },
+      openProfile (item) {
+        switch (item.type) {
+          case 1:
+            console.log(1)
+            this.$router.push({ path: 'account' })
+            break
+          default:
+            break
         }
       }
     },
