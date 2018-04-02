@@ -1,9 +1,10 @@
 <template>
   <v-app id="inspire" dark>
+    <Login></Login>
     <v-navigation-drawer
+      v-if="false"
       clipped
       fixed
-      v-model="isAuthenticated"
       app>
       <v-list dense>
         <v-list-tile @click="">
@@ -40,14 +41,17 @@
         </v-menu>
       </v-toolbar-items>
       <v-spacer></v-spacer>
-      <v-menu offset-y>
-        <v-btn color="primary" dark slot="activator">Dropdown</v-btn>
-        <v-list>
-          <v-list-tile v-for="item in items" :key="item.title">
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+      <v-btn v-if="!isAuthenticated" color="primary"  @click="openLogin()">Đăng nhập</v-btn>
+      <div v-if="isAuthenticated" class="text-xs-center">
+        <v-menu offset-y>
+          <v-btn color="primary" dark slot="activator">{{account.id}}</v-btn>
+          <v-list>
+            <v-list-tile v-for="item in items" :key="item.title" @click="">
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </div>
     </v-toolbar>
     <v-content>
       <router-view></router-view>
@@ -87,9 +91,20 @@
   import DashboardService from '../dashboard/DashboardService'
   import Ulti from '../shared/Ulti'
   import _ from 'lodash'
+  import Login from '../login/Login'
   export default {
+    components: {
+      Login
+    },
     computed: {
       isAuthenticated () {
+        if (this.$store.getters.isAuthenticated) {
+          this.setAccount()
+        } else {
+          if (this.account) {
+            this.$store.dispatch('changeStatus')
+          }
+        }
         return this.$store.getters.isAuthenticated
       }
     },
@@ -98,7 +113,8 @@
         menus: [],
         items: [
           { title: 'One' }
-        ]
+        ],
+        account: JSON.parse(this.$localStorage.get('accountInfo'))
       }
     },
     props: {
@@ -130,6 +146,18 @@
         let result = Ulti.getSubcategoryId(menu)
         this.$store.dispatch('setSubMenu', result)
         this.$router.push({ path: `/cat/${menu.id}` })
+      },
+      openLogin () {
+        this.$store.dispatch('showLoginDialog', true)
+      },
+      outClick () {
+        console.log('out')
+      },
+      setAccount () {
+        let account = this.$localStorage.get('accountInfo')
+        if (account) {
+          this.account = JSON.parse(account)
+        }
       }
     },
     created () {
