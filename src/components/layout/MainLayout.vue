@@ -46,7 +46,7 @@
         <v-menu offset-y>
           <v-btn color="primary" dark slot="activator">{{account.id}}</v-btn>
           <v-list>
-            <v-list-tile v-for="item in items" :key="item.title" @click="openProfile(item)">
+            <v-list-tile v-for="item in items" :key="item.type" @click="clickSubAccount(item)">
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -115,7 +115,11 @@
       return {
         menus: [],
         items: [
-          { title: 'Trang Tài Khoản', type: 1 }
+          { title: 'Trang Tài Khoản', type: 1 },
+          {
+            type: 2,
+            title: 'Đăng xuất'
+          }
         ],
         account: JSON.parse(this.$localStorage.get('accountInfo'))
       }
@@ -153,22 +157,21 @@
       openLogin () {
         this.$store.dispatch('showLoginDialog', true)
       },
-      outClick () {
-        console.log('out')
-      },
       setAccount () {
         let account = this.$localStorage.get('accountInfo')
         if (account) {
           this.account = JSON.parse(account)
         }
       },
-      openProfile (item) {
+      clickSubAccount (item) {
         switch (item.type) {
-          case 1:
-            console.log(1)
-            this.$router.push({ path: '/account' })
+          case 2:
+            this.$localStorage.remove('accountInfo')
+            this.account = undefined
+            this.$store.dispatch('changeStatus')
             break
-          default:
+          case 1:
+            this.$router.push({ path: '/account' })
             break
         }
       }

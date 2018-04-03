@@ -3,11 +3,7 @@
     <v-card>
       <v-toolbar class="header" >
         <v-toolbar-title>ĐĂNG NHẬP</v-toolbar-title>
-  <!--         <v-btn icon @click.native="showLoginDialog = false" dark>
-          <v-icon>close</v-icon>
-        </v-btn> -->
       </v-toolbar>
-      </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
           <v-layout wrap>
@@ -44,12 +40,10 @@
       showLoginDialog: {
       // getter
         get: function () {
-          console.log(this.$store.getters.showLoginDialog)
           return this.$store.getters.showLoginDialog
         },
         // setter
         set: function (newValue) {
-          console.log(newValue)
           this.$store.dispatch('showLoginDialog', false)
         }
       }
@@ -87,6 +81,7 @@
             this.$localStorage.set('accountInfo', accountInfoStr)
             this.$store.dispatch('showLoginDialog', false)
             this.$store.dispatch('changeStatus')
+            this.user = {}
           }
         })
       }
