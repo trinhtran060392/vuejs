@@ -4,7 +4,9 @@
       <v-layout row wrap>
         <v-flex xs2 v-for="i in catData" :key="i.id">
             <div class="vod-content">
-              <img :src="i.photoUrl">
+              <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
+                <img :src="i.photoUrl">
+              </router-link>
             </div>
         </v-flex>
       </v-layout>

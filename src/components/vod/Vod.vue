@@ -44,6 +44,20 @@ export default {
       vod: {}
     }
   },
+  watch: {
+    '$route' (to, from) {
+      if (from.params.vodId !== to.params.vodId) {
+        let vodId = this.$route.params.vodId
+        VodService.get(vodId).then((response) => {
+          this.vod = response
+          VodService.relateVods(vodId).then((response) => {
+            this.$set(this.vod, 'relateVods', response)
+            console.log(this.vod)
+          })
+        })
+      }
+    }
+  },
   created () {
     let vodId = this.$route.params.vodId
     VodService.get(vodId).then((response) => {
