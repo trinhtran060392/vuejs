@@ -23,7 +23,7 @@ export default new Vue({
           let data = response.body.data
           let result = []
           for (let i = 0; i < data.length; i++) {
-            let vod = Ulti.transformVod(data[i])
+            let vod = Ulti.transformLiteVod(data[i])
             result.push(vod)
           }
           resolve(result)

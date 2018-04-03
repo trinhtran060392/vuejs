@@ -12,6 +12,7 @@ import VueCarousel from 'vue-carousel'
 import VueResource from 'vue-resource'
 import Constant from './components/shared/Constant'
 import VueLocalStorage from 'vue-localstorage'
+import Ulti from './components/shared/Ulti'
 
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
@@ -23,7 +24,14 @@ export default {
 }
 
 Vue.http.interceptors.push((request, next) => {
-  request.headers.set('Authorization', `Bearer ${Constant.guestToken}`)
+  let isAuthenticated = Ulti.isLoggedIn()
+  let accountInfo
+  let token
+  if (isAuthenticated) {
+    accountInfo = Ulti.getCurrentAccount()
+    token = accountInfo.accessToken
+  } else token = Constant.guestToken
+  request.headers.set('Authorization', `Bearer ${token}`)
   next()
 })
 </script>

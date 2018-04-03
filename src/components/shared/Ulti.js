@@ -73,12 +73,245 @@ export default new Vue({
       if (isHidden) result = false
       return result
     },
-    transformVod (vod) {
+    transformLiteVod (vod) {
       if (vod.program) {
         vod.photoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}?width=215.000000&height=307.000000`
         vod.bigPhotoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}`
       }
       return vod
+    },
+    transformVod (vod) {
+      let svod = {}
+      svod.isVisiable = false
+      svod.isPublish = false
+      svod.isVtvCab = false
+      svod.isWifiPackage = false
+      svod.isSingleVOD = false
+      svod.isPurchasedPackage = false
+      svod.isExclusivePackage = false
+      svod.isPurchasedExclusive = false
+      svod.isEncrypted = false
+      svod.purchased_products = []
+      svod.purchasable_products = []
+      svod.purchasable_single_product = []
+      svod.purchased_single_product = []
+
+      if (vod.program) {
+        svod.photoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}?width=215.000000&height=307.000000`
+        svod.bigPhotoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}`
+        svod.name = vod.program.title[0].text
+
+        var des = vod.program.synopsis[0].text
+        var tm = 'Thuyết minh - '
+        if (des.indexOf(tm) === 0) {
+          des = des.substring(tm.length - 1, des.length - 1)
+        }
+        tm = 'Phụ đề - '
+        if (des.indexOf(tm) === 0) {
+          des = des.substring(tm.length - 1, des.length - 1)
+        }
+
+        tm = 'Phụ đề- '
+        if (des.indexOf(tm) === 0) {
+          des = des.substring(tm.length - 1, des.length - 1)
+        }
+        svod.description = des.substring(0, 398)
+        svod.shortDescription = des.substring(0, 300)
+
+        if (vod.program.series) {
+          svod.isVodInSeries = true
+        } else {
+          svod.isVodInSeries = false
+        }
+        svod.name = svod.name.replace('–', '-')
+
+        let nameSplit = []
+        if (svod.name.indexOf(' - ') > 0) {
+          nameSplit = svod.name.split(' - ')
+        } else if (svod.name.indexOf(' – ') > 0) {
+          nameSplit = svod.name.split(' – ')
+        } else if (svod.name.indexOf('–') > 0) {
+          nameSplit = svod.name.split('–')
+        } else if (svod.name.indexOf('-') > 0) {
+          nameSplit = svod.name.split('-')
+        } else {
+          nameSplit = [svod.name]
+        }
+        if (nameSplit.length > 1) {
+          if (nameSplit[0].toUpperCase().indexOf('TẬP') >= 0) {
+            if (nameSplit.length === 4) {
+              svod.firstTitle = nameSplit[2].trim() + ' - ' + nameSplit[3].trim()
+              svod.secondTitle = nameSplit[0].trim() + ' : ' + nameSplit[1].trim()
+            } else if (nameSplit.length === 3) {
+              svod.firstTitle = nameSplit[2].trim()
+              svod.secondTitle = nameSplit[0].trim() + ' : ' + nameSplit[1].trim()
+            } else if (nameSplit.length === 2) {
+              svod.firstTitle = nameSplit[1].trim()
+              svod.secondTitle = nameSplit[0].trim()
+            } else {
+              svod.firstTitle = nameSplit[1]
+              svod.secondTitle = ''
+            }
+          } else if (nameSplit[0].toUpperCase().indexOf('PHẦN') >= 0) {
+            if (nameSplit.length === 3) {
+              svod.firstTitle = nameSplit[2].trim()
+              svod.secondTitle = nameSplit[0].trim() + ' : ' + nameSplit[1].trim()
+            } else if (nameSplit.length === 2) {
+              svod.firstTitle = nameSplit[1].trim()
+              svod.secondTitle = nameSplit[0].trim()
+            } else {
+              svod.firstTitle = ''
+              svod.secondTitle = ''
+            }
+          } else {
+            if (nameSplit.length === 3) {
+              svod.firstTitle = nameSplit[1].trim() + ' : ' + nameSplit[2].trim()
+              svod.secondTitle = nameSplit[0].trim()
+            } else if (nameSplit.length === 2) {
+              svod.firstTitle = nameSplit[1].trim()
+              svod.secondTitle = nameSplit[0].trim()
+            } else {
+              svod.firstTitle = ''
+              svod.secondTitle = ''
+            }
+          }
+        } else {
+          svod.firstTitle = nameSplit[0].trim()
+          svod.secondTitle = ''
+        }
+
+        if (typeof vod.program.directors_text !== 'undefined' && vod.program.directors_text.length > 0 && vod.program.directors_text[0].text !== '') {
+          svod.directors = vod.program.directors_text[0].text
+        } else {
+          svod.directors = ''
+        }
+
+        if (typeof vod.program.actors_text !== 'undefined' && vod.program.actors_text.length > 0 && vod.program.actors_text[0].text !== '') {
+          svod.actors = vod.program.actors_text[0].text
+        } else {
+          svod.actors = ''
+        }
+
+        svod.genres = ''
+        if (typeof vod.program.genres !== 'undefined' && vod.program.genres !== null) {
+          if (vod.program.genres.length > 1) {
+            for (let i = 0; i < vod.program.genres.length; i++) {
+              let temp = vod.program.genres[i]
+              if (i === vod.program.genres.length - 1) svod.genres = svod.genres + temp
+              else svod.genres = svod.genres + temp + ','
+            }
+          } else {
+            svod.genres = vod.program.genres[0]
+          }
+        } else {
+          svod.genres = ''
+        }
+
+        if (typeof vod.program.production_country !== 'undefined' && vod.program.production_country !== '') {
+          svod.country = vod.program.production_country.substring(0, vod.program.production_country.length - 1)
+        } else {
+          svod.country = ''
+        }
+      }
+
+      if (typeof vod.visible !== 'undefined' && vod.visible) {
+        svod.isVisiable = true
+      }
+      if (typeof vod.config !== 'undefined') {
+        for (let i = 0; i < vod.config.length; i++) {
+          let item = vod.config[i]
+          if (item.name === 'Public' && item.value === '1') {
+            svod.isPublish = true
+            break
+          }
+        }
+      }
+      if (typeof vod.channel !== 'undefined' && typeof vod.channel.genres !== 'undefined') {
+        for (let i = 0; i < vod.channel.genres.length; i++) {
+          let item = vod.channel.genres[i]
+          if (item === '1:11:0:0') {
+            svod.isVtvCab = true
+            break
+          }
+        }
+      }
+
+      // build packages
+      for (let i = 0; i < vod.product.length; i++) {
+        let product = vod.product[i]
+        svod.isFreeNoPair = this.checkFreeProduct(product)
+        if (product.purchase && product.purchasable === 'false') {
+          svod.isWifiPackage = true
+        }
+        if (product.type !== 'single' && (product.cclass.indexOf('HANDHELD') === 0 || product.cclass.indexOf('TV_SMART') !== -1)) {
+          if (product.exclusive && product.exclusive === 'true' && product.purchasable === 'true') {
+            svod.isExclusivePackage = true
+            if (product.purchase) {
+              svod.isPurchasedExclusive = true
+            }
+          }
+          if (product.purchase) {
+            svod.isPurchasedPackage = true
+            svod.purchased_products.push(this.getLiteProduct(product))
+          } else {
+            if (this.checkValidProduct(product) && product.purchasable === 'true') {
+              svod.purchasable_products.push(this.getLiteProduct(product))
+            }
+          }
+        }
+        if (product.type === 'single' && (product.cclass.indexOf('HANDHELD') >= 0 || product.cclass.indexOf('TV_SMART') !== -1)) {
+          svod.isSingleVOD = true
+          svod.singleProductId = product.id
+          svod.product_pid = product.pid
+          let timeNow
+          if (product.purchase && product.purchase.is_directly === 'true') {
+            let expired = this.checkExpired(timeNow, product.purchase.expired_date)
+            if (!expired) {
+              svod.singlePurchaseId = product.purchase.id
+              svod.isPurchasedPackage = true
+              svod.purchased_single_product.push(this.getLiteProduct(product))
+            } else {
+              if (product.hidden === 'false') svod.purchasable_single_product.push(this.getLiteProduct(product))
+            }
+          } else {
+            if (product.hidden === 'false') svod.purchasable_single_product.push(this.getLiteProduct(product))
+          }
+          if (product.cclass.length === 1) {
+            if (product.location) {
+              if (product.location.device.indexOf('handheld') !== -1 || product.location.device.indexOf('tv_smart') !== -1) {
+                svod.vodLocator = product.location.locator
+              }
+              if ((product.location.device.indexOf('handheld') !== -1 || product.location.device.indexOf('tv_smart') !== -1) && product.location.encryption === 'true') {
+                svod.isEncrypted = true
+              }
+            }
+          } else {
+            for (let i = 0; i < product.locations; i++) {
+              let location = product.locations[i]
+              if (location.device.indexOf('handheld') !== -1 || location.device.indexOf('tv_smart') !== -1) {
+                svod.vodLocator = location.locator
+              }
+              if ((location.device.indexOf('handheld') !== -1 || location.device.indexOf('tv_smart') !== -1) && location.encryption === 'true') {
+                svod.isEncrypted = true
+              }
+            }
+          }
+        }
+      }
+      if (svod.program) {
+        let take = vod.program.display_runtime.split(':')
+        let minutes = 0
+        if (take.length > 1) {
+          minutes = parseFloat(take[0]) * 60 + parseFloat(take[1])
+        } else if (take.length === 1) {
+          minutes = parseFloat(take[0])
+        }
+        svod.duration = minutes
+      }
+      return svod
+    },
+    checkExpired (timeNow, equalTime) {
+      return true
     },
     getCategoryIdOfMenu (menu) {
       var categoryId = ''
@@ -170,7 +403,7 @@ export default new Vue({
         let product = products[i]
         if (product.type !== 'single' && (product.cclass.indexOf('HANDHELD') !== -1 || product.cclass.indexOf('TV_SMART') !== -1)) {
           let liteProduct = this.getLiteProduct(product)
-          if (this.checkVaidProduct(product)) purchasableProducts.push(liteProduct)
+          if (this.checkValidProduct(product)) purchasableProducts.push(liteProduct)
         }
       }
       return purchasableProducts
@@ -196,7 +429,7 @@ export default new Vue({
       }
       return result
     },
-    checkVaidProduct (product, checkPurchased) {
+    checkValidProduct (product, checkPurchased) {
       let temp = false
       if (product.rental_periods && product.rental_periods.length && product.hidden === 'false') {
         temp = true
@@ -217,6 +450,38 @@ export default new Vue({
       }
       if (account && token && token !== Constant.guestToken) return true
       return false
+    },
+    getCurrentAccount () {
+      let result = JSON.parse(this.$localStorage.get('accountInfo'))
+      return result
+    },
+    checkFreeProduct (product) {
+      let temp = false
+      if (product.locations) {
+        for (let i = 0; i < product.locations.length; i++) {
+          let location = product.locations[i]
+          for (let i = 0; i < location.parameter.length; i++) {
+            let parameter = location.parameter[i]
+            if (parameter.name === 'Audience' && parameter.value === 'private:All') {
+              temp = true
+            }
+          }
+        }
+      }
+      if (!temp && product.price && Array.isArray(product.price)) {
+        for (let i = 0; i < product.price.length; i++) {
+          let price = product.price[i]
+          if (price.currency === 'VND' && price.value === 0) {
+            temp = true
+            break
+          }
+        }
+      }
+
+      if (!temp && product.price !== undefined && Array.isArray(product.price) && !product.price.length) {
+        temp = true
+      }
+      return temp
     }
   }
 })

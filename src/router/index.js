@@ -6,6 +6,7 @@ import Profile from '@/components/profile/Profile'
 import Category from '@/components/category/Category'
 import SubCategory from '@/components/category/SubCategory'
 import Channel from '@/components/channel/Channel'
+import Vod from '@/components/vod/Vod'
 
 import Ulti from '../components/shared/Ulti'
 
@@ -22,7 +23,8 @@ const router = new Router({
         { path: 'cat/:catId', name: 'category', component: Category, props: true },
         { path: 'subcat/:menuId/:catId', name: 'sub-category', component: SubCategory, props: true },
         { path: 'channels/:channelId', name: 'channel', component: Channel },
-        { path: 'account', name: 'account', component: Profile, meta: { requiresAuth: true, leftMenu: true } }
+        { path: 'account', name: 'account', component: Profile, meta: { requiresAuth: true, leftMenu: true } },
+        { path: 'vod/:vodId', name: 'detail', component: Vod }
       ]
     }
   ]

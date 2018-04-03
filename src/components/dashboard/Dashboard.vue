@@ -6,7 +6,10 @@
       <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
         <slide v-for="i in item.data" :key="`3${i.id}`">
           <div class="vod-content">
-            <img :src="i.photoUrl">
+            <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
+              <img :src="i.photoUrl">
+            </router-link>
+            
           </div>
         </slide>
       </carousel>
