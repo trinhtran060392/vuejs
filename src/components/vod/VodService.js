@@ -17,6 +17,34 @@ export default new Vue({
           reject(error)
         })
       })
+    },
+    relateVods (vodId) {
+      let url = `${Constant.entryPoint}/so-web-app/so/recommend?frmt=json&dp=VT_PHONE_016_VODINFO_AR_VOD&pc=1&cust=&program_id=${vodId}&hot_max=15`
+      return new Promise((resolve, reject) => {
+        this.$http.get(url).then((response) => {
+          let result = response.body
+          if (result.dp.status !== 'NoScenarioResult') {
+            let programIds = ''
+            let items = result.dp.itemList.items
+            for (let i = 0; i < items.length; i++) {
+              let temp = items[i]
+              programIds = programIds + temp.basisInfo.basisList[0].value + ','
+            }
+            let resultUrl = `${Constant.entryPoint}/api1/contents/programs?id=${programIds}&format=long&include=product`
+            this.$http.get(resultUrl).then((response) => {
+              let output = []
+              for (let i = 0; i < response.body.data.length; i++) {
+                let temp = response.body.data[i]
+                let liteVod = Ulti.transformLiteVod(temp)
+                output.push(liteVod)
+              }
+              resolve(output)
+            })
+          }
+        }, (error) => {
+          reject(error)
+        })
+      })
     }
   }
 })
