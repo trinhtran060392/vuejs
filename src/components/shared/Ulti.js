@@ -379,7 +379,7 @@ export default new Vue({
       }
       return M.join(' ')
     },
-    getTypeDevice: function () {
+    getTypeDevice () {
       if (this.isPhoneDevice()) {
         if (window.matchMedia('(max-width: 767px)').matches) {
           return 'phone'
@@ -390,7 +390,7 @@ export default new Vue({
         return 'others'
       }
     },
-    isPhoneDevice: function () {
+    isPhoneDevice () {
       if (/Android|webOS|iPhone|iPad|IEMobile|Opera Mini|Windows Phone/i.test(navigator.userAgent)) {
         return true
       } else {

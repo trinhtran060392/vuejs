@@ -51,6 +51,7 @@
     data () {
       return {
         valid: false,
+        accountInfo: {},
         user: {
           phone: '',
           password: ''
@@ -61,7 +62,9 @@
         ],
         passwordRules: [
           v => !!v || 'Name is required'
-        ]
+        ],
+        listRegisterDevice: 0,
+        errorMessage: 'Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ CSKH'
       }
     },
     methods: {
@@ -76,35 +79,68 @@
               refresh_token: response.body.refresh_token,
               expiration_date: response.body.expiration_date,
               refresh_token_expiration_date: response.body.refresh_token_expiration_date,
-              temp_password: response.body.temp_password
+              temp_password: response.body.temp_password,
+              status: response.body.status
             }
-            let accountInfoStr = JSON.stringify(accountInfo)
-            this.$localStorage.set('accountInfo', accountInfoStr)
-            this.$store.dispatch('showLoginDialog', false)
-            this.$store.dispatch('changeStatus')
-            this.user = {}
-            Auth.info().then((response) => {
-              return response.body
-            }).then((response) => {
-              console.log(response)
-              this.$store.dispatch('setIsSubcriber', response.config.vm_subscriber)
-            })
+            this.accountInfo = accountInfo
+            Auth.token = accountInfo.accessToken
+            this.checkAccountUse()
           }
         })
+      },
+      checkAccountUse () {
+        Auth.getAccountUse().then((response) => {
+          if (response.status === Constant.statusCode.OK) {
+            this.listRegisterDevice = response.body.registered_device
+            this.$localStorage.set('isSubscriber', response.body.config.vm_subscriber)
+            this.checkPackageDevice()
+          }
+        })
+      },
+      checkPackageDevice () {
+        Auth.getPackageDevice().then((response) => {
+          if (response.status === Constant.statusCode.OK) {
+            let screenMax = this.getScreenMax(response.body.data)
+            if ((screenMax === 0 || screenMax >= this.listRegisterDevice.registered) && this.accountInfo.status === 'inuse') {
+              console.log('login success')
+              let accountInfoStr = JSON.stringify(this.accountInfo)
+              this.$localStorage.set('accountInfo', accountInfoStr)
+              this.$store.dispatch('showLoginDialog', false)
+              this.$store.dispatch('changeStatus')
+              this.user = {}
+            } else {
+              console.log('kick device')
+            }
+          }
+        })
+      },
+      getScreenMax (data) {
+        let screenMax = 0
+        let length = data.length
+        if (length === 0) {
+          return 0
+        }
+        for (let i = 0; i < length; i++) {
+          let item = data[i]
+          if (item.product.screen_max && item.product.screen_max > screenMax) {
+            screenMax = item.product.screen_max
+          }
+        }
+        return screenMax
       }
     }
   }
 </script>
-<style  scoped>
+<style lang='scss' scoped>
 .header {
   background-color: #0a0e15
 }
 .header .toolbar__content {
-  text-align: center
-}
-.header .toolbar__title {
-  color: #ffcc05;
-  width: 100%;
+  text-align: center;
+  .toolbar__title {
+    color: #ffcc05;
+    width: 100%;
+  }
 }
 .card__text, .card__actions {
   background-color: #0E1623
