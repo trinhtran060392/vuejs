@@ -207,6 +207,16 @@ export default new Vue({
         }
       }
       return temp
+    },
+    isLoggedIn () {
+      let account = this.$localStorage.get('accountInfo')
+      let token
+      if (account) {
+        account = JSON.parse(account)
+        token = account.accessToken
+      }
+      if (account && token && token !== Constant.guestToken) return true
+      return false
     }
   }
 })

@@ -28,7 +28,6 @@
       }
     },
     created () {
-      this.$store.dispatch('setIsInSettingPage', true)
       PackageService.getFullPackages().then((response) => {
         return response.body
       }).then((response) => {

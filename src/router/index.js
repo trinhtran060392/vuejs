@@ -6,9 +6,13 @@ import Profile from '@/components/profile/Profile'
 import Category from '@/components/category/Category'
 import SubCategory from '@/components/category/SubCategory'
 import Channel from '@/components/channel/Channel'
+
+import Ulti from '../components/shared/Ulti'
+
+import store from '../store'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -18,8 +22,33 @@ export default new Router({
         { path: 'cat/:catId', name: 'category', component: Category, props: true },
         { path: 'subcat/:menuId/:catId', name: 'sub-category', component: SubCategory, props: true },
         { path: 'channels/:channelId', name: 'channel', component: Channel },
-        { path: 'account', name: 'account', component: Profile }
+        { path: 'account', name: 'account', component: Profile, meta: { requiresAuth: true, leftMenu: true } }
       ]
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    let isAuthenticated = Ulti.isLoggedIn()
+    console.log(isAuthenticated)
+    if (!isAuthenticated) {
+      next({
+        path: '/'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+  if (to.matched.some(record => record.meta.leftMenu)) {
+    store.dispatch('setIsInSettingPage', true)
+  } else {
+    store.dispatch('setIsInSettingPage', false)
+  }
+})
+
+export default router
