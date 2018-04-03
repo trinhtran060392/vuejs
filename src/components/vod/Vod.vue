@@ -6,14 +6,14 @@
         </v-flex>
         <v-flex xs9>
             <v-card>
-              <v-card-title>
+              <v-card-title class="text-xs-left">
                 {{vod.name}}
               </v-card-title>
               <v-card-title class="grey--text">Nội dung</v-card-title>
               <v-card-text class="text-xs-left">
                 {{vod.description}}
               </v-card-text>
-              <v-card-title class="grey--text">Thông tin chi tiết</v-card-title>
+              <v-card-title class="grey--text text-xs-left">Thông tin chi tiết</v-card-title>
               <v-card-text class="text-xs-left">
                 <p>Đạo diễn: {{vod.directors}}</p>
                 <p>Diễn viên: {{vod.actors}}</p>
