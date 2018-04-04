@@ -12,7 +12,11 @@
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Thông tin tài khoản</v-list-tile-title>
+            <v-list-tile-title>
+              <router-link :to="{ name: 'account' }">
+                Thông tin tài khoản
+              </router-link>
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="">
@@ -20,7 +24,11 @@
             <v-icon>settings</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Lịch sử giao dịch</v-list-tile-title>
+            <v-list-tile-title>
+              <router-link :to="{ name: 'history' }">
+                Lịch sử giao dịch
+              </router-link>
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -91,7 +99,7 @@
   import DashboardService from '../dashboard/DashboardService'
   import Ulti from '../shared/Ulti'
   import _ from 'lodash'
-  import Login from '../login/Login'
+  import Login from '../authentication/Login'
   export default {
     components: {
       Login
