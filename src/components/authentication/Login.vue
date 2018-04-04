@@ -109,6 +109,7 @@
               this.$store.dispatch('changeStatus')
               this.user = {}
             } else {
+              this.updateNDevice()
               console.log('kick device')
             }
           }
@@ -127,6 +128,9 @@
           }
         }
         return screenMax
+      },
+      updateNDevice () {
+        console.log('abc')
       }
     }
   }

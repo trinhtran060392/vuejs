@@ -45,7 +45,7 @@ Vue.http.interceptors.push((request, next) => {
 </script>
 
 <style lang="scss">
-
+  @import "src/assets/style/common.scss";
   $yellow: #ffcc05;
   $white: #ffffff;
   $dark: #0E1623;
