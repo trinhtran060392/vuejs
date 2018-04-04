@@ -9,11 +9,11 @@
               <v-card-title class="text-xs-left">
                 {{vod.name}}
               </v-card-title>
-              <v-card-title class="grey--text">Nội dung</v-card-title>
+              <v-card-text class="grey--text text-xs-left">Nội dung</v-card-text>
               <v-card-text class="text-xs-left">
                 {{vod.description}}
               </v-card-text>
-              <v-card-title class="grey--text text-xs-left">Thông tin chi tiết</v-card-title>
+              <v-card-text class="grey--text text-xs-left">Thông tin chi tiết</v-card-text>
               <v-card-text class="text-xs-left">
                 <p>Đạo diễn: {{vod.directors}}</p>
                 <p>Diễn viên: {{vod.actors}}</p>
@@ -59,6 +59,7 @@ export default {
     }
   },
   created () {
+    console.log('created')
     let vodId = this.$route.params.vodId
     VodService.get(vodId).then((response) => {
       this.vod = response
@@ -67,6 +68,15 @@ export default {
         console.log(this.vod)
       })
     })
+  },
+  mounted () {
+    console.log('mounted')
+  },
+  updated () {
+    console.log('updated')
+  },
+  destroyed () {
+    console.log('destroy')
   }
 }
 </script>

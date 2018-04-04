@@ -33,7 +33,7 @@
   </v-dialog>
 </template>
 <script>
-  import LoginService from '../login/LoginService'
+  import Auth from '../authentication/Auth'
   import Constant from '../shared/Constant'
   export default {
     computed: {
@@ -66,8 +66,9 @@
     },
     methods: {
       login: function () {
-        LoginService.login(this.user).then((response) => {
+        Auth.login(this.user).then((response) => {
           if (response.status === Constant.statusCode.OK) {
+            console.log(response)
             let accountInfo = {
               id: this.user.phone,
               accessToken: response.body.access_token,

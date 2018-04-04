@@ -4,5 +4,6 @@ export default {
   clientId: 'viettelSdpClient2',
   statusCode: {
     OK: 200
-  }
+  },
+  appSecret: 'viettelSdpUserprofile1'
 }
