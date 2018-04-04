@@ -6,9 +6,15 @@
               <v-card-title>
                 {{i.name}}
               </v-card-title>
+              <v-card-text class="shorten-text">
+                {{i.description}}
+              </v-card-text>
               <v-card-actions>
-                <v-btn>
+                <v-btn v-if="!i.registed">
                   Mua ngay
+                </v-btn>
+                <v-btn v-else>
+                  Xem chi tiết
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -19,6 +25,7 @@
 
 <script>
   import PackageService from '../shared/PackageService'
+  import HistoryService from '../profile/HistoryService'
   import Ulti from '../shared/Ulti'
   export default {
 
@@ -37,8 +44,14 @@
         }).then((response) => {
           let addonProducts = Ulti.getProducts(response.data)
           let addonPackages = Ulti.buildPurchasablePackages(addonProducts)
-          this.packages = fpackage.concat(addonPackages)
-          console.log(JSON.parse(JSON.stringify(this.packages)))
+          let packages = fpackage.concat(addonPackages)
+          HistoryService.list().then((response) => {
+            return response.body
+          }).then((response) => {
+            let result = Ulti.checkRegisteredPackage(packages, response.data)
+            this.packages = result.totalPackages
+            console.log(this.packages)
+          })
         })
       })
     }

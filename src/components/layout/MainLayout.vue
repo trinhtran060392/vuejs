@@ -100,6 +100,7 @@
   import Ulti from '../shared/Ulti'
   import _ from 'lodash'
   import Login from '../authentication/Login'
+  import Auth from '../authentication/Auth'
   export default {
     components: {
       Login
@@ -197,7 +198,6 @@
         sharedData.menus = menus
         sharedData.cats = cats
         this.$store.dispatch('setMenu', sharedData)
-        console.log(sharedData, 'on created main layout hook')
         if (this.$route.name === 'category') {
           let catId = this.$route.params.catId
           let menu = _.find(menus, (menu) => {
@@ -206,6 +206,12 @@
           let result = Ulti.getSubcategoryId(menu)
           this.$store.dispatch('setSubMenu', result)
         }
+      })
+      Auth.info().then((response) => {
+        return response.body
+      }).then((response) => {
+        console.log(response)
+        this.$store.dispatch('setIsSubcriber', response.config.vm_subscriber)
       })
     }
   }

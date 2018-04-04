@@ -482,6 +482,106 @@ export default new Vue({
         temp = true
       }
       return temp
+    },
+    beautyPrice (value) {
+      value = value.toString()
+      if (value.length > 3) {
+        return value.slice(0, value.length - 3) + '.' + value.slice(value.length - 3, value.length)
+      } else {
+        return value
+      }
+    },
+    buildWallet (data) {
+      data.topup = this.beautyPrice(data.topup)
+      data.bonus = this.beautyPrice(data.bonus)
+      return data
+    },
+    beautyDate (date) {
+      let obj = {}
+      let array = date.split('T')
+      let day = array[0].split('-')
+      let time = array[1].split('+')
+      let beautyDay = ''
+      for (let i = day.length - 1; i >= 0; i--) {
+        beautyDay += day[i]
+        if (i !== 0) beautyDay += '/'
+      }
+      let beautyTime = time[0]
+      obj.beautyDay = beautyDay
+      obj.beautyTime = beautyTime
+      return obj
+    },
+    buildSingleVod (response) {
+      let result = []
+      let temp = response
+      for (let i = 0; i < temp.length; i++) {
+        let obj = {}
+        obj.product = temp[i].product
+        obj.title = temp[i].product.title
+        obj.priceMax = temp[i].product.price[0].value
+        obj.beautyUnit = 'VNĐ'
+        obj.date = this.beautyDate(temp[i].purchase_stdt)
+        obj.endDate = this.beautyDate(temp[i].purchase_endt)
+        obj.auto_renewal = false
+        result.push(obj)
+      }
+      return result
+    },
+    checkRegisteredPackage (packages, purchasedData) {
+      let registeredPackages = []
+      let availablePackages = []
+      if (purchasedData.length) {
+        for (let i = 0; i < purchasedData.length; i++) {
+          for (let j = 0; j < packages.length; j++) {
+            if (packages[j].id === purchasedData[i].product.id) {
+              let price = purchasedData[i].product.price[0].value
+              packages[j].parentId = purchasedData[i].id
+              packages[j].purchase_stdt = purchasedData[i].purchase_stdt
+              packages[j].purchase_endt = purchasedData[i].purchase_endt
+              packages[j].auto_renewal = true
+              packages[j].registed = true
+              packages[j].beautyPeriod = this.returnPeriodName(this.getPeriodFromPrice(price, packages[j].rental_periods))
+              packages[j].priceMax = this.beautyPrice(price)
+              packages[j].date = this.beautyDate(purchasedData[i].purchase_stdt)
+            } else {
+              if (!packages[j].registed) {
+                packages[j].registed = false
+              }
+            }
+          }
+        }
+      }
+      for (let i = 0; i < packages.length; i++) {
+        packages[i].description = !Array.isArray(packages[i].description) ? packages[i].description : packages[i].description[0].text
+        if (packages[i].registed) registeredPackages.push(packages[i])
+        else if (packages[i].purchasable === 'true') availablePackages.push(packages[i])
+      }
+      let totalPackages = registeredPackages.concat(availablePackages)
+
+      let obj = {}
+      obj.totalPackages = totalPackages
+      obj.registeredPackages = registeredPackages
+      return obj
+    },
+    returnPeriodName (val) {
+      switch (val) {
+        case 1:
+          return 'Ngày'
+        case 7:
+          return 'Tuần'
+        case 30:
+          return 'Tháng'
+        default:
+          break
+      }
+    },
+    getPeriodFromPrice (value, prices) {
+      console.log(value, prices)
+      for (let i = 0; i < prices.length; i++) {
+        if (value === prices[i].price[0].value) {
+          return prices[i].period
+        }
+      }
     }
   }
 })

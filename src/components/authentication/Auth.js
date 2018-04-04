@@ -66,6 +66,10 @@ export default new Vue({
       let obj = {}
       obj.devices = ['a9bb46901905008e3e5b6bed21816fcf']
       return this.$http.post(url, obj)
+    },
+    info () {
+      let url = `${Constant.entryPoint}/ott/accounts/show?include=device`
+      return this.$http.get(url)
     }
   }
 })

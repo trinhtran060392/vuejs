@@ -13,6 +13,7 @@ import VueResource from 'vue-resource'
 import Constant from './components/shared/Constant'
 import VueLocalStorage from 'vue-localstorage'
 import Ulti from './components/shared/Ulti'
+import router from './router'
 
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
@@ -32,7 +33,12 @@ Vue.http.interceptors.push((request, next) => {
     token = accountInfo.accessToken
   } else token = Constant.guestToken
   request.headers.set('Authorization', `Bearer ${token}`)
-  next()
+  next((response) => {
+    let status = response.status
+    if (status === 401) {
+      router.push({ path: '/' })
+    }
+  })
 })
 </script>
 
@@ -96,4 +102,13 @@ Vue.http.interceptors.push((request, next) => {
   .VueCarousel-navigation-button {
     color: $white !important;
   }
+  .application .theme--dark.tabs__bar, .theme--dark .tabs__bar {
+    background-color: transparent !important;
+  }
+  .shorten-text {
+    clear: both;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 </style>

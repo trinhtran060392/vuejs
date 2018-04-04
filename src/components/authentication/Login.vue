@@ -83,6 +83,12 @@
             this.$store.dispatch('showLoginDialog', false)
             this.$store.dispatch('changeStatus')
             this.user = {}
+            Auth.info().then((response) => {
+              return response.body
+            }).then((response) => {
+              console.log(response)
+              this.$store.dispatch('setIsSubcriber', response.config.vm_subscriber)
+            })
           }
         })
       }

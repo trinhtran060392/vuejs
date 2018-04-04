@@ -10,7 +10,8 @@ const state = {
   result: false,
   isAuthenticated: false,
   showLoginDialog: false,
-  isInSettingPage: false
+  isInSettingPage: false,
+  isSubcriber: false
 }
 // setters
 const setters = {
@@ -26,7 +27,8 @@ const getters = {
   result: state => state.result,
   isAuthenticated: state => state.isAuthenticated,
   showLoginDialog: state => state.showLoginDialog,
-  isInSettingPage: state => state.isInSettingPage
+  isInSettingPage: state => state.isInSettingPage,
+  isSubcriber: state => state.isSubcriber
 }
 
 // actions
@@ -68,11 +70,17 @@ const actions = {
   },
   setIsInSettingPage ({ commit }, isSettingPage) {
     commit(types.SET_SETTING_PAGE, isSettingPage)
+  },
+  setIsSubcriber ({ commit }, isSubcriber) {
+    commit(types.IS_SUBCRIBER, isSubcriber)
   }
 }
 
 // mutations
 const mutations = {
+  [types.IS_SUBCRIBER] (state, isSubcriber) {
+    state.isSubcriber = isSubcriber
+  },
   [types.RECEIVE_PROJECTS] (state, { projects }) {
     state.all = projects
   },
