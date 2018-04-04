@@ -46,9 +46,6 @@ Vue.http.interceptors.push((request, next) => {
 
 <style lang="scss">
   @import "src/assets/style/common.scss";
-  $yellow: #ffcc05;
-  $white: #ffffff;
-  $dark: #0E1623;
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

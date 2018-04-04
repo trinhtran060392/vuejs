@@ -70,6 +70,25 @@ export default new Vue({
     info () {
       let url = `${Constant.entryPoint}/ott/accounts/show?include=device`
       return this.$http.get(url)
+    },
+    getAccountUse () {
+      let url = `${Constant.entryPoint}/ott/accounts/show?include=device`
+      return this.$http.get(url, {
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+      })
+    },
+    getPackageDevice () {
+      let url = `${Constant.entryPoint}/api1/me/purchases/list?offset=0&limit=24&product_category=vod
+      &product_category=channel&product_category=ott&product_category=catchup&product_category=npvr
+      &product_category=full&product_type=subscription,package,fpackage&include_hidden=false&include=product
+      &include=multilang&include=purchase&include=fpackage`
+      return this.$http.get(url, {
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+      })
     }
   }
 })

@@ -71,7 +71,6 @@
       login: function () {
         Auth.login(this.user).then((response) => {
           if (response.status === Constant.statusCode.OK) {
-            console.log(response)
             let accountInfo = {
               id: this.user.phone,
               accessToken: response.body.access_token,
@@ -105,13 +104,16 @@
               console.log('login success')
               let accountInfoStr = JSON.stringify(this.accountInfo)
               this.$localStorage.set('accountInfo', accountInfoStr)
-              this.$store.dispatch('showLoginDialog', false)
               this.$store.dispatch('changeStatus')
               this.user = {}
             } else {
+              this.$store.dispatch('setScreenMax', screenMax)
+              this.$store.dispatch('setListPackage', this.listRegisterDevice.devices)
+              this.$store.dispatch('showPackage', true)
               this.updateNDevice()
               console.log('kick device')
             }
+            this.$store.dispatch('showLoginDialog', false)
           }
         })
       },
