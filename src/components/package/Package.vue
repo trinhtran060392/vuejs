@@ -1,5 +1,47 @@
 <template>
-  <v-dialog v-model="isShowPackage" persistent max-width="380px">
+  <v-dialog v-model="isShowPackage" persistent max-width="400px">
+    <v-card class="package" v-show="step === listStep.listDeviceUse">
+      <v-toolbar class="header">
+        <v-toolbar-title>Danh sách thiết bị</v-toolbar-title>
+      </v-toolbar>
+      <v-card-text>
+        <div class="package-description">
+          <span>Bạn đã đăng nhập quá thiết bị bằng tài khoản này</span></br>
+          <span>Để tiếp tục sử dụng, vui lòng xóa bớt thiết bị hoặc nâng cấp gói cước</span>
+        </div>
+        <v-container grid-list-md>
+          <v-list two-line>
+            <template v-for="(item, index) in listDevice">
+              <v-list-tile 
+                avatar
+                ripple
+                @click="toggle(item, index)"
+                :key="item.title"
+                v-bind:class="{ active: selectedDevice.indexOf(index) < 0 }">
+                <v-list-tile-action>
+                  <v-checkbox v-model="item.checkbox"></v-checkbox>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ item.model }}</v-list-tile-title>
+                  <v-list-tile-sub-title>Đăng nhập lần cuối: {{ item.last_date }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+          </v-list>
+          <v-divider></v-divider>
+        </v-container>
+        <div>{{messegeError}}</div>
+      </v-card-text>
+      <v-card-actions >
+        <v-flex xs6 >
+          <v-btn color="blue darken-1" class="" flat @click="kickDevice()" > Xóa thiết bị
+          </v-btn>
+        </v-flex>
+        <v-flex xs6>
+          <v-btn color="blue darken-1" class="" flat > Nâng cấp gói cước</v-btn>
+        </v-flex>
+      </v-card-actions>
+    </v-card>
     <v-card class="package" v-show="step === listStep.choseTypePackage">
       <v-toolbar class="header">
         <v-toolbar-title>Lựa chọn gói</v-toolbar-title>
@@ -48,18 +90,39 @@
       },
       listPackage: {
         get () {
-          console.log(this.$store.getters.listPackage)
           return this.$store.getters.listPackage
+        }
+      },
+      listDevice: {
+        get () {
+          return this.$store.getters.listDevice
+        }
+      },
+      screenMax: {
+        get () {
+          let screenMax = this.$store.getters.screenMax
+          return screenMax
         }
       }
     },
     data () {
       return {
         radioGroup: 1,
-        step: 1,
-        screenMax: this.$store.getters.screenMax,
+        step: 0,
         listStep: {
+          listDeviceUse: 0,
           choseTypePackage: 1
+        },
+        messegeError: ''
+      }
+    },
+    methods: {
+      toggle (item, index) {
+        const i = this.selectedDevice.indexOf(index)
+        if (i > -1) {
+          this.selectedDevice.splice(i, 1)
+        } else {
+          this.selectedDevice.push(index)
         }
       }
     },

@@ -1,15 +1,17 @@
 import * as types from '../mutation-types'
 
 const state = {
-  screenMax: 0,
+  screenMax: -1,
   listPackage: [],
-  isShowPackage: false
+  isShowPackage: false,
+  listDevice: []
 }
 
 const getters = {
   screenMax: state => state.screenMax,
   listPackage: state => state.listPackage,
-  isShowPackage: state => state.isShowPackage
+  isShowPackage: state => state.isShowPackage,
+  listDevice: state => state.listDevice
 }
 
 const actions = {
@@ -20,8 +22,10 @@ const actions = {
     commit(types.SET_LIST_PACKAGE, listPackage)
   },
   showPackage ({ commit }, isShowPackage) {
-    console.log(isShowPackage)
     commit(types.SHOW_PACKAGE, isShowPackage)
+  },
+  setListDevice ({ commit }, listDevice) {
+    commit(types.LIST_DEVICE, listDevice)
   }
 }
 
@@ -33,8 +37,10 @@ const mutations = {
     state.listPackage = listPackage
   },
   [types.SHOW_PACKAGE] (state, isShowPackage) {
-    console.log(isShowPackage)
     state.isShowPackage = isShowPackage
+  },
+  [types.LIST_DEVICE] (state, listDevice) {
+    state.listDevice = listDevice
   }
 }
 

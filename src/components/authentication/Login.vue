@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="showLoginDialog" persistent max-width="400px">
-    <v-card>
+    <v-card v-show="step === listStep.login">
       <v-toolbar class="header" >
         <v-toolbar-title>ĐĂNG NHẬP</v-toolbar-title>
       </v-toolbar>
@@ -30,6 +30,48 @@
         </v-flex>
       </v-card-actions>
     </v-card>
+    <v-card v-show="step === listStep.kickDevice">
+      <v-toolbar class="header">
+        <v-toolbar-title>Danh sách thiết bị</v-toolbar-title>
+      </v-toolbar>
+      <v-card-text>
+        <div class="package-description">
+          <span>Bạn đã đăng nhập quá thiết bị bằng tài khoản này</span></br>
+          <span>Để tiếp tục sử dụng, vui lòng xóa bớt thiết bị hoặc nâng cấp gói cước</span>
+        </div>
+        <v-container grid-list-md>
+          <v-list two-line>
+            <template v-for="(item, index) in listRegisterDevice.devices">
+              <v-list-tile 
+                avatar
+                ripple
+                @click="toggle(item, index)"
+                :key="item.title"
+                v-bind:class="{ active: item.checkbox === true }">
+                <v-list-tile-action>
+                  <v-checkbox v-model="item.checkbox"></v-checkbox>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ item.model }}</v-list-tile-title>
+                  <v-list-tile-sub-title>Đăng nhập lần cuối: {{ item.last_date }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+          </v-list>
+          <v-divider></v-divider>
+        </v-container>
+        <div></div>
+      </v-card-text>
+      <v-card-actions >
+        <v-flex xs6 >
+          <v-btn color="blue darken-1" class="" flat @click="kickDevice()" > Xóa thiết bị
+          </v-btn>
+        </v-flex>
+        <v-flex xs6>
+          <v-btn color="blue darken-1" class="" flat > Nâng cấp gói cước</v-btn>
+        </v-flex>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
 <script>
@@ -51,6 +93,11 @@
     data () {
       return {
         valid: false,
+        step: 0,
+        listStep: {
+          login: 0,
+          kickDevice: 1
+        },
         accountInfo: {},
         user: {
           phone: '',
@@ -64,7 +111,8 @@
           v => !!v || 'Name is required'
         ],
         listRegisterDevice: 0,
-        errorMessage: 'Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ CSKH'
+        errorMessage: 'Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ CSKH',
+        selectedDevice: []
       }
     },
     methods: {
@@ -105,15 +153,15 @@
               let accountInfoStr = JSON.stringify(this.accountInfo)
               this.$localStorage.set('accountInfo', accountInfoStr)
               this.$store.dispatch('changeStatus')
+              this.$store.dispatch('showLoginDialog', false)
               this.user = {}
             } else {
-              this.$store.dispatch('setScreenMax', screenMax)
-              this.$store.dispatch('setListPackage', this.listRegisterDevice.devices)
-              this.$store.dispatch('showPackage', true)
-              this.updateNDevice()
+              // this.$store.dispatch('setScreenMax', screenMax)
+              // this.$store.dispatch('setListDevice', this.listRegisterDevice.devices)
+              // this.$store.dispatch('showPackage', true)
+              this.step = this.listStep.kickDevice
               console.log('kick device')
             }
-            this.$store.dispatch('showLoginDialog', false)
           }
         })
       },
@@ -132,7 +180,39 @@
         return screenMax
       },
       updateNDevice () {
-        console.log('abc')
+      },
+      toggle (item, index) {
+        const i = this.selectedDevice.indexOf(item)
+        if (i > -1) {
+          item.checkbox = false
+          this.$set(item, 'checkbox', false)
+          this.selectedDevice.splice(i, 1)
+        } else {
+          item.checkbox = true
+          this.$set(item, 'checkbox', true)
+          this.selectedDevice.push(item)
+        }
+        console.log(this.selectedDevice)
+      },
+      kickDevice () {
+        let lengthSelectedDevice = this.selectedDevice.length
+        let obj = {
+          devices: []
+        }
+        if (lengthSelectedDevice > 0) {
+          for (let index = 0; index < lengthSelectedDevice; index++) {
+            const element = this.selectedDevice[index]
+            obj.devices.push(element.id)
+          }
+          Auth.kickDevice(obj).then((response) => {
+            if (response.status === Constant.statusCode.OK) {
+              this.login()
+            }
+            console.log(response)
+          })
+        } else {
+          this.messegeError = 'Vui lòng chọn thiết bị muốn xóa !'
+        }
       }
     }
   }
