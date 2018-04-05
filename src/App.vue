@@ -43,7 +43,9 @@ Vue.http.interceptors.push((request, next) => {
   }
   request.headers.set('Authorization', token)
   request.headers.set('Content-Type', 'application/json')
-  next()
+  next((response) => {
+    console.log(response.status)
+  })
 })
 </script>
 

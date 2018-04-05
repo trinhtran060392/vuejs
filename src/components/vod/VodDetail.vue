@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md text-xs-center>
     <v-card class="player">
-      <Player :vod="vod"></Player>
+      <ThePlayer :vod="vod"/>
     </v-card>
     <v-layout row wrap>
         <v-flex xs3>
@@ -41,10 +41,10 @@
 
 <script>
 import VodService from './VodService'
-import Player from '../player/Player'
+import ThePlayer from '../player/ThePlayer'
 export default {
   components: {
-    Player
+    ThePlayer
   },
   data () {
     return {

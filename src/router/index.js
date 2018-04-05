@@ -6,9 +6,9 @@ import Profile from '@/components/profile/Profile'
 import Category from '@/components/category/Category'
 import SubCategory from '@/components/category/SubCategory'
 import Channel from '@/components/channel/Channel'
-import Vod from '@/components/vod/Vod'
+import VodDetail from '@/components/vod/VodDetail'
 import History from '@/components/profile/History'
-import Player from '@/components/player/Player'
+import ThePlayer from '@/components/player/ThePlayer'
 
 import Ulti from '../components/shared/Ulti'
 
@@ -26,9 +26,9 @@ const router = new Router({
         { path: 'subcat/:catId', name: 'sub-category', component: SubCategory, props: true },
         { path: 'channels/:channelId', name: 'channel', component: Channel },
         { path: 'account', name: 'account', component: Profile, meta: { requiresAuth: true, leftMenu: true } },
-        { path: 'vod/:vodId', name: 'detail', component: Vod },
+        { path: 'vod/:vodId', name: 'detail', component: VodDetail },
         { path: 'history', name: 'history', component: History, meta: { requiresAuth: true, leftMenu: true } },
-        { path: 'play/:videoId', name: 'play', component: Player }
+        { path: 'play/:videoId', name: 'play', component: ThePlayer }
       ]
     }
   ]

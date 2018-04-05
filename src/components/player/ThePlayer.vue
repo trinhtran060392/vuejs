@@ -18,7 +18,6 @@
     data () {
       return {
         vodUrl: null,
-        isCompleted: false,
         player: {}
       }
     },
