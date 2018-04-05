@@ -13,7 +13,6 @@ import VueResource from 'vue-resource'
 import Constant from './components/shared/Constant'
 import VueLocalStorage from 'vue-localstorage'
 import Ulti from './components/shared/Ulti'
-import router from './router'
 
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
