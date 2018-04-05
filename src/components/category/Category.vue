@@ -2,7 +2,14 @@
 <template>
   <div class="dashboard-container">
     <v-container v-for="item in catData" :key="`${item.title}`">
-      <p class="title-text text-sm-left text-xs-center">{{item.title}}</p>
+      <v-layout row wrap>
+        <v-flex xs6>
+          <p class="title-text text-sm-left text-xs-center">{{item.title}}</p>
+        </v-flex>
+        <v-flex xs6 class="text-xs-right">
+          <v-btn @click="showAll(item)">Xem tất cả</v-btn>
+        </v-flex>
+      </v-layout>
       <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
         <slide v-for="i in item.data" :key="`3${i.id}`">
           <div class="vod-content">
@@ -63,6 +70,11 @@
           obj.title = temp.title
           this.catData.push(obj)
         })
+      }
+    },
+    methods: {
+      showAll (item) {
+        console.log(item)
       }
     }
   }
