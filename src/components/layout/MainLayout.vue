@@ -220,7 +220,8 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  $yellow: #ffcc05;
   .img-container {
     background: rgba(10, 14, 21, 0.6);
     border: 1px solid #292929;
@@ -245,7 +246,7 @@
   }
   .btn-login {
     border: 1px solid rgba(255,204,5,.35);
-    color: #ffcc05 !important;
+    color: $yellow !important;
     background-color: rgba(14,22,35,.86) !important;
   }
   .active-item {
@@ -253,6 +254,6 @@
   }
   .active-item .text-item{
     font-weight: 600;
-    color: #ffcc05;
+    color: $yellow;
   }
 </style>

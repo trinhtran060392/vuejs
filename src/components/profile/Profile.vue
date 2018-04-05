@@ -62,6 +62,7 @@
 </script>
 
 <style lang="scss">
+  $yellow: #ffcc05;
   .card__title, .card__actions {
     justify-content: center;
   }
@@ -97,13 +98,13 @@
     height: 30px;
   }
   .item-card .btn:hover {
-    background-color: #ffcc05 !important;
+    background-color: $yellow !important;
     color: #2E2501;
   }
   .item-card .price-card {
     padding: 5px 5px 0;
     font-size: 20px;
-    color: #ffcc05
+    color: $yellow;
   }
   .btn__content:before {
     opacity: 0;
