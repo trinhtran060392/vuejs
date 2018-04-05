@@ -2,6 +2,7 @@
   <v-app id="inspire" dark>
     <Login></Login>
     <Package></Package>
+    <!-- <Player></Player> -->
     <v-navigation-drawer
       v-if="isInSettingPage"
       clipped

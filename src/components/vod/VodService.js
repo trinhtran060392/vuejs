@@ -45,6 +45,10 @@ export default new Vue({
           reject(error)
         })
       })
+    },
+    getVodURL (vodId, productId) {
+      let url = `${Constant.entryPoint}/api1/watches/fvod/prepare?access_token=${Constant.guestToken}&id=${vodId}&product_id=${productId}&service_provider=${Constant.webPC}`
+      return this.$http.get(url)
     }
   }
 })
