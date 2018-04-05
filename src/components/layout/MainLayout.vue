@@ -149,10 +149,9 @@
       openSubMenu (menu) {
         console.log(menu)
         let catId = Ulti.getCategoryIdOfMenu(menu)
-        this.$router.push({ path: `/subcat/${menu.id}/${catId}` })
+        this.$router.push({ path: `/subcat/${menu.id}/${catId}?name=${menu.name[0].text}` })
       },
       openAllMenu (menu) {
-        console.log(menu)
         let pathId = menu.path_id
         if (pathId === '/WEB_HOME') {
           this.$router.push({path: '/'})
@@ -209,6 +208,7 @@
           let result = Ulti.getSubcategoryId(menu)
           this.$store.dispatch('setSubMenu', result)
         }
+        console.log(menus)
       })
       Auth.info().then((response) => {
         return response.body

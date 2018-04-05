@@ -1,6 +1,7 @@
 
 <template>
   <v-container grid-list-md text-xs-center>
+      <h3>{{title}}</h3>
       <v-layout row wrap>
         <v-flex xs2 v-for="i in catData" :key="i.id">
             <div class="vod-content">
@@ -22,11 +23,13 @@
     },
     data () {
       return {
-        catData: []
+        catData: [],
+        title: ''
       }
     },
     created () {
       let catId = this.$route.params.catId
+      this.title = this.$route.query.name
       DashboardService.getCatContent(catId, 20).then((response) => {
         console.log(response)
         this.catData = response
@@ -43,6 +46,9 @@
           console.log(response)
           this.catData = response
         })
+      },
+      '$route.query.name' () {
+        this.title = this.$route.query.name
       }
     }
   }
