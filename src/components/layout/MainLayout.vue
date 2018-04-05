@@ -1,6 +1,7 @@
 <template>
   <v-app id="inspire" dark>
     <Login></Login>
+    <Package></Package>
     <v-navigation-drawer
       v-if="isInSettingPage"
       clipped
@@ -101,9 +102,11 @@
   import _ from 'lodash'
   import Login from '../authentication/Login'
   import Auth from '../authentication/Auth'
+  import Package from '../package/Package'
   export default {
     components: {
-      Login
+      Login,
+      Package
     },
     computed: {
       isAuthenticated () {

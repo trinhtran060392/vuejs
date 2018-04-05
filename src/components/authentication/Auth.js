@@ -4,6 +4,9 @@ import Ulti from '../shared/Ulti'
 import CryptoJS from 'crypto-js'
 
 export default new Vue({
+  data: {
+    token: ''
+  },
   methods: {
     login (user) {
       let url = `${Constant.entryPoint}/ott/accounts/login`
@@ -61,15 +64,37 @@ export default new Vue({
         })
       })
     },
-    kickDevice () {
+    kickDevice (obj) {
       let url = `${Constant.entryPoint}/ott/accounts/devices/switch`
-      let obj = {}
-      obj.devices = ['a9bb46901905008e3e5b6bed21816fcf']
-      return this.$http.post(url, obj)
+      obj.access_token = this.token
+      return this.$http.post(url, obj, {
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+      })
     },
     info () {
       let url = `${Constant.entryPoint}/ott/accounts/show?include=device`
       return this.$http.get(url)
+    },
+    getAccountUse () {
+      let url = `${Constant.entryPoint}/ott/accounts/show?include=device`
+      return this.$http.get(url, {
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+      })
+    },
+    getPackageDevice () {
+      let url = `${Constant.entryPoint}/api1/me/purchases/list?offset=0&limit=24&product_category=vod
+      &product_category=channel&product_category=ott&product_category=catchup&product_category=npvr
+      &product_category=full&product_type=subscription,package,fpackage&include_hidden=false&include=product
+      &include=multilang&include=purchase&include=fpackage`
+      return this.$http.get(url, {
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+      })
     }
   }
 })

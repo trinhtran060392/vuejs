@@ -27,26 +27,25 @@ export default {
 Vue.http.interceptors.push((request, next) => {
   let isAuthenticated = Ulti.isLoggedIn()
   let accountInfo
-  let token
+  let token = `Bearer `
   if (isAuthenticated) {
     accountInfo = Ulti.getCurrentAccount()
-    token = accountInfo.accessToken
-  } else token = Constant.guestToken
-  request.headers.set('Authorization', `Bearer ${token}`)
-  next((response) => {
-    let status = response.status
-    if (status === 401) {
-      router.push({ path: '/' })
+    token += accountInfo.accessToken
+  } else {
+    if (request.headers.map.Authorization) {
+      token = request.headers.map.Authorization[0]
+    } else {
+      token += Constant.guestToken
     }
-  })
+  }
+  request.headers.set('Authorization', token)
+  request.headers.set('Content-Type', 'application/json')
+  next()
 })
 </script>
 
 <style lang="scss">
-
-  $yellow: #ffcc05;
-  $white: #ffffff;
-  $dark: #0E1623;
+  @import "src/assets/style/common.scss";
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
