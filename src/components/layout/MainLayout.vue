@@ -8,25 +8,25 @@
       fixed
       app>
       <v-list dense>
-        <v-list-tile @click="">
+        <v-list-tile @click="" class="item-menu active-item">
           <v-list-tile-action>
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
-              <router-link :to="{ name: 'account' }">
+              <router-link :to="{ name: 'account' }" class="text-item">
                 Thông tin tài khoản
               </router-link>
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="">
+        <v-list-tile @click="" class="item-menu">
           <v-list-tile-action>
             <v-icon>settings</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
-              <router-link :to="{ name: 'history' }">
+              <router-link :to="{ name: 'history' }" class="text-item">
                 Lịch sử giao dịch
               </router-link>
             </v-list-tile-title>
@@ -34,7 +34,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app fixed clipped-left>
+    <v-toolbar app fixed clipped-left class="nav-head">
       <v-toolbar-title>
         <img src="../../assets/static/logo.png">
       </v-toolbar-title>
@@ -50,10 +50,10 @@
         </v-menu>
       </v-toolbar-items>
       <v-spacer></v-spacer>
-      <v-btn v-if="!isAuthenticated" color="primary"  @click="openLogin()">Đăng nhập</v-btn>
+      <v-btn v-if="!isAuthenticated" color="" class="btn-login"  @click="openLogin()">Đăng nhập</v-btn>
       <div v-if="isAuthenticated" class="text-xs-center">
         <v-menu offset-y>
-          <v-btn color="primary" dark slot="activator">{{account.id}}</v-btn>
+          <v-btn color="" class="btn-login" dark slot="activator">{{account.id}}</v-btn>
           <v-list>
             <v-list-tile v-for="item in items" :key="item.type" @click="clickSubAccount(item)">
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
@@ -231,5 +231,28 @@
   }
   .application .theme--dark.toolbar, .theme--dark .toolbar {
     background-color: transparent;
+  }
+  .item-menu:hover .text-item{
+    color: #ffcc05;
+  }
+  .item-menu .text-item{
+    font-size: 15px !important;
+    color: #c8c8c8;
+    text-decoration: none;
+  }
+  .nav-head {
+    background-color: rgba(14,22,35,.86) !important;
+  }
+  .btn-login {
+    border: 1px solid rgba(255,204,5,.35);
+    color: #ffcc05 !important;
+    background-color: rgba(14,22,35,.86) !important;
+  }
+  .active-item {
+    background: rgba(50,50,50,.85)!important;
+  }
+  .active-item .text-item{
+    font-weight: 600;
+    color: #ffcc05;
   }
 </style>
