@@ -22,7 +22,7 @@ const router = new Router({
       children: [
         { path: '', component: Dashboard },
         { path: 'cat/:catId', name: 'category', component: Category, props: true },
-        { path: 'subcat/:menuId/:catId', name: 'sub-category', component: SubCategory, props: true },
+        { path: 'subcat/:catId', name: 'sub-category', component: SubCategory, props: true },
         { path: 'channels/:channelId', name: 'channel', component: Channel },
         { path: 'account', name: 'account', component: Profile, meta: { requiresAuth: true, leftMenu: true } },
         { path: 'vod/:vodId', name: 'detail', component: Vod },

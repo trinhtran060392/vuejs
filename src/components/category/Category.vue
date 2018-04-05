@@ -7,7 +7,7 @@
           <p class="title-text text-sm-left text-xs-center">{{item.title}}</p>
         </v-flex>
         <v-flex xs6 class="text-xs-right">
-          <v-btn @click="showAll(item)">Xem tất cả</v-btn>
+          <v-btn @click="showAll(item.subCatId, item.title)">Xem tất cả</v-btn>
         </v-flex>
       </v-layout>
       <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
@@ -52,6 +52,7 @@
           DashboardService.getCatContent(temp.catMenuId).then((response) => {
             obj.title = temp.title
             obj.data = response
+            obj.subCatId = temp.catMenuId
             this.catData.push(obj)
           })
         }
@@ -68,13 +69,14 @@
         DashboardService.getCatContent(temp.catMenuId).then((response) => {
           obj.data = response
           obj.title = temp.title
+          obj.subCatId = temp.catMenuId
           this.catData.push(obj)
         })
       }
     },
     methods: {
-      showAll (item) {
-        console.log(item)
+      showAll (subCatId, title) {
+        this.$router.push({ path: `/subcat/${subCatId}?name=${title}` })
       }
     }
   }

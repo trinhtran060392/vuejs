@@ -149,7 +149,7 @@
       openSubMenu (menu) {
         console.log(menu)
         let catId = Ulti.getCategoryIdOfMenu(menu)
-        this.$router.push({ path: `/subcat/${menu.id}/${catId}?name=${menu.name[0].text}` })
+        this.$router.push({ path: `/subcat/${catId}?name=${menu.name[0].text}` })
       },
       openAllMenu (menu) {
         let pathId = menu.path_id
