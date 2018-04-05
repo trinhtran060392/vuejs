@@ -13,11 +13,15 @@ import VueResource from 'vue-resource'
 import Constant from './components/shared/Constant'
 import VueLocalStorage from 'vue-localstorage'
 import Ulti from './components/shared/Ulti'
+import VueVideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
+// import router from './router'
 
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
 Vue.use(VueResource)
 Vue.use(VueLocalStorage)
+Vue.use(VueVideoPlayer)
 
 export default {
   name: 'app'

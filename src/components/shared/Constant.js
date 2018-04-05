@@ -5,5 +5,6 @@ export default {
   statusCode: {
     OK: 200
   },
+  webPC: 'WebPC',
   appSecret: 'viettelSdpUserprofile1'
 }

@@ -286,7 +286,7 @@ export default new Vue({
               }
             }
           } else {
-            for (let i = 0; i < product.locations; i++) {
+            for (let i = 0; i < product.locations.length; i++) {
               let location = product.locations[i]
               if (location.device.indexOf('handheld') !== -1 || location.device.indexOf('tv_smart') !== -1) {
                 svod.vodLocator = location.locator
@@ -308,6 +308,7 @@ export default new Vue({
         }
         svod.duration = minutes
       }
+      console.log(svod)
       return svod
     },
     checkExpired (timeNow, equalTime) {

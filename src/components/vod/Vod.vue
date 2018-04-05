@@ -1,5 +1,8 @@
 <template>
   <v-container grid-list-md text-xs-center>
+    <v-card class="player">
+      <Player :vod="vod"></Player>
+    </v-card>
     <v-layout row wrap>
         <v-flex xs3>
           <img :src="vod.photoUrl">
@@ -24,7 +27,7 @@
     <v-layout>
       
     <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
-      <slide v-for="i in vod.relateVods" :key="`3${i.id}`">
+      <slide v-for="i in relateVods" :key="`3${i.id}`">
         <div class="vod-content">
           <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
             <img :src="i.photoUrl">
@@ -38,10 +41,15 @@
 
 <script>
 import VodService from './VodService'
+import Player from '../player/Player'
 export default {
+  components: {
+    Player
+  },
   data () {
     return {
-      vod: {}
+      vod: {},
+      relateVods: []
     }
   },
   watch: {
@@ -51,8 +59,7 @@ export default {
         VodService.get(vodId).then((response) => {
           this.vod = response
           VodService.relateVods(vodId).then((response) => {
-            this.$set(this.vod, 'relateVods', response)
-            console.log(this.vod)
+            this.relateVods = response
           })
         })
       }
@@ -64,8 +71,7 @@ export default {
     VodService.get(vodId).then((response) => {
       this.vod = response
       VodService.relateVods(vodId).then((response) => {
-        this.$set(this.vod, 'relateVods', response)
-        console.log(this.vod)
+        this.relateVods = response
       })
     })
   },
@@ -77,11 +83,19 @@ export default {
   },
   destroyed () {
     console.log('destroy')
+  },
+  methods: {
+    play () {
+      this.$router.push({ name: 'play' })
+    }
   }
 }
 </script>
 <style lang="scss">
   .application .theme--dark.card, .theme--dark .card {
     background-color: transparent;
+  }
+  .player {
+    margin: 30px 0px 20px 0px;
   }
 </style>
