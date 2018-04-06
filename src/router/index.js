@@ -35,7 +35,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.meta.requiresAuth) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     let isAuthenticated = Ulti.isLoggedIn()
@@ -44,16 +44,20 @@ router.beforeEach((to, from, next) => {
       next({
         path: '/'
       })
+      store.dispatch('setIsInSettingPage', false)
     } else {
       next()
     }
   } else {
     next() // make sure to always call next()!
   }
-  if (to.matched.some(record => record.meta.leftMenu)) {
+  if (to.meta.leftMenu && Ulti.isLoggedIn()) {
+    console.log(to, from)
     store.dispatch('setIsInSettingPage', true)
+    console.log('has left menu')
   } else {
     store.dispatch('setIsInSettingPage', false)
+    console.log('has not left menu')
   }
 })
 

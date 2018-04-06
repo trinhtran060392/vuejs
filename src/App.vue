@@ -17,7 +17,7 @@ import Auth from './components/authentication/Auth'
 import store from './store'
 import 'video.js/dist/video-js.css'
 import Fingerprint from 'fingerprintjs2'
-// import router from './router'
+import router from './router'
 
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
@@ -92,6 +92,12 @@ Vue.http.interceptors.push((request, next) => {
       let temp = response.body.error
       if (temp.code === 'C0201' || temp.code === 'C0202' || temp.code === 'C0203') {
         console.log('you are kicked out')
+        let temp = {}
+        temp.access_token = Constant.guestToken
+        Ulti.saveAccountInfo(temp)
+        store.dispatch('setTokenStatus', true)
+        store.dispatch('setStatus', false)
+        router.push('/')
       }
     }
   })
