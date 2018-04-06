@@ -16,12 +16,15 @@ import Ulti from './components/shared/Ulti'
 import Auth from './components/authentication/Auth'
 import store from './store'
 import 'video.js/dist/video-js.css'
+import Fingerprint from 'fingerprintjs2'
 // import router from './router'
 
 Vue.use(Vuetify)
 Vue.use(VueCarousel)
 Vue.use(VueResource)
 Vue.use(VueLocalStorage)
+
+const fpInstance = new Fingerprint()
 
 export default {
   name: 'app',
@@ -62,6 +65,10 @@ export default {
       store.dispatch('setStatus', false)
       console.log('account info is not saved or guest token is saved')
     }
+    
+    fpInstance.get((result) => {
+      this.$localStorage.set('deviceUdid', result)
+    })
   }
 }
 
