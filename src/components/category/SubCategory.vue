@@ -12,7 +12,7 @@
         </v-flex>
       </v-layout>
       <v-layout justify-center>
-        <v-btn>Xem thêm</v-btn>
+        <v-btn @click="loadMoreItem()">Xem thêm</v-btn>
       </v-layout>
     </v-container>
 </template>
@@ -60,6 +60,14 @@
         DashboardService.getCatContent(catId, 24).then((response) => {
           console.log(response)
           this.catData = response
+        })
+      },
+      loadMoreItem () {
+        let catId = this.$route.params.catId
+        let offset = this.catData.length
+        DashboardService.getCatContentByOffset(catId, offset, 24).then((response) => {
+          console.log(response)
+          this.catData = this.catData.concat(response)
         })
       }
     }

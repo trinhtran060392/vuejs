@@ -31,6 +31,22 @@ export default new Vue({
           reject(error)
         })
       })
+    },
+    getCatContentByOffset (categoryId, offset, limit) {
+      const url = `${Constant.entryPoint}/api1/contents/categories/${categoryId}/programs?until=now&include=product&popular=false&fortmat=long&limit=${limit}&offset=${offset}`
+      return new Promise((resolve, reject) => {
+        this.$http.get(url).then((response) => {
+          let data = response.body.data
+          let result = []
+          for (let i = 0; i < data.length; i++) {
+            let vod = Ulti.transformLiteVod(data[i])
+            result.push(vod)
+          }
+          resolve(result)
+        }, (error) => {
+          reject(error)
+        })
+      })
     }
   }
 })
