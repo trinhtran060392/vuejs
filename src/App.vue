@@ -97,6 +97,7 @@ Vue.http.interceptors.push((request, next) => {
         Ulti.saveAccountInfo(temp)
         store.dispatch('setTokenStatus', true)
         store.dispatch('setStatus', false)
+        store.dispatch('showLoginDialog', true)
         router.push('/')
       }
     }

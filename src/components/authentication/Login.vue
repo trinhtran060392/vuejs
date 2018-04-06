@@ -155,6 +155,7 @@
               this.$localStorage.set('accountInfo', accountInfoStr)
               this.$store.dispatch('changeStatus')
               this.$store.dispatch('showLoginDialog', false)
+              this.step = this.listStep.login
               this.user = {}
             } else {
               this.step = this.listStep.kickDevice
