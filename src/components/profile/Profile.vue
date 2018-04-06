@@ -63,6 +63,8 @@
 
 <style lang="scss">
   $yellow: #ffcc05;
+  $white: #fff;
+  $black: #000;
   .card__title, .card__actions {
     justify-content: center;
   }
@@ -71,9 +73,9 @@
     font-size: 18px;
     padding: 3px;
   }
-  .shorten-text {
+  .item-card .shorten-text {
     margin-bottom: 8px;
-    color: #fff!important;
+    color: #fff;
     font-weight: 600;
     font-size: 13px;
     background-color: #0F1B33 !important;
@@ -108,5 +110,29 @@
   }
   .btn__content:before {
     opacity: 0;
+  }
+  .registed.item-card {
+    border: none;
+  }
+  .registed .card__title{
+    background: #d09b00;
+    border: 1px solid #d09b00;
+  }
+  .registed .price-card{
+    background-color: $white;
+    color: $black;
+    font-weight: 600;
+  }
+  .registed .shorten-text {
+    background-color: $white !important;
+    color: $black;
+    margin-bottom: 0;
+  }
+  .registed .card__actions {
+    background-color: $white !important;
+  }
+  .registed .btn {
+    background: $yellow!important;
+    color: #000;
   }
 </style>
