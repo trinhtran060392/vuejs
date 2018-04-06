@@ -23,16 +23,16 @@
       <v-tab-item>
         <v-layout row wrap>
           <v-flex xs3 v-for="i in registeredPacks" :key="i.id">
-              <v-card class="registed item-card his-card">
+              <v-card class="registed item-card">
                 <v-card-title>
                   {{i.name}}
                 </v-card-title>
                 <v-card-text class="price-card">
                   29.000 / Months
                 </v-card-text>
-                <v-card-text class="shorten-text">
-                  Ngày đăng ký: {{i.date.beautyDay}} {{i.date.beautyTime}}
-                  Thời hạn: 1/{{i.beautyPeriod}}
+                <v-card-text>
+                  <div>Ngày đăng ký: {{i.date.beautyDay}} {{i.date.beautyTime}}</div>
+                  <div>Thời hạn: 1/{{i.beautyPeriod}}</div>
                 </v-card-text>
               </v-card>
           </v-flex>
@@ -47,11 +47,11 @@
        >
         <v-layout row wrap>
           <v-flex xs3 v-for="i in singleList" :key="i.id">
-              <v-card>
+              <v-card class="registed">
                 <v-card-title>
                   {{i.title}}
                 </v-card-title>
-                <v-card-text>
+                <v-card-text class="price-card">
                   <p>
                     Ngày đăng ký {{i.date.beautyDay}} {{i.date.beautyTime}}
                   </p>
@@ -160,64 +160,3 @@
     }
   }
 </script>
-
-<style lang="scss">
-  $yellow: #ffcc05;
-  $white: #fff;
-  $black: #000;
-  .card__title, .card__actions {
-    justify-content: center;
-  }
-  body {
-    a {
-      text-decoration: none;
-      color: white;
-    }
-  }
-  .tabs__items {
-    margin-top: 30px;
-  }
-  .card__title {
-    border-bottom: 1px solid #c8c8c8;
-    font-size: 18px;
-    padding: 3px;
-  }
-  .item-card .price-card {
-    padding: 5px 5px 0;
-    font-size: 20px;
-    color: $yellow;
-  }
-  .item-card .shorten-text {
-    margin-bottom: 8px;
-    color: #fff;
-    font-weight: 600;
-    font-size: 13px;
-    background-color: #0F1B33 !important;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    height: 45px;
-    padding: 5px 8px;
-    white-space: normal;
-  }
-  .registed.item-card {
-    border: none;
-  }
-  .registed .card__title{
-    background: #d09b00;
-    border: 1px solid #d09b00;
-  }
-  .registed .price-card{
-    background-color: $white;
-    color: $black;
-    font-weight: 600;
-  }
-  .registed .shorten-text {
-    background-color: $white !important;
-    color: $black;
-    margin-bottom: 0;
-  }
-  .item-card.his-card .shorten-text{
-    height: 95px;
-  }
-</style>
