@@ -131,7 +131,7 @@
   }
 </script>
 <style lang='scss'>
-@import "src/assets/style/common.scss";
+@import "src/assets/style/main.scss";
 .package {
   .package-description {
     color: $yellow;

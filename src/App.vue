@@ -19,7 +19,14 @@ import 'video.js/dist/video-js.css'
 import Fingerprint from 'fingerprintjs2'
 import router from './router'
 
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#ffcc05',
+    secondary: '#b0bec5',
+    accent: '#8c9eff',
+    error: '#b71c1c'
+  }
+})
 Vue.use(VueCarousel)
 Vue.use(VueResource)
 Vue.use(VueLocalStorage)
@@ -106,7 +113,7 @@ Vue.http.interceptors.push((request, next) => {
 </script>
 
 <style lang="scss">
-  @import "src/assets/style/common.scss";
+  @import "src/assets/style/main.scss";
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
