@@ -41,12 +41,11 @@
         </div>
         <v-container grid-list-md>
           <v-list two-line>
-            <template v-for="(item, index) in listRegisterDevice.devices">
+            <div v-for="(item, index) in listRegisterDevice.devices" :key="item.model">
               <v-list-tile 
                 avatar
                 ripple
                 @click="toggle(item, index)"
-                :key="item.title"
                 v-bind:class="{ active: item.checkbox === true }">
                 <v-list-tile-action>
                   <v-checkbox v-model="item.checkbox"></v-checkbox>
@@ -56,7 +55,7 @@
                   <v-list-tile-sub-title>Đăng nhập lần cuối: {{ item.last_date }}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
-            </template>
+            </div>
           </v-list>
           <v-divider></v-divider>
         </v-container>
@@ -68,7 +67,7 @@
           </v-btn>
         </v-flex>
         <v-flex xs6>
-          <v-btn color="blue darken-1" class="" flat > Nâng cấp gói cước</v-btn>
+          <v-btn color="blue darken-1" class="" flat @click="upgradeNDevice()" > Nâng cấp gói cước</v-btn>
         </v-flex>
       </v-card-actions>
     </v-card>
@@ -110,7 +109,9 @@
         passwordRules: [
           v => !!v || 'Name is required'
         ],
-        listRegisterDevice: 0,
+        listRegisterDevice: {
+          devices: []
+        },
         errorMessage: 'Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ CSKH',
         selectedDevice: []
       }
@@ -156,11 +157,7 @@
               this.$store.dispatch('showLoginDialog', false)
               this.user = {}
             } else {
-              // this.$store.dispatch('setScreenMax', screenMax)
-              // this.$store.dispatch('setListDevice', this.listRegisterDevice.devices)
-              // this.$store.dispatch('showPackage', true)
               this.step = this.listStep.kickDevice
-              console.log('kick device')
             }
           }
         })
@@ -179,20 +176,21 @@
         }
         return screenMax
       },
-      updateNDevice () {
+      upgradeNDevice () {
+        // this.$store.dispatch('setScreenMax', screenMax)
+        // this.$store.dispatch('showPackage', true)
       },
       toggle (item, index) {
         const i = this.selectedDevice.indexOf(item)
         if (i > -1) {
           item.checkbox = false
-          this.$set(item, 'checkbox', false)
+          this.$set(this.listRegisterDevice.devices, index, item)
           this.selectedDevice.splice(i, 1)
         } else {
           item.checkbox = true
-          this.$set(item, 'checkbox', true)
+          this.$set(this.listRegisterDevice.devices, index, item)
           this.selectedDevice.push(item)
         }
-        console.log(this.selectedDevice)
       },
       kickDevice () {
         let lengthSelectedDevice = this.selectedDevice.length
@@ -208,7 +206,6 @@
             if (response.status === Constant.statusCode.OK) {
               this.login()
             }
-            console.log(response)
           })
         } else {
           this.messegeError = 'Vui lòng chọn thiết bị muốn xóa !'

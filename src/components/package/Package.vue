@@ -116,6 +116,8 @@
         messegeError: ''
       }
     },
+    created () {
+    },
     methods: {
       toggle (item, index) {
         const i = this.selectedDevice.indexOf(index)
@@ -125,8 +127,6 @@
           this.selectedDevice.push(index)
         }
       }
-    },
-    created () {
     }
   }
 </script>
