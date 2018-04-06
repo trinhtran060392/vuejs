@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
-        <v-flex xs3 v-for="i in packages" :key="i.id">
+        <v-flex xs3 v-for="i in packages" :key="i.id" v-class="{ 'registed' : i.registed }">
             <v-card class="item-card">
               <v-card-title>
                 {{i.name}}
