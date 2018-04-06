@@ -106,49 +106,57 @@
     computed: {
       isSubcriber () {
         return this.$store.getters.isSubcriber
-      }
-    },
-    methods: {
-      next () {
-        const active = parseInt(this.active)
-        this.active = (active < 2 ? active + 1 : 0).toString()
+      },
+      tokenReady () {
+        return this.$store.getters.tokenReady
       }
     },
     created () {
-      HistoryService.getHistory().then((response) => {
-        return response.body
-      }).then((response) => {
-        this.trans = response.data
-        for (let i = 0; i < this.trans.length; i++) {
-          this.trans[i].wallet = Ulti.buildWallet(this.trans[i].wallet)
-          this.trans[i].date = Ulti.beautyDate(this.trans[i].date)
-        }
-      })
-      HistoryService.singleList().then((response) => {
-        return response.body
-      }).then((response) => {
-        let singleList = Ulti.buildSingleVod(response.data)
-        this.singleList = singleList
-      })
-      PackageService.getFullPackages().then((response) => {
-        return response.body
-      }).then((response) => {
-        let fpackage = Ulti.buildPurchasablePackages(response.data)
-        PackageService.getPackageContent().then((response) => {
+      this.initData()
+    },
+    watch: {
+      'tokenReady' (val) {
+        this.initData()
+      }
+    },
+    methods: {
+      initData () {
+        if (!this.tokenReady) return
+        HistoryService.getHistory().then((response) => {
           return response.body
         }).then((response) => {
-          let addonProducts = Ulti.getProducts(response.data)
-          let addonPackages = Ulti.buildPurchasablePackages(addonProducts)
-          let packages = fpackage.concat(addonPackages)
-          HistoryService.list().then((response) => {
+          this.trans = response.data
+          for (let i = 0; i < this.trans.length; i++) {
+            this.trans[i].wallet = Ulti.buildWallet(this.trans[i].wallet)
+            this.trans[i].date = Ulti.beautyDate(this.trans[i].date)
+          }
+        })
+        HistoryService.singleList().then((response) => {
+          return response.body
+        }).then((response) => {
+          let singleList = Ulti.buildSingleVod(response.data)
+          this.singleList = singleList
+        })
+        PackageService.getFullPackages().then((response) => {
+          return response.body
+        }).then((response) => {
+          let fpackage = Ulti.buildPurchasablePackages(response.data)
+          PackageService.getPackageContent().then((response) => {
             return response.body
           }).then((response) => {
-            let result = Ulti.checkRegisteredPackage(packages, response.data)
-            this.registeredPacks = result.registeredPackages
-            console.log(this.registeredPacks)
+            let addonProducts = Ulti.getProducts(response.data)
+            let addonPackages = Ulti.buildPurchasablePackages(addonProducts)
+            let packages = fpackage.concat(addonPackages)
+            HistoryService.list().then((response) => {
+              return response.body
+            }).then((response) => {
+              let result = Ulti.checkRegisteredPackage(packages, response.data)
+              this.registeredPacks = result.registeredPackages
+              console.log(this.registeredPacks)
+            })
           })
         })
-      })
+      }
     }
   }
 </script>

@@ -11,7 +11,8 @@ const state = {
   isAuthenticated: false,
   showLoginDialog: false,
   isInSettingPage: false,
-  isSubcriber: false
+  isSubcriber: false,
+  tokenReady: false
 }
 // setters
 const setters = {
@@ -28,7 +29,8 @@ const getters = {
   isAuthenticated: state => state.isAuthenticated,
   showLoginDialog: state => state.showLoginDialog,
   isInSettingPage: state => state.isInSettingPage,
-  isSubcriber: state => state.isSubcriber
+  isSubcriber: state => state.isSubcriber,
+  tokenReady: state => state.tokenReady
 }
 
 // actions
@@ -73,6 +75,13 @@ const actions = {
   },
   setIsSubcriber ({ commit }, isSubcriber) {
     commit(types.IS_SUBCRIBER, isSubcriber)
+  },
+  setTokenStatus ({ commit }, isReady) {
+    commit(types.TOKEN_STATUS, isReady)
+  },
+  setStatus ({ commit }, isAuthenticated) {
+    console.log(isAuthenticated)
+    commit(types.AUTHENTICATED, isAuthenticated)
   }
 }
 
@@ -124,6 +133,12 @@ const mutations = {
   },
   [types.SET_SETTING_PAGE] (state, isInSettingPage) {
     state.isInSettingPage = isInSettingPage
+  },
+  [types.TOKEN_STATUS] (state, isReady) {
+    state.tokenReady = isReady
+  },
+  [types.AUTHENTICATED] (state, isAuthenticated) {
+    state.isAuthenticated = isAuthenticated
   }
 }
 

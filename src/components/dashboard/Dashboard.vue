@@ -44,10 +44,30 @@
       },
       menus () {
         return this.$store.getters.menus
+      },
+      tokenReady () {
+        return this.$store.getters.tokenReady
       }
     },
     watch: {
-      cats: function (val) {
+      cats () {
+        this.initData()
+      },
+      menus (val) {
+      },
+      tokenReady () {
+        this.initData()
+      }
+    },
+    created () {
+      this.initData()
+    },
+    methods: {
+      showAll (id, title) {
+        this.$router.push({ path: `/subcat/${id}?name=${title}` })
+      },
+      initData () {
+        if (!this.tokenReady) return
         for (let i = 0; i < this.cats.length; i++) {
           let temp = this.cats[i].categoryConfig
           let obj = {}
@@ -58,25 +78,6 @@
             this.homeData.push(obj)
           })
         }
-      },
-      menus: function (val) {
-      }
-    },
-    created () {
-      for (let i = 0; i < this.cats.length; i++) {
-        let temp = this.cats[i].categoryConfig
-        let obj = {}
-        obj.title = this.cats[i].name[0].text
-        DashboardService.getCatContent(temp.value).then((response) => {
-          obj.data = response
-          obj.subCatId = temp.value
-          this.homeData.push(obj)
-        })
-      }
-    },
-    methods: {
-      showAll (id, title) {
-        this.$router.push({ path: `/subcat/${id}?name=${title}` })
       }
     }
   }

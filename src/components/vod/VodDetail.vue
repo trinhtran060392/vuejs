@@ -52,28 +52,25 @@ export default {
       relateVods: []
     }
   },
+  computed: {
+    tokenReady () {
+      return this.$store.getters.tokenReady
+    }
+  },
   watch: {
-    '$route' (to, from) {
+    $route (to, from) {
       if (from.params.vodId !== to.params.vodId) {
-        let vodId = this.$route.params.vodId
-        VodService.get(vodId).then((response) => {
-          this.vod = response
-          VodService.relateVods(vodId).then((response) => {
-            this.relateVods = response
-          })
-        })
+        if (!this.tokenReady) return
+        this.initData()
       }
+    },
+    tokenReady (val) {
+      this.initData()
     }
   },
   created () {
     console.log('created')
-    let vodId = this.$route.params.vodId
-    VodService.get(vodId).then((response) => {
-      this.vod = response
-      VodService.relateVods(vodId).then((response) => {
-        this.relateVods = response
-      })
-    })
+    this.initData()
   },
   mounted () {
     console.log('mounted')
@@ -87,6 +84,16 @@ export default {
   methods: {
     play () {
       this.$router.push({ name: 'play' })
+    },
+    initData () {
+      if (!this.tokenReady) return
+      let vodId = this.$route.params.vodId
+      VodService.get(vodId).then((response) => {
+        this.vod = response
+        VodService.relateVods(vodId).then((response) => {
+          this.relateVods = response
+        })
+      })
     }
   }
 }

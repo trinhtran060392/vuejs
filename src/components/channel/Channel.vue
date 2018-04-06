@@ -18,30 +18,46 @@ export default {
       channels: []
     }
   },
+  computed: {
+    tokenReady () {
+      return this.$store.getters.tokenReady
+    }
+  },
   created () {
-    ChannelService.list(50).then((response) => {
-      return response.body
-    }).then((response) => {
-      let data = []
-      let result = response.data
-      console.log(result)
-      for (let i = 0; i < result.length; i++) {
-        let obj = {}
-        let temp = result[i]
-        let genres = temp.channel.genres[0].split(':')
-        genres = `${genres[0]}:${genres[1]}`
-        obj.channelId = temp.channel.id
-        obj.channelName = temp.channel.name[0].text
-        obj.genres = genres
-        obj.serviceId = temp.service_id
-        obj.channel = temp.channel
-        obj.pid = temp.channel.pid
-        obj.photoUrl = `/static/channel/channel_${obj.pid}.png`
-        data.push(obj)
-      }
-      console.log(data)
-      this.channels = data
-    })
+    this.initData()
+  },
+  watch: {
+    tokenReady (val) {
+      this.initData()
+    }
+  },
+  methods: {
+    initData () {
+      if (!this.tokenReady) return
+      ChannelService.list(50).then((response) => {
+        return response.body
+      }).then((response) => {
+        let data = []
+        let result = response.data
+        console.log(result)
+        for (let i = 0; i < result.length; i++) {
+          let obj = {}
+          let temp = result[i]
+          let genres = temp.channel.genres[0].split(':')
+          genres = `${genres[0]}:${genres[1]}`
+          obj.channelId = temp.channel.id
+          obj.channelName = temp.channel.name[0].text
+          obj.genres = genres
+          obj.serviceId = temp.service_id
+          obj.channel = temp.channel
+          obj.pid = temp.channel.pid
+          obj.photoUrl = `/static/channel/channel_${obj.pid}.png`
+          data.push(obj)
+        }
+        console.log(data)
+        this.channels = data
+      })
+    }
   }
 }
 </script>

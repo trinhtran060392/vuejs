@@ -37,26 +37,42 @@
         packages: []
       }
     },
+    computed: {
+      tokenReady () {
+        return this.$store.getters.tokenReady
+      }
+    },
     created () {
-      PackageService.getFullPackages().then((response) => {
-        return response.body
-      }).then((response) => {
-        let fpackage = Ulti.buildPurchasablePackages(response.data)
-        PackageService.getPackageContent().then((response) => {
+      this.initData()
+    },
+    watch: {
+      'tokenReady' (val) {
+        this.initData()
+      }
+    },
+    methods: {
+      initData () {
+        if (!this.tokenReady) return
+        PackageService.getFullPackages().then((response) => {
           return response.body
         }).then((response) => {
-          let addonProducts = Ulti.getProducts(response.data)
-          let addonPackages = Ulti.buildPurchasablePackages(addonProducts)
-          let packages = fpackage.concat(addonPackages)
-          HistoryService.list().then((response) => {
+          let fpackage = Ulti.buildPurchasablePackages(response.data)
+          PackageService.getPackageContent().then((response) => {
             return response.body
           }).then((response) => {
-            let result = Ulti.checkRegisteredPackage(packages, response.data)
-            this.packages = result.totalPackages
-            console.log(this.packages)
+            let addonProducts = Ulti.getProducts(response.data)
+            let addonPackages = Ulti.buildPurchasablePackages(addonProducts)
+            let packages = fpackage.concat(addonPackages)
+            HistoryService.list().then((response) => {
+              return response.body
+            }).then((response) => {
+              let result = Ulti.checkRegisteredPackage(packages, response.data)
+              this.packages = result.totalPackages
+              console.log(this.packages)
+            })
           })
         })
-      })
+      }
     }
   }
 </script>

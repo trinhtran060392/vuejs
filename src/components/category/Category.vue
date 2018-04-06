@@ -38,45 +38,42 @@
     computed: {
       subMenus () {
         return this.$store.getters.subMenus.catMenuIds
+      },
+      tokenReady () {
+        return this.$store.getters.tokenReady
       }
     },
     watch: {
       subMenus (val) {
-        console.log('watch cat update')
+        this.initData()
+      },
+      tokenReady (val) {
+        this.initData()
+      }
+    },
+    created () {
+      this.initData()
+    },
+    methods: {
+      showAll (subCatId, title) {
+        this.$router.push({ path: `/subcat/${subCatId}?name=${title}` })
+      },
+      initData () {
+        if (!this.tokenReady) return
         this.catData = []
         let catIds = this.subMenus
+        console.log('create cat page')
         if (!catIds || !catIds.length) return
         for (let i = 0; i < catIds.length; i++) {
           let temp = catIds[i]
           let obj = {}
           DashboardService.getCatContent(temp.catMenuId).then((response) => {
-            obj.title = temp.title
             obj.data = response
+            obj.title = temp.title
             obj.subCatId = temp.catMenuId
             this.catData.push(obj)
           })
         }
-      }
-    },
-    created () {
-      this.catData = []
-      let catIds = this.subMenus
-      console.log('create cat page')
-      if (!catIds || !catIds.length) return
-      for (let i = 0; i < catIds.length; i++) {
-        let temp = catIds[i]
-        let obj = {}
-        DashboardService.getCatContent(temp.catMenuId).then((response) => {
-          obj.data = response
-          obj.title = temp.title
-          obj.subCatId = temp.catMenuId
-          this.catData.push(obj)
-        })
-      }
-    },
-    methods: {
-      showAll (subCatId, title) {
-        this.$router.push({ path: `/subcat/${subCatId}?name=${title}` })
       }
     }
   }

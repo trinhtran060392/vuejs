@@ -583,6 +583,14 @@ export default new Vue({
           return prices[i].period
         }
       }
+    },
+    saveAccountInfo (response) {
+      let temp = this.getCurrentAccount()
+      if (!temp || !temp.accessToken) temp = {}
+      temp.accessToken = response.access_token
+      temp.refresh_token = response.refresh_token
+      let accountInfoStr = JSON.stringify(temp)
+      this.$localStorage.set('accountInfo', accountInfoStr)
     }
   }
 })

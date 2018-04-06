@@ -13,7 +13,8 @@ import VueResource from 'vue-resource'
 import Constant from './components/shared/Constant'
 import VueLocalStorage from 'vue-localstorage'
 import Ulti from './components/shared/Ulti'
-import VueVideoPlayer from 'vue-video-player'
+import Auth from './components/authentication/Auth'
+import store from './store'
 import 'video.js/dist/video-js.css'
 // import router from './router'
 
@@ -21,10 +22,47 @@ Vue.use(Vuetify)
 Vue.use(VueCarousel)
 Vue.use(VueResource)
 Vue.use(VueLocalStorage)
-Vue.use(VueVideoPlayer)
 
 export default {
-  name: 'app'
+  name: 'app',
+  created () {
+    console.log('init app')
+    let accountInfo = Ulti.getCurrentAccount()
+    console.log(accountInfo)
+    if (accountInfo && accountInfo.accessToken && accountInfo.accessToken !== Constant.guestToken) {
+      console.log('account is ready to save on local')
+      Auth.checkToken().then((response) => {
+        console.log('token is valid')
+        store.dispatch('setTokenStatus', true)
+        store.dispatch('setStatus', true)
+      }, (error) => {
+        console.log('token is not valid', error)
+        // try to renew token
+        Auth.refreshToken().then((response) => {
+          console.log('refresh token ok', response)
+          Ulti.saveAccountInfo(response.data)
+          store.dispatch('setTokenStatus', true)
+          store.dispatch('setStatus', true)
+        }, (refreshTokenError) => {
+          // refresh error so we clear local data and set guest token
+          let temp = {}
+          this.$localStorage.remove('accountInfo')
+          temp.access_token = Constant.guestToken
+          Ulti.saveAccountInfo(temp)
+          store.dispatch('setTokenStatus', true)
+          store.dispatch('setStatus', false)
+          console.log(refreshTokenError)
+        })
+      })
+    } else {
+      let temp = {}
+      temp.access_token = Constant.guestToken
+      Ulti.saveAccountInfo(temp)
+      store.dispatch('setTokenStatus', true)
+      store.dispatch('setStatus', false)
+      console.log('account info is not saved or guest token is saved')
+    }
+  }
 }
 
 Vue.http.interceptors.push((request, next) => {
@@ -44,7 +82,12 @@ Vue.http.interceptors.push((request, next) => {
   request.headers.set('Authorization', token)
   request.headers.set('Content-Type', 'application/json')
   next((response) => {
-    console.log(response.status)
+    if (response.body.error) {
+      let temp = response.body.error
+      if (temp.code === 'C0201' || temp.code === 'C0202' || temp.code === 'C0203') {
+        console.log('you are kicked out')
+      }
+    }
   })
 })
 </script>

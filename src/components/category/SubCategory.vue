@@ -30,28 +30,37 @@
         title: ''
       }
     },
+    computed: {
+      tokenReady () {
+        return this.$store.getters.tokenReady
+      }
+    },
     created () {
-      let catId = this.$route.params.catId
-      this.title = this.$route.query.name
-      DashboardService.getCatContent(catId, 24).then((response) => {
-        console.log(response)
-        this.catData = response
-      })
+      this.initData()
     },
     mounted () {
       console.log(12345)
     },
     watch: {
       '$route.params.catId' () {
+        this.initData()
+      },
+      '$route.query.name' () {
+        this.title = this.$route.query.name
+      },
+      tokenReady (val) {
+        this.initData()
+      }
+    },
+    methods: {
+      initData () {
+        if (!this.tokenReady) return
         let catId = this.$route.params.catId
-        console.log(this.$route)
+        this.title = this.$route.query.name
         DashboardService.getCatContent(catId, 24).then((response) => {
           console.log(response)
           this.catData = response
         })
-      },
-      '$route.query.name' () {
-        this.title = this.$route.query.name
       }
     }
   }

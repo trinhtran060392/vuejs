@@ -104,6 +104,7 @@
   import Login from '../authentication/Login'
   import Auth from '../authentication/Auth'
   import Package from '../package/Package'
+  import Constant from '../shared/Constant'
   export default {
     components: {
       Login,
@@ -113,15 +114,14 @@
       isAuthenticated () {
         if (this.$store.getters.isAuthenticated) {
           this.setAccount()
-        } else {
-          if (this.account) {
-            this.$store.dispatch('changeStatus')
-          }
         }
         return this.$store.getters.isAuthenticated
       },
       isInSettingPage () {
         return this.$store.getters.isInSettingPage
+      },
+      tokenReady () {
+        return this.$store.getters.tokenReady
       }
     },
     data () {
@@ -133,12 +133,19 @@
             type: 2,
             title: 'Đăng xuất'
           }
-        ],
-        account: JSON.parse(this.$localStorage.get('accountInfo'))
+        ]
       }
     },
     props: {
       source: String
+    },
+    created () {
+      this.initData()
+    },
+    watch: {
+      tokenReady (val) {
+        this.initData()
+      }
     },
     methods: {
       openMenu (menu) {
@@ -186,37 +193,40 @@
             this.$router.push({ path: '/account' })
             break
         }
+      },
+      initData () {
+        if (!this.tokenReady) return
+        DashboardService.getCats().then((response) => {
+          return response.body
+        }).then((response) => {
+          let result = response.data
+          let cats = Ulti.getCategories(result)
+          let menus = Ulti.getMenus(result)
+          this.menus = menus
+          this.cats = cats
+          let sharedData = {}
+          sharedData.menus = menus
+          sharedData.cats = cats
+          this.$store.dispatch('setMenu', sharedData)
+          if (this.$route.name === 'category') {
+            let catId = this.$route.params.catId
+            let menu = _.find(menus, (menu) => {
+              return menu.id === catId
+            })
+            let result = Ulti.getSubcategoryId(menu)
+            this.$store.dispatch('setSubMenu', result)
+          }
+          console.log(menus)
+        })
+        let account = Ulti.getCurrentAccount()
+        if (!account || account.accessTokenaccessToken !== Constant.guestToken) return
+        Auth.info().then((response) => {
+          return response.body
+        }).then((response) => {
+          console.log(response)
+          this.$store.dispatch('setIsSubcriber', response.config.vm_subscriber)
+        })
       }
-    },
-    created () {
-      DashboardService.getCats().then((response) => {
-        return response.body
-      }).then((response) => {
-        let result = response.data
-        let cats = Ulti.getCategories(result)
-        let menus = Ulti.getMenus(result)
-        this.menus = menus
-        this.cats = cats
-        let sharedData = {}
-        sharedData.menus = menus
-        sharedData.cats = cats
-        this.$store.dispatch('setMenu', sharedData)
-        if (this.$route.name === 'category') {
-          let catId = this.$route.params.catId
-          let menu = _.find(menus, (menu) => {
-            return menu.id === catId
-          })
-          let result = Ulti.getSubcategoryId(menu)
-          this.$store.dispatch('setSubMenu', result)
-        }
-        console.log(menus)
-      })
-      Auth.info().then((response) => {
-        return response.body
-      }).then((response) => {
-        console.log(response)
-        this.$store.dispatch('setIsSubcriber', response.config.vm_subscriber)
-      })
     }
   }
 </script>
