@@ -603,6 +603,21 @@ export default new Vue({
         }
       }
       return result
+    },
+    addImgUrl (data) {
+      for (let item in data) {
+        let temp = data[item].data
+        if (temp && Array.isArray(temp) && temp.length) {
+          for (let i = 0; i < temp.length; i++) {
+            if (temp[i].program) {
+              temp[i].photoUrl = Constant.entryPoint + '/api1/contents/pictures/' + temp[i].program.id + '?width=215.000000&height=307.000000'
+            } else if (item === 'vgroup') {
+              temp[i].photoUrl = Constant.entryPoint + '/api1/contents/categories/' + temp[i].id + '/picture?width=215.000000&height=307.000000'
+            } else if (temp[i].channel) temp[i].photoUrl = Constant.entryPoint + '/api1/contents/pictures/' + temp[i].channel.id + '?type=original'
+          }
+        }
+      }
+      return data
     }
   }
 })

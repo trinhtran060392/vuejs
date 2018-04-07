@@ -49,6 +49,12 @@
             </v-list-tile>
           </v-list>
         </v-menu>
+        <v-text-field
+          v-model="searchText"
+          label="Search"
+          required class="search"
+          @keyup.enter="search(searchText)">
+        </v-text-field>
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-btn v-if="!isAuthenticated" color="" class="btn-login"  @click="openLogin()">Đăng nhập</v-btn>
@@ -133,7 +139,8 @@
             type: 2,
             title: 'Đăng xuất'
           }
-        ]
+        ],
+        searchText: ''
       }
     },
     props: {
@@ -148,6 +155,9 @@
       }
     },
     methods: {
+      search (text) {
+        this.$router.push({ path: `/search?q=${text}` })
+      },
       openMenu (menu) {
         this.$router.push({ path: `/cat/${menu.id}` })
       },
