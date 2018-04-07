@@ -1,0 +1,102 @@
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: $white;
+  }
+  body {
+    background-color: $dark;
+    .title-text {
+      color: $yellow;
+    }
+    .navigation-drawer {
+      padding: 0;
+      .list {
+        height: 100%;
+      }
+    }
+  }
+  .application.theme--dark {
+    background-color: transparent;
+  }
+  .application .theme--dark.footer, .theme--dark .footer {
+    height: auto !important;
+    background-color: transparent;
+    position: relative;
+  }
+  .application .theme--dark.list, .theme--dark .list {
+    background-color: $dark;
+  }
+  .application.theme--dark a:hover {
+    color: $yellow;
+  }
+  .theme--dark .btn:hover {
+      color: $yellow;
+  }
+  .vod-content {
+    padding: 20px 10px;
+    height: 220px;
+  }
+  .channel-content {
+    height: 90px;
+    padding: 10px 0;
+  }
+  .vod-content:hover {
+    transform: scale(1.1);
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+  }
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .VueCarousel-dot {
+    display: none !important;
+  }
+  .VueCarousel-navigation-button {
+    color: $white !important;
+  }
+  .application .theme--dark.tabs__bar, .theme--dark .tabs__bar {
+    background-color: transparent !important;
+  }
+  .shorten-text {
+    clear: both;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.img-container {
+    background: rgba(10, 14, 21, 0.6);
+    border: 1px solid #292929;
+    padding: 10px;
+  }
+  .application .theme--dark.card, .theme--dark .card {
+    background-color: none;
+  }
+  .application .theme--dark.toolbar, .theme--dark .toolbar {
+    background-color: transparent;
+  }
+  .item-menu:hover .text-item{
+    color: #ffcc05;
+  }
+  .item-menu .text-item{
+    font-size: 15px !important;
+    color: #c8c8c8;
+    text-decoration: none;
+  }
+  .nav-head {
+    background-color: rgba(14,22,35,.86) !important;
+  }
+  .btn-login {
+    border: 1px solid rgba(255,204,5,.35);
+    color: $yellow !important;
+    background-color: rgba(14,22,35,.86) !important;
+  }
+  .active-item {
+    background: rgba(50,50,50,.85)!important;
+  }
+  .active-item .text-item{
+    font-weight: 600;
+    color: $yellow;
+  }

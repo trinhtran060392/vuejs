@@ -591,6 +591,18 @@ export default new Vue({
       temp.refresh_token = response.refresh_token
       let accountInfoStr = JSON.stringify(temp)
       this.$localStorage.set('accountInfo', accountInfoStr)
+    },
+    getChannelsByCategoryId (config, list) {
+      let result = []
+      let listChannel = ',' + config + ''
+      for (let i = 0; i < list.length; i++) {
+        let channelItem = list[i]
+        let channel = ',' + channelItem.serviceId + ''
+        if (listChannel.indexOf(channel) !== -1) {
+          result.push(channelItem)
+        }
+      }
+      return result
     }
   }
 })
