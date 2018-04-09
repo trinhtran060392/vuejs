@@ -13,6 +13,16 @@ export default new Vue({
           resolve(result)
         })
       })
+    },
+    loadMore (text, offset, limit, cat) {
+      let url = `${Constant.entryPoint}/api1/search/search?q=${text}&region=OTT&vsuppress=series:1&cat=${cat}&offset=${offset}&limit=${limit}&input_route=pop&filter=vgroup%3Aseries`
+      return new Promise((resolve, reject) => {
+        this.$http.get(url).then((response) => {
+          let data = response.body
+          let result = Ulti.addImgUrl(data)
+          resolve(result)
+        })
+      })
     }
   }
 })

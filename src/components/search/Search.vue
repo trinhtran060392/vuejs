@@ -24,8 +24,8 @@
               </div>
           </v-flex>
         </v-layout>
-        <v-layout row wrap justify-center>
-          <v-btn>Xem thêm</v-btn>
+        <v-layout row wrap justify-center v-show="item.loadMorable">
+          <v-btn @click="searchMore()">Xem thêm</v-btn>
         </v-layout>
       </v-tab-item>
     </v-tabs>
@@ -69,14 +69,28 @@
             let hit = temp[i]
             obj = data[hit]
             obj.name = hit.toUpperCase()
+            obj.originHitName = hit
             obj.id = i
+            if (obj.data.length < obj.total) obj.loadMorable = true
+            else obj.loadMorable = false
             result.push(obj)
           }
           this.data = result
         })
       },
       searchMore () {
-
+        let currentData = this.data[this.active]
+        let dataLength = currentData.data.length
+        if (dataLength < currentData.total) {
+          console.log('load more')
+          let originHitName = currentData.originHitName
+          SearchService.loadMore(this.$route.query.q, dataLength, 24, originHitName).then((data) => {
+            currentData.data = currentData.data.concat(data[originHitName].data)
+            if (currentData.data.length < data[originHitName].total) currentData.loadMorable = true
+            else currentData.loadMorable = false
+            this.data[this.active] = currentData
+          })
+        }
       }
     }
   }
