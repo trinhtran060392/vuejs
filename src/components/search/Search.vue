@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="data.length">
     <v-tabs
       v-model="active"
       color="cyan"
@@ -8,7 +8,7 @@
     >
       <v-tab
         v-for="item in data"
-        :key="item.id"
+        :key="item.name"
         ripple
       >
         {{item.name}} ({{item.total}})
@@ -24,6 +24,9 @@
               </div>
           </v-flex>
         </v-layout>
+        <v-layout row wrap justify-center>
+          <v-btn>Xem thêm</v-btn>
+        </v-layout>
       </v-tab-item>
     </v-tabs>
   </v-container>
@@ -35,8 +38,7 @@
     data () {
       return {
         data: [],
-        active: null,
-        dataLength: null
+        active: null
       }
     },
     created () {
@@ -71,8 +73,10 @@
             result.push(obj)
           }
           this.data = result
-          this.dataLength = result.length
         })
+      },
+      searchMore () {
+
       }
     }
   }
