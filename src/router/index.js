@@ -10,9 +10,7 @@ import VodDetail from '@/components/vod/VodDetail'
 import History from '@/components/profile/History'
 import ThePlayer from '@/components/player/ThePlayer'
 import Search from '@/components/search/Search'
-
 import Ulti from '../components/shared/Ulti'
-
 import store from '../store'
 Vue.use(Router)
 
