@@ -63,6 +63,10 @@ export default new Vue({
           resolve(output)
         })
       })
+    },
+    getSeriesVod (id) {
+      let url = `${Constant.entryPoint}/api1/contents/categories/${id}/programs?format=long&offset=0&until=now&include=product&limit=-1`
+      return this.$http.get(url)
     }
   }
 })

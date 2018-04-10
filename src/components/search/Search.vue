@@ -25,9 +25,9 @@
                 </router-link>
               </div>
               <div class="vod-content" v-if="!i.program">
-                <router-link :to="{ name: 'detail', params: { vodId : i.id }, query: { series: true} }">
+                <a @click="goToSeriesVod(i.id)">
                   <img :src="i.photoUrl">
-                </router-link>
+                </a>
               </div>
           </v-flex>
         </v-layout>
@@ -41,6 +41,7 @@
 
 <script>
   import SearchService from './SearchService'
+  import VodService from '../vod/VodService'
   export default {
     data () {
       return {
@@ -99,6 +100,13 @@
             this.data[this.active] = currentData
           })
         }
+      },
+      goToSeriesVod (id) {
+        VodService.getSeriesVod(id).then((response) => {
+          let result = response.body.data
+          let lastObj = result[result.length - 1]
+          this.$router.push({ name: 'detail', params: {vodId: lastObj.program.id} })
+        })
       }
     }
   }

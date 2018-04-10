@@ -24,7 +24,7 @@
             </v-card>
         </v-flex>
     </v-layout>
-    <v-layout row wrap>
+    <v-layout row wrap v-if="eps.length">
       <div class="ep-id">Tập: </div>
       <div v-for="i in eps" :key="`${i.program.id}`" class="ep-id" :class="{'active' : vod.id === i.program.id}">
         <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
@@ -105,7 +105,6 @@ export default {
         }
         VodService.relateVods(vodId).then((response) => {
           this.relateVods = response
-          console.log(response)
         })
       })
     }
