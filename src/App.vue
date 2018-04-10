@@ -73,7 +73,7 @@ export default {
       console.log('account info is not saved or guest token is saved')
     }
     fpInstance.get((result) => {
-      this.$localStorage.set('deviceUdid', result)
+      this.$localStorage.set('deviceUid', result)
     })
   }
 }

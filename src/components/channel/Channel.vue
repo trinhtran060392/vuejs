@@ -1,5 +1,13 @@
 <template>
   <v-container grid-list-md text-xs-center>
+    <v-layout row wrap>
+      <v-flex xs8>
+        <ThePlayer :detailChannel="detailChannel"/>
+      </v-flex>
+      <v-flex xs4 align-center justify-center>
+        <div>This is channel program</div>
+      </v-flex>
+    </v-layout>
     <v-tabs
       v-model="active"
       color="cyan"
@@ -23,7 +31,7 @@
         </v-layout>
         <v-layout row wrap>
           <v-flex xs2 v-for="i in channel[item.id]" :key="i.id">
-              <div class="channel-content">
+              <div class="channel-content" @click="playChannel(i.channelId)">
                 <img :src="i.photoUrl">
               </div>
           </v-flex>
@@ -32,7 +40,7 @@
     </div>
     <v-layout row wrap v-if="currentCat.id !== 'all'">
       <v-flex xs2 v-for="i in channel[currentCat.id]" :key="i.id">
-          <div class="channel-content">
+          <div class="channel-content" @click="playChannel(i.channelId)">
             <img :src="i.photoUrl">
           </div>
       </v-flex>
@@ -44,14 +52,20 @@
 import ChannelService from './ChannelService'
 import ChannelCategory from './ChannelCategory'
 import Ulti from '../shared/Ulti'
+import ThePlayer from '../player/ThePlayer'
+
 export default {
+  components: {
+    ThePlayer
+  },
   data () {
     return {
       channel: {},
       currentCat: {
         id: 'all'
       },
-      active: null
+      active: null,
+      detailChannel: {}
     }
   },
   computed: {
@@ -72,9 +86,15 @@ export default {
     }
   },
   methods: {
+    playChannel (id) {
+      ChannelService.get(id).then((response) => {
+        this.detailChannel = response
+        this.$router.push({ name: 'channel', params: { channelId: id } })
+        console.log(response)
+      })
+    },
     selectCategory (item) {
       this.currentCat = item
-      console.log(item)
     },
     initData () {
       if (!this.tokenReady) return

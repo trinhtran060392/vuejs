@@ -299,7 +299,7 @@ export default new Vue({
           }
         }
       }
-      if (svod.program) {
+      if (vod.program) {
         let take = vod.program.display_runtime.split(':')
         let minutes = 0
         if (take.length > 1) {
@@ -309,7 +309,9 @@ export default new Vue({
         }
         svod.duration = minutes
       }
-      console.log(svod)
+      if (vod.channel) {
+        svod.channel = vod.channel
+      }
       return svod
     },
     checkExpired (timeNow, equalTime) {
@@ -578,7 +580,6 @@ export default new Vue({
       }
     },
     getPeriodFromPrice (value, prices) {
-      console.log(value, prices)
       for (let i = 0; i < prices.length; i++) {
         if (value === prices[i].price[0].value) {
           return prices[i].period
@@ -619,6 +620,9 @@ export default new Vue({
         }
       }
       return data
+    },
+    getDeviceid () {
+      return this.$localStorage.get('deviceUid')
     }
   }
 })

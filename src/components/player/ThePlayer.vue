@@ -11,10 +11,12 @@
   import Constant from '../shared/Constant'
   import 'videojs-contrib-hls'
   import videojs from 'video.js'
+  import ChannelService from '../channel/ChannelService'
+  import PackageService from '../shared/PackageService'
   require('videojs-contrib-media-sources')
 
   export default {
-    props: { vod: {} },
+    props: { vod: {}, detailChannel: {} },
     data () {
       return {
         vodUrl: null,
@@ -44,6 +46,15 @@
               })
             })
           }
+        })
+      },
+      detailChannel () {
+        console.log(this.detailChannel)
+        PackageService.getServerTime().then((response) => {
+          let ts = response.body.time
+          ChannelService.prepare(this.detailChannel, ts).then((response) => {
+            console.log(response)
+          })
         })
       }
     },
