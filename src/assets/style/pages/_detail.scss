@@ -13,3 +13,8 @@
     border: 1px solid $yellow;
   }
 }
+.detail-vod {
+  .card {
+    box-shadow: none !important;
+  }
+}

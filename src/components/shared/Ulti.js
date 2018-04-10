@@ -100,7 +100,7 @@ export default new Vue({
         svod.photoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}?width=215.000000&height=307.000000`
         svod.bigPhotoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}`
         svod.name = vod.program.title[0].text
-
+        svod.id = vod.program.id
         var des = vod.program.synopsis[0].text
         var tm = 'Thuyết minh - '
         if (des.indexOf(tm) === 0) {

@@ -1,10 +1,10 @@
 <template>
-  <v-container grid-list-md text-xs-center>
-    <v-card class="player">
+  <v-container grid-list-md text-xs-center class="detail-vod">
+    <div class="player">
       <ThePlayer :vod="vod"/>
-    </v-card>
+    </div>
     <v-layout row wrap>
-        <v-flex xs3>
+        <v-flex xs3 class="text-md-left">
           <img :src="vod.photoUrl">
         </v-flex>
         <v-flex xs9>
@@ -26,7 +26,7 @@
     </v-layout>
     <v-layout row wrap>
       <div class="ep-id">Tập: </div>
-      <div v-for="i in eps" :key="`${i.program.id}`" class="ep-id">
+      <div v-for="i in eps" :key="`${i.program.id}`" class="ep-id" :class="{'active' : vod.id === i.program.id}">
         <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
           {{i.program.series.episode}}
         </router-link>
@@ -101,11 +101,11 @@ export default {
         if (response.isVodInSeries) {
           VodService.getEpsForSeriesVod(response.epId).then((response) => {
             this.eps = response
-            console.log(this.eps)
           })
         }
         VodService.relateVods(vodId).then((response) => {
           this.relateVods = response
+          console.log(response)
         })
       })
     }

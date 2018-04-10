@@ -40,7 +40,7 @@ export default new Vue({
               }
               resolve(output)
             })
-          }
+          } else resolve([])
         }, (error) => {
           reject(error)
         })
