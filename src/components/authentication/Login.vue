@@ -216,7 +216,7 @@
     }
   }
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
 .header {
   background-color: #0a0e15
 }

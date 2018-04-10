@@ -1,19 +1,19 @@
 <template>
   <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
-        <v-flex xs3 v-for="i in packages" :key="i.id">
-            <v-card class="item-card" :class="{ 'registed' : i.registed }">
+        <v-flex xs3 v-for="pack in packages" :key="pack.id">
+            <v-card class="item-card" :class="{ 'registed' : pack.registed }">
               <v-card-title>
-                {{i.name}}
+                {{pack.name}}
               </v-card-title>
               <v-card-text class="price-card">
                 29.000 / Months
               </v-card-text>
               <v-card-text class="shorten-text">
-                {{i.description}}
+                {{pack.description}}
               </v-card-text>
               <v-card-actions>
-                <v-btn v-if="!i.registed" @click="buyNow()">
+                <v-btn v-if="!pack.registed" @click="buyNow(pack)">
                   Mua ngay
                 </v-btn>
                 <v-btn v-else>
@@ -73,7 +73,8 @@
           })
         })
       },
-      buyNow () {
+      buyNow (pack) {
+        this.$store.dispatch('setListPackage', )
         this.$store.dispatch('showPackage', true)
       }
     }
