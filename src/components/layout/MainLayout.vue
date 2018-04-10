@@ -70,6 +70,24 @@
       </div>
     </v-toolbar>
     <v-content>
+      <carousel  ng-if="banners.length" :autoplay="false" :perPage="1" :navigationEnabled="true" :loop="true" class="banner" :paginationEnabled="true"
+      delimiter-icon="">
+        <slide v-for="i in banners" :key="`${i.id}`">
+          <v-layout>
+              <v-flex xs4 class="banner-action">
+                <div class="banner-action-group">
+                  <div class="title">{{i.name[0].text}}</div>
+                  <v-btn :to="{ name: 'detail', params: { vodId: i.id } }">Xem ngay</v-btn>
+                </div>
+              </v-flex>
+              <v-flex xs8>
+                <router-link :to="{ name: 'detail', params: { vodId: i.id } }" class="img-wrapper">
+                  <img :src="i.photoUrl">
+                </router-link>
+              </v-flex>
+            </v-layout>
+        </slide>
+      </carousel>
       <router-view></router-view>
       <v-footer app>
         <v-container>
@@ -140,7 +158,8 @@
             title: 'Đăng xuất'
           }
         ],
-        searchText: ''
+        searchText: '',
+        banners: []
       }
     },
     props: {
@@ -206,6 +225,22 @@
       },
       initData () {
         if (!this.tokenReady) return
+        DashboardService.getBanners().then((response) => {
+          console.log(response)
+          let data = response.body.data
+          if (data && data.length > 0) {
+            let probannerList = data[0].data[0].campaigns
+            for (let i = 0; i < probannerList.length; i++) {
+              let value = probannerList[i]
+              console.log(value)
+              let determine = value.name[0].text.indexOf('#')
+              value.title = value.name[0].text.substring(0, determine)
+              value.desc = value.name[0].text.substring(determine + 1)
+              value.photoUrl = Constant.entryPoint + '/api1/contents/pictures/' + value.id
+            }
+            this.banners = probannerList
+          }
+        })
         DashboardService.getCats().then((response) => {
           return response.body
         }).then((response) => {
@@ -226,14 +261,12 @@
             let result = Ulti.getSubcategoryId(menu)
             this.$store.dispatch('setSubMenu', result)
           }
-          console.log(menus)
         })
         let account = Ulti.getCurrentAccount()
         if (!account || account.accessTokenaccessToken !== Constant.guestToken) return
         Auth.info().then((response) => {
           return response.body
         }).then((response) => {
-          console.log(response)
           this.$store.dispatch('setIsSubcriber', response.config.vm_subscriber)
         })
       }

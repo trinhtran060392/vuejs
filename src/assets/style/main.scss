@@ -1,8 +1,15 @@
-
-// modal
+// variable
 @import 'variables';
+
+// layout
 @import 'layout';
+
+// components
+@import 'carousel';
+
+// pages
 @import 'pages/detail';
+
 .header .toolbar__content {
 	background-color: #0a0e15;
 	text-align: center;

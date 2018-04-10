@@ -54,6 +54,9 @@
   .VueCarousel-dot {
     display: none !important;
   }
+  .banner .VueCarousel-dot {
+    display: inline-block !important;
+  }
   .VueCarousel-navigation-button {
     color: $white !important;
   }
@@ -76,6 +79,7 @@
   }
   .application .theme--dark.toolbar, .theme--dark .toolbar {
     background-color: transparent;
+    z-index: 999;
   }
   .item-menu:hover .text-item{
     color: #ffcc05;
@@ -102,4 +106,7 @@
   }
 .search {
   margin-left: 20px;
+}
+.content[data-booted=true] {
+  padding-top: 0 !important;
 }

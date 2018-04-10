@@ -47,6 +47,10 @@ export default new Vue({
           reject(error)
         })
       })
+    },
+    getBanners () {
+      let url = `${Constant.entryPoint}/api1/contents/campaigns/campaigns?pid=package.campaign://OTT.MAIN.PROMO.WEB`
+      return this.$http.get(url)
     }
   }
 })

@@ -1,4 +1,3 @@
-
 <template>
   <div class="dashboard-container">
     <v-container v-for="item in homeData" :key="`${item.title}`">
