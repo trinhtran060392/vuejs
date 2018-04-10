@@ -13,7 +13,7 @@
                 {{i.description}}
               </v-card-text>
               <v-card-actions>
-                <v-btn v-if="!i.registed">
+                <v-btn v-if="!i.registed" @click="buyNow()">
                   Mua ngay
                 </v-btn>
                 <v-btn v-else>
@@ -72,6 +72,9 @@
             })
           })
         })
+      },
+      buyNow () {
+        this.$store.dispatch('showPackage', true)
       }
     }
   }

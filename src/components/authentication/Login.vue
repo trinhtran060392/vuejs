@@ -149,6 +149,7 @@
         Auth.getPackageDevice().then((response) => {
           if (response.status === Constant.statusCode.OK) {
             let screenMax = this.getScreenMax(response.body.data)
+            this.$store.dispatch('setScreenMax', screenMax)
             if ((screenMax === 0 || screenMax >= this.listRegisterDevice.registered) && this.accountInfo.status === 'inuse') {
               console.log('login success')
               let accountInfoStr = JSON.stringify(this.accountInfo)
@@ -178,7 +179,7 @@
         return screenMax
       },
       upgradeNDevice () {
-        // this.$store.dispatch('setScreenMax', screenMax)
+        // this.$store.dispatch('showLoginDialog', false)
         // this.$store.dispatch('showPackage', true)
       },
       toggle (item, index) {
