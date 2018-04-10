@@ -30,7 +30,6 @@ Vue.use(Vuetify, {
 Vue.use(VueCarousel)
 Vue.use(VueResource)
 Vue.use(VueLocalStorage)
-Vue.use(VueVideoPlayer)
 
 const fpInstance = new Fingerprint()
 
