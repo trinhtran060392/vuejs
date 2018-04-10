@@ -25,11 +25,12 @@
         </v-flex>
     </v-layout>
     <v-layout row wrap>
-      <v-flex xs1 v-for="i in eps" :key="`${i.program.id}`">
+      <div class="ep-id">Tập: </div>
+      <div v-for="i in eps" :key="`${i.program.id}`" class="ep-id">
         <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
           {{i.program.series.episode}}
         </router-link>
-      </v-flex>
+      </div>
     </v-layout>
     <v-layout>
       <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true" v-if="relateVods.length">
@@ -112,10 +113,5 @@ export default {
 }
 </script>
 <style lang="scss">
-  .application .theme--dark.card, .theme--dark .card {
-    background-color: transparent;
-  }
-  .player {
-    margin: 30px 0px 20px 0px;
-  }
+  
 </style>
