@@ -20,8 +20,8 @@ const router = new Router({
       path: '/',
       component: MainLayout,
       children: [
-        { path: '', component: Dashboard },
-        { path: 'cat/:catId', name: 'category', component: Category, props: true },
+        { path: '', component: Dashboard, meta: { banner: true } },
+        { path: 'cat/:catId', name: 'category', component: Category, props: true, meta: { banner: true } },
         { path: 'subcat/:catId', name: 'sub-category', component: SubCategory, props: true },
         { path: 'channels/:channelId', name: 'channel', component: Channel },
         { path: 'account', name: 'account', component: Profile, meta: { requiresAuth: true, leftMenu: true } },
@@ -58,6 +58,13 @@ router.beforeEach((to, from, next) => {
   } else {
     store.dispatch('setIsInSettingPage', false)
     console.log('has not left menu')
+  }
+  if (to.meta.banner) {
+    console.log('has banner')
+    store.dispatch('setShowBanner', true)
+  } else {
+    store.dispatch('setShowBanner', false)
+    console.log('has not banner')
   }
 })
 

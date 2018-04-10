@@ -70,7 +70,7 @@
       </div>
     </v-toolbar>
     <v-content>
-      <carousel  ng-if="banners.length" :autoplay="false" :perPage="1" :navigationEnabled="true" :loop="true" class="banner" :paginationEnabled="true"
+      <carousel  v-if="banners.length && isShowBanner" :autoplay="false" :perPage="1" :navigationEnabled="true" :loop="true" class="banner" :paginationEnabled="true"
       delimiter-icon="">
         <slide v-for="i in banners" :key="`${i.id}`">
           <v-layout>
@@ -146,6 +146,9 @@
       },
       tokenReady () {
         return this.$store.getters.tokenReady
+      },
+      isShowBanner () {
+        return this.$store.getters.isShowBanner
       }
     },
     data () {

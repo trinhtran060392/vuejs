@@ -4,13 +4,15 @@ import * as types from '../mutation-types'
 const state = {
   menus: [],
   cats: [],
-  subMenus: []
+  subMenus: [],
+  isShowBanner: true
 }
 // getters
 const getters = {
   menus: state => state.menus,
   cats: state => state.cats,
-  subMenus: state => state.subMenus
+  subMenus: state => state.subMenus,
+  isShowBanner: state => state.isShowBanner
 }
 
 // actions
@@ -20,6 +22,9 @@ const actions = {
   },
   setSubMenu ({ commit }, data) {
     commit(types.SET_SUBMENU, data)
+  },
+  setShowBanner ({ commit }, data) {
+    commit(types.SET_SHOW_BANNER, data)
   }
 }
 // mutations
@@ -30,6 +35,9 @@ const mutations = {
   },
   [types.SET_SUBMENU] (state, data) {
     state.subMenus = data
+  },
+  [types.SET_SHOW_BANNER] (state, data) {
+    state.isShowBanner = data
   }
 }
 
