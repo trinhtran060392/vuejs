@@ -19,8 +19,15 @@
       >
         <v-layout row wrap>
           <v-flex xs2 v-for="i in item.data" :key="i.id">
-              <div class="vod-content">
-                <img :src="i.photoUrl">
+              <div class="vod-content" v-if="i.program">
+                <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
+                  <img :src="i.photoUrl">
+                </router-link>
+              </div>
+              <div class="vod-content" v-if="!i.program">
+                <router-link :to="{ name: 'detail', params: { vodId : i.id }, query: { series: true} }">
+                  <img :src="i.photoUrl">
+                </router-link>
               </div>
           </v-flex>
         </v-layout>
@@ -76,6 +83,7 @@
             result.push(obj)
           }
           this.data = result
+          console.log(result)
         })
       },
       searchMore () {

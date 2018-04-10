@@ -49,6 +49,20 @@ export default new Vue({
     getVodURL (vodId, productId) {
       let url = `${Constant.entryPoint}/api1/watches/fvod/prepare?access_token=${Constant.guestToken}&id=${vodId}&product_id=${productId}&service_provider=${Constant.webPC}`
       return this.$http.get(url)
+    },
+    getEpsForSeriesVod (epId) {
+      let url = `${Constant.entryPoint}/api1/contents/programs/series?id=${epId}&format=long&until=now`
+      return new Promise((resolve, reject) => {
+        this.$http.get(url).then((response) => {
+          let output = []
+          for (let i = 0; i < response.body.data.length; i++) {
+            let temp = response.body.data[i]
+            let liteVod = Ulti.transformLiteVod(temp)
+            output.push(liteVod)
+          }
+          resolve(output)
+        })
+      })
     }
   }
 })

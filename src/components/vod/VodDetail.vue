@@ -24,16 +24,22 @@
             </v-card>
         </v-flex>
     </v-layout>
+    <v-layout row wrap>
+      <v-flex xs1 v-for="i in eps" :key="`${i.program.id}`">
+        <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
+          {{i.program.series.episode}}
+        </router-link>
+      </v-flex>
+    </v-layout>
     <v-layout>
-      
-    <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
-      <slide v-for="i in relateVods" :key="`3${i.id}`">
-        <div class="vod-content">
-          <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
-            <img :src="i.photoUrl">
-          </router-link>
-        </div>
-      </slide>
+      <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true" v-if="relateVods.length">
+        <slide v-for="i in relateVods" :key="`3${i.id}`">
+          <div class="vod-content">
+            <router-link :to="{ name: 'detail', params: { vodId: i.program.id } }">
+              <img :src="i.photoUrl">
+            </router-link>
+          </div>
+        </slide>
       </carousel>
     </v-layout>
   </v-container>
@@ -49,7 +55,8 @@ export default {
   data () {
     return {
       vod: {},
-      relateVods: []
+      relateVods: [],
+      eps: []
     }
   },
   computed: {
@@ -90,6 +97,12 @@ export default {
       let vodId = this.$route.params.vodId
       VodService.get(vodId).then((response) => {
         this.vod = response
+        if (response.isVodInSeries) {
+          VodService.getEpsForSeriesVod(response.epId).then((response) => {
+            this.eps = response
+            console.log(this.eps)
+          })
+        }
         VodService.relateVods(vodId).then((response) => {
           this.relateVods = response
         })

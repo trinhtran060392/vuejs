@@ -120,6 +120,7 @@ export default new Vue({
 
         if (vod.program.series) {
           svod.isVodInSeries = true
+          svod.epId = vod.program.series.id
         } else {
           svod.isVodInSeries = false
         }
