@@ -6,5 +6,6 @@ export default {
     OK: 200
   },
   webPC: 'WebPC',
-  appSecret: 'viettelSdpUserprofile1'
+  appSecret: 'viettelSdpUserprofile1',
+  defaultChannel: '54c201bc718ce0b6e1007944'
 }

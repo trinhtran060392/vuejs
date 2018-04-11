@@ -10,7 +10,7 @@ export default new Vue({
       return this.$http.get(url)
     },
     get (channelId) {
-      const url = `${Constant.entryPoint}/api1/contents/channels/${channelId}/?region=OTT&limit=1&format=long&include=product&include=multilang&include=purchase&include=fpackage`
+      const url = `${Constant.entryPoint}/api1/contents/channels/${channelId}/?region=OTT&limit=1&format=long&include=product&include=purchase&include=fpackage`
       return new Promise((resolve, reject) => {
         this.$http.get(url).then((response) => {
           let result = Ulti.transformVod(response.body)

@@ -89,7 +89,7 @@ export default {
         return this.$store.getters.selectedPack
       },
       set () {
-        this.$store.dispatch('setDefaultPack', null)
+        this.$store.dispatch('setDefaultPack', this.selectedPack)
       }
     }
   },

@@ -198,7 +198,7 @@
           return
         }
         if (menu.type === 'channel') {
-          this.$router.push({path: '/channels/default'})
+          this.$router.push({path: `/channels/${Constant.defaultChannel}`})
           return
         }
         let result = Ulti.getSubcategoryId(menu)
@@ -220,6 +220,7 @@
             this.$localStorage.remove('accountInfo')
             this.account = undefined
             this.$store.dispatch('changeStatus')
+            this.$router.push({ path: '/' })
             break
           case 1:
             this.$router.push({ path: '/account' })

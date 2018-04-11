@@ -12,10 +12,19 @@
   import 'videojs-contrib-hls'
   import videojs from 'video.js'
   import ChannelService from '../channel/ChannelService'
+  import Ulti from '../shared/Ulti'
   require('videojs-contrib-media-sources')
 
   export default {
     props: { vod: {}, detailChannel: {} },
+    computed: {
+      isAuthenticated () {
+        return this.$store.getters.isAuthenticated
+      },
+      tokenReady () {
+        return this.$store.getters.tokenReady
+      }
+    },
     data () {
       return {
         vodUrl: null,
@@ -32,26 +41,12 @@
       },
       detailChannel () {
         console.log(this.detailChannel)
-        ChannelService.prepare(this.detailChannel).then((response) => {
-          console.log(response)
-          let result = response.body
-          if (result.glbAddress && result.glbAddress.length) {
-            let reqID = encodeURIComponent(result.requestId)
-            let url
-            for (let i = 0; i < result.glbAddress.length; i++) {
-              url = `http://${result.glbAddress[i]}/${this.detailChannel.channel.pid}.m3u8?AdaptiveType=HLS&VOD_RequestID=${reqID}`
-            }
-            this.vodUrl = url
-            this.player.ready(() => {
-              this.player.src({
-                src: this.vodUrl,
-                type: 'application/x-mpegURL'
-              })
-              console.log(this.player)
-              this.player.play()
-            })
-          }
-        })
+        this.checkChannelPlayable()
+      },
+      tokenReady () {
+        if (this.$route.name === 'channel') {
+          this.checkChannelPlayable()
+        }
       }
     },
     created () {
@@ -59,7 +54,7 @@
       if (this.$route.name === 'detail') {
         this.playVod()
       } else {
-        console.log('hanle to play channel')
+        this.checkChannelPlayable()
       }
     },
     destroyed () {
@@ -84,6 +79,49 @@
                 src: this.vodUrl,
                 type: 'application/x-mpegURL'
               })
+              this.player.play()
+            })
+          }
+        })
+      },
+      checkChannelPlayable () {
+        if (!this.tokenReady) return
+        if (!this.isAuthenticated) {
+          console.log('open login popup')
+          this.$store.dispatch('showLoginDialog', true)
+        } else {
+          console.log('handle to buy or play now')
+          let id = this.$route.params.channelId
+          ChannelService.get(id).then((response) => {
+            let channel = response
+            let isPlayable = Ulti.isChannelPlayable(channel)
+            if (!isPlayable) {
+              console.log('show buy package')
+              this.$store.dispatch('setListPackage', channel.purchasable_products)
+              this.$store.dispatch('showPackage', true)
+            } else {
+              this.playChannel(channel)
+            }
+          })
+        }
+      },
+      playChannel (channel) {
+        ChannelService.prepare(channel).then((response) => {
+          console.log(response)
+          let result = response.body
+          if (result.glbAddress && result.glbAddress.length) {
+            let reqID = encodeURIComponent(result.requestId)
+            let url
+            for (let i = 0; i < result.glbAddress.length; i++) {
+              url = `http://${result.glbAddress[i]}/${channel.channel.pid}.m3u8?AdaptiveType=HLS&VOD_RequestID=${reqID}`
+            }
+            this.vodUrl = url
+            this.player.ready(() => {
+              this.player.src({
+                src: this.vodUrl,
+                type: 'application/x-mpegURL'
+              })
+              console.log(this.player)
               this.player.play()
             })
           }

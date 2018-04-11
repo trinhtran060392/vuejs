@@ -490,27 +490,20 @@ export default new Vue({
     },
     checkFreeProduct (product) {
       let temp = false
-      if (product.locations) {
-        for (let i = 0; i < product.locations.length; i++) {
-          let location = product.locations[i]
-          for (let i = 0; i < location.parameter.length; i++) {
-            let parameter = location.parameter[i]
-            if (parameter.name === 'Audience' && parameter.value === 'private:All') {
+      _.forEach(product.locations, (location) => {
+        _.forEach(location.parameter, (parameter) => {
+          if (parameter.name === 'Audience' && parameter.value === 'private:All') {
+            temp = true
+          }
+        })
+        if (!temp) {
+          _.forEach(product.price, (price) => {
+            if (price.currency === 'VND' && price.value === 0) {
               temp = true
             }
-          }
+          })
         }
-      }
-      if (!temp && product.price && Array.isArray(product.price)) {
-        for (let i = 0; i < product.price.length; i++) {
-          let price = product.price[i]
-          if (price.currency === 'VND' && price.value === 0) {
-            temp = true
-            break
-          }
-        }
-      }
-
+      })
       if (!temp && product.price !== undefined && Array.isArray(product.price) && !product.price.length) {
         temp = true
       }
@@ -662,6 +655,33 @@ export default new Vue({
       } else {
         if (vod.isFreeNoPair || vod.isWifiPackage || vod.isPurchasedPackage) {
           playable = true
+        }
+      }
+      return playable
+    },
+    isChannelPlayable (channel) {
+      let playable = false
+      if (channel.isVisiable) {
+        if (channel.isPublish) {
+          playable = true
+        } else {
+          if (channel.isExclusivePackage) {
+            if (channel.isPurchasedExclusive) {
+              playable = true
+            }
+          } else if (channel.isVtvCab) {
+            if (channel.isPurchasedPackage) {
+              playable = true
+            }
+          } else {
+            if (channel.isFreeNoPair) {
+              playable = true
+            } else {
+              if (channel.isWifiPackage || channel.isPurchasedPackage) {
+                playable = true
+              }
+            }
+          }
         }
       }
       return playable
