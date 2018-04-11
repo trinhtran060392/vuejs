@@ -12,7 +12,6 @@
   import 'videojs-contrib-hls'
   import videojs from 'video.js'
   import ChannelService from '../channel/ChannelService'
-  import PackageService from '../shared/PackageService'
   require('videojs-contrib-media-sources')
 
   export default {
@@ -50,11 +49,25 @@
       },
       detailChannel () {
         console.log(this.detailChannel)
-        PackageService.getServerTime().then((response) => {
-          let ts = response.body.time
-          ChannelService.prepare(this.detailChannel, ts).then((response) => {
-            console.log(response)
-          })
+        ChannelService.prepare(this.detailChannel).then((response) => {
+          console.log(response)
+          let result = response.body
+          if (result.glbAddress && result.glbAddress.length) {
+            let reqID = encodeURIComponent(result.requestId)
+            let url
+            for (let i = 0; i < result.glbAddress.length; i++) {
+              url = `http://${result.glbAddress[i]}/${this.detailChannel.channel.pid}.m3u8?AdaptiveType=HLS&VOD_RequestID=${reqID}`
+            }
+            this.vodUrl = url
+            this.player.ready(() => {
+              this.player.src({
+                src: this.vodUrl,
+                type: 'application/x-mpegURL'
+              })
+              console.log(this.player)
+              this.player.play()
+            })
+          }
         })
       }
     },

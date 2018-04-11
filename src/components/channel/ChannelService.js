@@ -20,10 +20,11 @@ export default new Vue({
         })
       })
     },
-    prepare (channel, ts) {
+    prepare (channel) {
       let deviceId = Ulti.getDeviceid()
       let clientId = Constant.clientId
       let appSecret = Constant.appSecret
+      let ts = (new Date()).getTime()
       let currentAccount = Ulti.getCurrentAccount()
       let hash = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA1(clientId + deviceId + currentAccount.id + ts, appSecret))
       let param = {
