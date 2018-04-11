@@ -75,12 +75,22 @@ export default {
     },
     pack () {
       return this.$store.getters.pack
-    }
-  },
-  data () {
-    return {
-      step: 1,
-      selectedPack: null
+    },
+    step: {
+      get () {
+        return this.$store.getters.step
+      },
+      set () {
+        this.$store.dispatch('setStep', 1)
+      }
+    },
+    selectedPack: {
+      get () {
+        return this.$store.getters.selectedPack
+      },
+      set () {
+        this.$store.dispatch('setDefaultPack', null)
+      }
     }
   },
   created () {
@@ -92,12 +102,12 @@ export default {
     },
     nextStep (pack) {
       this.$store.dispatch('setPackage', pack)
-      this.selectedPack = pack.beautyRentalPeriods[0].period
-      this.step++
+      this.$store.dispatch('setDefaultPack', pack.beautyRentalPeriods[0].period)
+      this.$store.dispatch('setStep', 2)
       console.log(this.pack)
     },
     prevStep () {
-      this.step--
+      this.$store.dispatch('setStep', 1)
     }
   }
 }

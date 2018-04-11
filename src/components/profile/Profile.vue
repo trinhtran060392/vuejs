@@ -74,7 +74,9 @@
         })
       },
       buyNow (pack) {
-        // this.$store.dispatch('setListPackage', )
+        this.$store.dispatch('setStep', 2)
+        this.$store.dispatch('setPackage', pack)
+        this.$store.dispatch('setDefaultPack', pack.beautyRentalPeriods[0].period)
         this.$store.dispatch('showPackage', true)
       }
     }

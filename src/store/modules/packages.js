@@ -5,7 +5,9 @@ const state = {
   listPackage: [],
   isShowPackage: false,
   listDevice: [],
-  pack: {}
+  pack: {},
+  step: 1,
+  selectedPack: null
 }
 
 const getters = {
@@ -13,7 +15,9 @@ const getters = {
   listPackage: state => state.listPackage,
   isShowPackage: state => state.isShowPackage,
   listDevice: state => state.listDevice,
-  pack: state => state.pack
+  pack: state => state.pack,
+  step: state => state.step,
+  selectedPack: state => state.selectedPack
 }
 
 const actions = {
@@ -31,6 +35,12 @@ const actions = {
   },
   setPackage ({ commit }, pack) {
     commit(types.SET_PACKAGE, pack)
+  },
+  setStep ({ commit }, step) {
+    commit(types.SET_STEP, step)
+  },
+  setDefaultPack ({ commit }, period) {
+    commit(types.SET_DEFAULTPACK, period)
   }
 }
 
@@ -49,6 +59,12 @@ const mutations = {
   },
   [types.SET_PACKAGE] (state, pack) {
     state.pack = pack
+  },
+  [types.SET_STEP] (state, step) {
+    state.step = step
+  },
+  [types.SET_DEFAULTPACK] (state, value) {
+    state.selectedPack = value
   }
 }
 
