@@ -19,6 +19,8 @@ import 'video.js/dist/video-js.css'
 import Fingerprint from 'fingerprintjs2'
 import router from './router'
 
+import './assets/style/main.scss'
+
 Vue.use(Vuetify, {
   theme: {
     primary: '#ffcc05',

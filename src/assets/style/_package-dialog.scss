@@ -1,0 +1,36 @@
+.package {
+  .package-description {
+    color: $yellow;
+    background-color: transparent !important;
+  }
+  .info-package {
+    color: darkgray !important;
+  }
+  .list .active {
+    .list__tile {
+      background: $grey ;
+    }
+  }
+  .radio-wrapper {
+    background: $darken;
+    margin: 10px !important;
+    padding: 5px;
+    .package-price {
+      color: $yellow;
+      line-height: 2;
+    }
+    &:hover {
+      background: rgba(89, 91, 93, 0.51);
+    }
+  } 
+  .card__text {
+    background-color: $dark;
+  }
+  .card__actions {
+    background-color: $dark;
+  }
+  .package-btn {
+    background-color: $grey;
+    width: 60%;
+  }
+}

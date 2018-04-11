@@ -27,25 +27,8 @@
     },
     watch: {
       'vod' () {
-        console.log('refesh', this.vod)
-        let vodId = this.$route.params.vodId
-        VodService.getVodURL(vodId, this.vod.singleProductId, this.vod.isFreeNoPair).then((response) => {
-          if (response.status === Constant.statusCode.OK) {
-            let vodRequestId = window.encodeURIComponent(response.body.gsdm.vod_request_id)
-            let addresses = response.body.gsdm.glb_addresses
-            if (addresses.length > 0) {
-              for (let i = 0; i < addresses.length; i++) {
-                this.vodUrl = 'http://' + addresses[i] + '/' + this.vod.vodLocator + '?AdaptiveType=HLS&VOD_RequestID=' + vodRequestId
-              }
-            }
-            this.player.ready(() => {
-              this.player.src({
-                src: this.vodUrl,
-                type: 'application/x-mpegURL'
-              })
-            })
-          }
-        })
+        console.log('watch and refresh vod: ', this.vod)
+        this.playVod()
       },
       detailChannel () {
         console.log(this.detailChannel)
@@ -71,9 +54,40 @@
         })
       }
     },
+    created () {
+      console.log('the player component created')
+      if (this.$route.name === 'detail') {
+        this.playVod()
+      } else {
+        console.log('hanle to play channel')
+      }
+    },
     destroyed () {
       if (this.player) {
         this.player.dispose()
+      }
+    },
+    methods: {
+      playVod () {
+        let vodId = this.$route.params.vodId
+        VodService.getVodURL(vodId, this.vod.singleProductId, this.vod.isFreeNoPair).then((response) => {
+          if (response.status === Constant.statusCode.OK) {
+            let vodRequestId = window.encodeURIComponent(response.body.gsdm.vod_request_id)
+            let addresses = response.body.gsdm.glb_addresses
+            if (addresses.length > 0) {
+              for (let i = 0; i < addresses.length; i++) {
+                this.vodUrl = 'http://' + addresses[i] + '/' + this.vod.vodLocator + '?AdaptiveType=HLS&VOD_RequestID=' + vodRequestId
+              }
+            }
+            this.player.ready(() => {
+              this.player.src({
+                src: this.vodUrl,
+                type: 'application/x-mpegURL'
+              })
+              this.player.play()
+            })
+          }
+        })
       }
     }
   }

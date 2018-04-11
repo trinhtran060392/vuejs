@@ -413,7 +413,35 @@ export default new Vue({
       return purchasableProducts
     },
     getLiteProduct (product) {
+      product.beautyRentalPeriods = this.beautyRentalPeriods(product.rental_periods)
       return product
+    },
+    beautyRentalPeriods (rentalPeriods) {
+      let result = []
+      for (let i = 0; i < rentalPeriods.length; i++) {
+        let temp = rentalPeriods[i]
+        let obj = {}
+        obj.beautyPeriod = this.beautyPeriod('d', temp.period)
+        obj.beautyPrice = this.beautyPrice(temp.price[0].value)
+        obj.period = temp.period
+        obj.price = temp.price
+        result.push(obj)
+      }
+      return result
+    },
+    beautyPeriod (key, value) {
+      let day
+      if (key === 's') {
+        day = value / 86400
+      } else if (key === 'd') {
+        day = value
+      }
+      switch (day) {
+        case 1: return 'ngày'
+        case 7: return 'tuần'
+        case 30: return 'tháng'
+        default: return (key === 'd') ? value + ' ngày' : (value / 86400) + ' ngày'
+      }
     },
     getDisplayProduct (data) {
       let products = []
@@ -623,6 +651,19 @@ export default new Vue({
     },
     getDeviceid () {
       return this.$localStorage.get('deviceUid')
+    },
+    isPlayable (vod) {
+      let playable = false
+      if (vod.isExclusivePackage) {
+        if (vod.isPurchasedExclusive) {
+          playable = true
+        }
+      } else {
+        if (vod.isFreeNoPair || vod.isWifiPackage || vod.isPurchasedPackage) {
+          playable = true
+        }
+      }
+      return playable
     }
   }
 })

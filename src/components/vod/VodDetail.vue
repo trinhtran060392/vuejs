@@ -1,11 +1,12 @@
 <template>
   <v-container grid-list-md text-xs-center class="detail-vod">
-    <div class="player">
+    <div class="player" v-if="isAuthenticated && vod.playable">
       <ThePlayer :vod="vod"/>
     </div>
     <v-layout row wrap>
-        <v-flex xs3 class="text-md-left">
+        <v-flex xs3 class="text-md-center image-container">
           <img :src="vod.photoUrl">
+          <div class="play-mask" @click="playVod()"></div>
         </v-flex>
         <v-flex xs9>
             <v-card>
@@ -49,6 +50,7 @@
 <script>
 import VodService from './VodService'
 import ThePlayer from '../player/ThePlayer'
+import Ulti from '../shared/Ulti'
 export default {
   components: {
     ThePlayer
@@ -63,6 +65,9 @@ export default {
   computed: {
     tokenReady () {
       return this.$store.getters.tokenReady
+    },
+    isAuthenticated () {
+      return this.$store.getters.isAuthenticated
     }
   },
   watch: {
@@ -90,8 +95,24 @@ export default {
     console.log('destroy')
   },
   methods: {
-    play () {
-      this.$router.push({ name: 'play' })
+    playVod () {
+      if (!this.isAuthenticated) {
+        console.log('open login popup')
+        this.$store.dispatch('showLoginDialog', true)
+      } else {
+        console.log('check buy now or play now')
+        let vodId = this.$route.params.vodId
+        let isPlayable
+        VodService.get(vodId).then((response) => {
+          isPlayable = Ulti.isPlayable(response)
+          this.$set(this.vod, 'playable', isPlayable)
+          if (!isPlayable) {
+            console.log(response)
+            this.$store.dispatch('setListPackage', response.purchasable_products)
+            this.$store.dispatch('showPackage', true)
+          }
+        })
+      }
     },
     initData () {
       if (!this.tokenReady) return
@@ -112,5 +133,17 @@ export default {
 }
 </script>
 <style lang="scss">
-  
+  .image-container {
+    position: relative;
+    .play-mask {
+      position: absolute;
+      background: url('/static/icon-play.png') center no-repeat;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: pointer;
+    }
+  }
 </style>

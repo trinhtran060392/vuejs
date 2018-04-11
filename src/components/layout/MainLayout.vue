@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire" dark>
     <Login></Login>
-    <Package></Package>
+    <PackageSelection/>
     <!-- <Player></Player> -->
     <v-navigation-drawer
       v-if="isInSettingPage"
@@ -77,11 +77,11 @@
               <v-flex xs4 class="banner-action">
                 <div class="banner-action-group">
                   <div class="title">{{i.name[0].text}}</div>
-                  <v-btn :to="{ name: 'detail', params: { vodId: i.id } }">Xem ngay</v-btn>
+                  <v-btn :to="{ name: 'detail', params: { vodId: i.action_url } }">Xem ngay</v-btn>
                 </div>
               </v-flex>
               <v-flex xs8>
-                <router-link :to="{ name: 'detail', params: { vodId: i.id } }" class="img-wrapper">
+                <router-link :to="{ name: 'detail', params: { vodId: i.action_url } }" class="img-wrapper">
                   <img :src="i.photoUrl">
                 </router-link>
               </v-flex>
@@ -127,12 +127,12 @@
   import _ from 'lodash'
   import Login from '../authentication/Login'
   import Auth from '../authentication/Auth'
-  import Package from '../package/Package'
+  import PackageSelection from '../package/PackageSelection'
   import Constant from '../shared/Constant'
   export default {
     components: {
       Login,
-      Package
+      PackageSelection
     },
     computed: {
       isAuthenticated () {
