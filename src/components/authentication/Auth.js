@@ -15,7 +15,7 @@ export default new Vue({
         id: user.phone,
         password: CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA1(user.phone + user.password, user.password)),
         device: {
-          id: user.phone,
+          id: Ulti.getDeviceid(),
           model: Ulti.getDeviceModel(),
           model_no: Ulti.getDeviceModelNumber(),
           type: Ulti.getTypeDevice()

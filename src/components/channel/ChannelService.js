@@ -38,7 +38,7 @@ export default new Vue({
         serviceProvider: 'WebApps',
         userId: currentAccount.id
       }
-      let url = `${Constant.entryPoint}/api1/watches/handheld/live/preparetoken?access_token=${currentAccount.accessToken}&hash=${hash}&ts=${ts}&client_id=${clientId}&service_provider=WebPC&bw_profile=4`
+      let url = `${Constant.entryPoint}/api1/watches/handheld/live/preparetoken?access_token=${currentAccount.accessToken}&hash=${encodeURIComponent(hash)}&ts=${ts}&client_id=${clientId}&service_provider=WebPC&bw_profile=4`
       return this.$http.post(url, param)
     }
   }

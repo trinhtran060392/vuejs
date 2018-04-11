@@ -74,7 +74,7 @@
         })
       },
       buyNow (pack) {
-        this.$store.dispatch('setListPackage', )
+        // this.$store.dispatch('setListPackage', )
         this.$store.dispatch('showPackage', true)
       }
     }
