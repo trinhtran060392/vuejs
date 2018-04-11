@@ -4,14 +4,16 @@ const state = {
   screenMax: -1,
   listPackage: [],
   isShowPackage: false,
-  listDevice: []
+  listDevice: [],
+  pack: {}
 }
 
 const getters = {
   screenMax: state => state.screenMax,
   listPackage: state => state.listPackage,
   isShowPackage: state => state.isShowPackage,
-  listDevice: state => state.listDevice
+  listDevice: state => state.listDevice,
+  pack: state => state.pack
 }
 
 const actions = {
@@ -26,6 +28,9 @@ const actions = {
   },
   setListDevice ({ commit }, listDevice) {
     commit(types.LIST_DEVICE, listDevice)
+  },
+  setPackage ({ commit }, pack) {
+    commit(types.SET_PACKAGE, pack)
   }
 }
 
@@ -41,6 +46,9 @@ const mutations = {
   },
   [types.LIST_DEVICE] (state, listDevice) {
     state.listDevice = listDevice
+  },
+  [types.SET_PACKAGE] (state, pack) {
+    state.pack = pack
   }
 }
 
