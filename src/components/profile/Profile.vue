@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md text-xs-center>
+  <v-container grid-list-md text-xs-center class="packages">
       <v-layout row wrap>
         <v-flex xs3 v-for="pack in packages" :key="pack.id">
             <v-card class="item-card" :class="{ 'registed' : pack.registed }">

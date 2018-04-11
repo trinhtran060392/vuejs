@@ -40,11 +40,14 @@ body {
   font-size: 18px;
   padding: 3px;
 }
+.packages .item-card .shorten-text {
+  background-color: transparent;
+}
 .item-card .shorten-text {
   color: #fff;
   font-weight: 600;
   font-size: 13px;
-  background-color: #0F1B33 !important;
+  background-color: #0F1B33;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

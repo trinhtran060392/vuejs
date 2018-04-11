@@ -417,6 +417,7 @@ export default new Vue({
       return product
     },
     beautyRentalPeriods (rentalPeriods) {
+      if (!rentalPeriods || !rentalPeriods.length) return []
       let result = []
       for (let i = 0; i < rentalPeriods.length; i++) {
         let temp = rentalPeriods[i]
