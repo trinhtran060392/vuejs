@@ -69,7 +69,7 @@
         </v-menu>
       </div>
     </v-toolbar>
-    <v-content>
+    <v-content class="content-conainer">
       <carousel  v-if="banners.length && isShowBanner" :autoplay="false" :perPage="1" :navigationEnabled="true" :loop="true" class="banner" :paginationEnabled="true"
       delimiter-icon="">
         <slide v-for="i in banners" :key="`${i.id}`">
@@ -77,7 +77,8 @@
               <v-flex xs4 class="banner-action">
                 <div class="banner-action-group">
                   <div class="title">{{i.name[0].text}}</div>
-                  <v-btn :to="{ name: 'detail', params: { vodId: i.action_url } }">Xem ngay</v-btn>
+                  <v-btn :to="{ name: 'detail', params: { vodId: i.action_url } }" class="btn-now">
+                    <v-icon>play_arrow</v-icon>Xem ngay</v-btn>
                 </div>
               </v-flex>
               <v-flex xs8>

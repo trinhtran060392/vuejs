@@ -1,0 +1,15 @@
+.dashboard-container {
+  .row-item {
+    height: 25px;
+  }
+  .span-show-all {
+    font-size: 12px;
+    color: $gray;
+    cursor: pointer;
+    margin-bottom: 0;
+    margin-top: 15px;
+    &:hover {
+      color: $yellow;
+    }
+  }
+}

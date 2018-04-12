@@ -1,12 +1,13 @@
 <template>
   <div class="dashboard-container">
     <v-container v-for="item in homeData" :key="`${item.title}`">
-      <v-layout row wrap>
+      <v-layout row wrap class="row-item">
         <v-flex xs6>
           <p class="title-text text-sm-left text-xs-center">{{item.title}}</p>
         </v-flex>
         <v-flex xs6 class="text-xs-right">
-          <v-btn @click="showAll(item.subCatId, item.title)">Xem tất cả</v-btn>
+          <!--<v-btn @click="showAll(item.subCatId, item.title)">Xem tất cả</v-btn>-->
+          <p @click="showAll(item.subCatId, item.title)" class="span-show-all">Xem tất cả</p>
         </v-flex>
       </v-layout>
       <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">

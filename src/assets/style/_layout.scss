@@ -8,7 +8,13 @@
   body {
     background-color: $dark;
     .title-text {
-      color: $yellow;
+      color: $gray;
+      font-size: 17px;
+      text-transform: uppercase;
+      //cursor: pointer;
+      //&:hover {
+      //  color: $yellow;
+      //}
     }
     .navigation-drawer {
       padding: 0;
@@ -34,6 +40,13 @@
   .theme--dark .btn:hover {
       color: $yellow;
   }
+  .content-conainer {
+    padding-bottom: 0!important;
+  }
+  .col-copry {
+    margin-bottom: 0;
+    font-size: 16px;
+  }
   .vod-content {
     padding: 20px 10px;
     height: 220px;
@@ -56,6 +69,34 @@
   }
   .banner .VueCarousel-dot {
     display: inline-block !important;
+  }
+  .banner {
+    .title {
+      font-size: 26px !important;
+    }
+    .btn-now {
+      border: 1px solid $gray;
+      color: $gray;
+      background-color: transparent !important;
+      height: 30px!important;
+      float: left;
+      margin: 15px 0;
+      text-transform: none;
+      &:hover {
+        border-color: $yellow;
+        .icon {
+          color: $yellow !important;
+        }
+      }
+      .btn__content {
+        padding: 0 10px 0 5px !important;
+      }
+      .icon {
+        margin-right: 5px !important;
+        color: $gray !important;
+        font-size: 20px;
+      }
+    }
   }
   .VueCarousel-navigation-button {
     color: $white !important;
@@ -96,6 +137,9 @@
     border: 1px solid rgba(255,204,5,.35);
     color: $yellow !important;
     background-color: rgba(14,22,35,.86) !important;
+    text-transform: none;
+    font-size: 16px;
+    font-weight: normal;
   }
   .active-item {
     background: rgba(50,50,50,.85)!important;
