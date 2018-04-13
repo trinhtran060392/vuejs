@@ -12,7 +12,14 @@ const state = {
   showLoginDialog: false,
   isInSettingPage: false,
   isSubcriber: false,
-  tokenReady: false
+  tokenReady: false,
+  isAutoLogin: false,
+  accountInfo: {},
+  listRegisterDevice: {
+    devices: []
+  },
+  token: '',
+  stepLogin: 0
 }
 // setters
 const setters = {
@@ -30,7 +37,12 @@ const getters = {
   showLoginDialog: state => state.showLoginDialog,
   isInSettingPage: state => state.isInSettingPage,
   isSubcriber: state => state.isSubcriber,
-  tokenReady: state => state.tokenReady
+  tokenReady: state => state.tokenReady,
+  isAutoLogin: state => state.isAutoLogin,
+  accountInfo: state => state.accountInfo,
+  listRegisterDevice: state => state.listRegisterDevice,
+  token: state => state.token,
+  stepLogin: state => state.stepLogin
 }
 
 // actions
@@ -80,8 +92,22 @@ const actions = {
     commit(types.TOKEN_STATUS, isReady)
   },
   setStatus ({ commit }, isAuthenticated) {
-    console.log(isAuthenticated)
     commit(types.AUTHENTICATED, isAuthenticated)
+  },
+  setAutoLogin ({ commit }, isAutoLogin) {
+    commit(types.SET_AUTO_LOGIN, isAutoLogin)
+  },
+  setAccountInfo ({ commit }, accountInfo) {
+    commit(types.SET_ACCOUNT_INFO, accountInfo)
+  },
+  setToken ({ commit }, token) {
+    commit(types.SET_TOKEN, token)
+  },
+  setListRegisterDevice ({ commit }, listRegisterDevice) {
+    commit(types.SET_LIST_REGISTER_DEVICE, listRegisterDevice)
+  },
+  setStepLogin ({ commit }, stepLogin) {
+    commit(types.SET_STEP_LOGIN, stepLogin)
   }
 }
 
@@ -139,6 +165,22 @@ const mutations = {
   },
   [types.AUTHENTICATED] (state, isAuthenticated) {
     state.isAuthenticated = isAuthenticated
+  },
+  [types.SET_AUTO_LOGIN] (state, isAutoLogin) {
+    console.log(isAutoLogin)
+    state.isAutoLogin = isAutoLogin
+  },
+  [types.SET_ACCOUNT_INFO] (state, accountInfo) {
+    state.accountInfo = accountInfo
+  },
+  [types.SET_TOKEN] (state, token) {
+    state.token = token
+  },
+  [types.SET_LIST_REGISTER_DEVICE] (state, listRegisterDevice) {
+    state.listRegisterDevice = listRegisterDevice
+  },
+  [types.SET_STEP_LOGIN] (state, stepLogin) {
+    state.stepLogin = stepLogin
   }
 }
 

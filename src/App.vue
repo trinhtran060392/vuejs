@@ -32,8 +32,84 @@ Vue.use(Vuetify, {
 Vue.use(VueCarousel)
 Vue.use(VueResource)
 Vue.use(VueLocalStorage)
-
 const fpInstance = new Fingerprint()
+Vue.mixin({
+  computed: {
+    isAutoLogin: {
+      get: function () {
+        return this.$store.getters.isAutoLogin
+      },
+      set: function (isAutoLogin) {
+        this.$store.dispatch('setAutoLogin', isAutoLogin)
+      }
+    }
+  },
+  data: function () {
+    return {
+      listStepLogin: {
+        login: 0,
+        kickDevice: 1
+      }
+    }
+  },
+  methods: {
+    test () {
+      console.log('test .......')
+    },
+    checkAccountUse () {
+      Auth.getAccountUse().then((response) => {
+        if (response.status === Constant.statusCode.OK) {
+          this.$store.dispatch('setListRegisterDevice', response.body.registered_device)
+          this.$localStorage.set('isSubscriber', response.body.config.vm_subscriber)
+          this.checkPackageDevice()
+        }
+      })
+    },
+    checkPackageDevice () {
+      Auth.getPackageDevice().then((response) => {
+        if (response.status === Constant.statusCode.OK) {
+          let listRegisterDevice = this.$store.getters.listRegisterDevice
+          let accountInfo = this.$store.getters.accountInfo
+          let screenMax = this.getScreenMax(response.body.data)
+          this.$store.dispatch('setScreenMax', screenMax)
+          console.log(screenMax)
+          if ((screenMax === 0 || screenMax >= listRegisterDevice.registered) && accountInfo.status === 'inuse') {
+            console.log('login success')
+            let accountInfoStr = JSON.stringify(accountInfo)
+            this.$localStorage.set('accountInfo', accountInfoStr)
+            this.$store.dispatch('changeStatus')
+            this.$store.dispatch('showLoginDialog', false)
+            this.$store.dispatch('setStepLogin', this.listStepLogin.login)
+            // this.$store.dispatch('setAutoLogin', false)
+            // this.step = this.listStep.login
+            // this.user = {}
+          } else {
+            if (this.isAutoLogin) {
+              // this.$store.dispatch('showLoginDialog', true)
+              this.isAutoLogin = false
+            }
+            this.$store.dispatch('setStepLogin', this.listStepLogin.kickDevice)
+            // this.step = this.listStep.kickDevice
+          }
+        }
+      })
+    },
+    getScreenMax (data) {
+      let screenMax = 0
+      let length = data.length
+      if (length === 0) {
+        return 0
+      }
+      for (let i = 0; i < length; i++) {
+        let item = data[i]
+        if (item.product.screen_max && item.product.screen_max > screenMax) {
+          screenMax = item.product.screen_max
+        }
+      }
+      return screenMax
+    }
+  }
+})
 
 export default {
   name: 'app',
@@ -67,16 +143,49 @@ export default {
         })
       })
     } else {
-      let temp = {}
-      temp.access_token = Constant.guestToken
-      Ulti.saveAccountInfo(temp)
-      store.dispatch('setTokenStatus', true)
-      store.dispatch('setStatus', false)
-      console.log('account info is not saved or guest token is saved')
+      this.autoLogin()
+      // if (Ulti.isPhoneDevice()) {
+      //   this.autoLogin()
+      // } else {
+      //   let temp = {}
+      //   temp.access_token = Constant.guestToken
+      //   Ulti.saveAccountInfo(temp)
+      //   store.dispatch('setTokenStatus', true)
+      //   store.dispatch('setStatus', false)
+      //   console.log('account info is not saved or guest token is saved')
+      // }
     }
     fpInstance.get((result) => {
       this.$localStorage.set('deviceUid', result)
     })
+  },
+  methods: {
+    autoLogin () {
+      Auth.getRemoteId().then((response) => {
+      }, (response) => {
+        response = {'ms_ip': '100.120.28.18', 'msisdn': '84985815724'}
+        if (response.ms_ip !== undefined) {
+          Auth.automaticDetection(response.ms_ip).then((account) => {
+            console.log(account)
+            let accountInfo = {
+              id: response.msisdn.substr(0, 2) === '84' ? `0${response.msisdn.substr(2)}` : response.msisdn,
+              accessToken: account.body.access_token,
+              refresh_token: account.body.refresh_token,
+              expiration_date: account.body.expiration_date,
+              refresh_token_expiration_date: account.body.refresh_token_expiration_date,
+              temp_password: account.body.temp_password,
+              status: account.body.status
+            }
+            this.$store.dispatch('setAccountInfo', accountInfo)
+            this.isAutoLogin = true
+            this.checkPackageDevice()
+          }, (error) => {
+            console.log(error)
+            alert('2')
+          })
+        }
+      })
+    }
   }
 }
 
