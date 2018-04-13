@@ -108,6 +108,10 @@ export default {
           this.$set(this.vod, 'playable', isPlayable)
           if (!isPlayable) {
             console.log(response)
+            let obj = {}
+            obj.stepNumber = 1
+            obj.hasOneStep = false
+            this.$store.dispatch('setStep', obj)
             this.$store.dispatch('setListPackage', response.purchasable_products)
             this.$store.dispatch('showPackage', true)
           }

@@ -7,7 +7,7 @@
                 {{pack.name}}
               </v-card-title>
               <v-card-text class="price-card">
-                29.000 / Months
+                {{pack.productAlias.beautyPrice}} VNĐ/ {{pack.productAlias.beautyPeriod}}
               </v-card-text>
               <v-card-text class="shorten-text">
                 {{pack.description}}
@@ -74,9 +74,11 @@
         })
       },
       buyNow (pack) {
-        this.$store.dispatch('setStep', 2)
+        let obj = {}
+        obj.stepNumber = 2
+        obj.hasOneStep = true
+        this.$store.dispatch('setStep', obj)
         this.$store.dispatch('setPackage', pack)
-        this.$store.dispatch('setDefaultPack', pack.beautyRentalPeriods[0].period)
         this.$store.dispatch('showPackage', true)
       }
     }

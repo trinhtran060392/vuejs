@@ -413,6 +413,7 @@ export default new Vue({
       return purchasableProducts
     },
     getLiteProduct (product) {
+      product.productAlias = this.getAlias(product.rental_periods)
       product.beautyRentalPeriods = this.beautyRentalPeriods(product.rental_periods)
       return product
     },
@@ -429,6 +430,28 @@ export default new Vue({
         result.push(obj)
       }
       return result
+    },
+    getAlias (rentalPeriods) {
+      if (!rentalPeriods || !rentalPeriods.length) return {}
+      let obj = {}
+      obj.maxPeriod = rentalPeriods[0].period
+      obj.beautyPeriod = this.beautyPeriod('d', rentalPeriods[0].period)
+      obj.beautyPrice = this.beautyPrice(rentalPeriods[0].price[0].value)
+      _.forEach(rentalPeriods, (rentalPeriod) => {
+        if (rentalPeriod.period > obj.maxPeriod) {
+          obj.maxPeriod = rentalPeriod.period
+          obj.beautyPrice = this.beautyPrice(rentalPeriod.price[0].value)
+          obj.beautyPeriod = this.getUnit(rentalPeriod.period)
+        }
+      })
+      return obj
+    },
+    getUnit (period) {
+      switch (period) {
+        case 1: return 'ngày'
+        case 7: return 'tuần'
+        case 30: return 'tháng'
+      }
     },
     beautyPeriod (key, value) {
       let day

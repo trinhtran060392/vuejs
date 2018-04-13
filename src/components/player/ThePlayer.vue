@@ -96,9 +96,13 @@
             let channel = response
             let isPlayable = Ulti.isChannelPlayable(channel)
             if (!isPlayable) {
-              console.log('show buy package')
+              console.log('show buy package', channel)
               this.$store.dispatch('setListPackage', channel.purchasable_products)
               this.$store.dispatch('showPackage', true)
+              let obj = {}
+              obj.stepNumber = 1
+              obj.hasOneStep = false
+              this.$store.dispatch('setStep', obj)
             } else {
               this.playChannel(channel)
             }
