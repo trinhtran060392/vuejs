@@ -7,7 +7,7 @@
         </v-flex>
         <v-flex xs6 class="text-xs-right">
           <!--<v-btn @click="showAll(item.subCatId, item.title)">Xem tất cả</v-btn>-->
-          <p @click="showAll(item.subCatId, item.title)" class="span-show-all">Xem tất cả</p>
+          <a @click="showAll(item.subCatId, item.title)" class="span-show-all">Xem tất cả</a>
         </v-flex>
       </v-layout>
       <carousel :autoplay="true" :perPage="8" :navigationEnabled="true" :loop="true">
