@@ -85,7 +85,7 @@ Vue.mixin({
             // this.user = {}
           } else {
             if (this.isAutoLogin) {
-              // this.$store.dispatch('showLoginDialog', true)
+              this.$store.dispatch('showLoginDialog', true)
               this.isAutoLogin = false
             }
             this.$store.dispatch('setStepLogin', this.listStepLogin.kickDevice)
@@ -143,17 +143,17 @@ export default {
         })
       })
     } else {
-      this.autoLogin()
-      // if (Ulti.isPhoneDevice()) {
-      //   this.autoLogin()
-      // } else {
-      //   let temp = {}
-      //   temp.access_token = Constant.guestToken
-      //   Ulti.saveAccountInfo(temp)
-      //   store.dispatch('setTokenStatus', true)
-      //   store.dispatch('setStatus', false)
-      //   console.log('account info is not saved or guest token is saved')
-      // }
+      // this.autoLogin()
+      if (Ulti.isPhoneDevice()) {
+        this.autoLogin()
+      } else {
+        let temp = {}
+        temp.access_token = Constant.guestToken
+        Ulti.saveAccountInfo(temp)
+        store.dispatch('setTokenStatus', true)
+        store.dispatch('setStatus', false)
+        console.log('account info is not saved or guest token is saved')
+      }
     }
     fpInstance.get((result) => {
       this.$localStorage.set('deviceUid', result)
@@ -163,7 +163,7 @@ export default {
     autoLogin () {
       Auth.getRemoteId().then((response) => {
       }, (response) => {
-        response = {'ms_ip': '100.120.28.18', 'msisdn': '84985815724'}
+        response = {'ms_ip': '9.55.176.150', 'msisdn': '841666196866'}
         if (response.ms_ip !== undefined) {
           Auth.automaticDetection(response.ms_ip).then((account) => {
             console.log(account)
@@ -177,8 +177,9 @@ export default {
               status: account.body.status
             }
             this.$store.dispatch('setAccountInfo', accountInfo)
+            this.$store.dispatch('setToken', accountInfo.accessToken)
             this.isAutoLogin = true
-            this.checkPackageDevice()
+            this.checkAccountUse()
           }, (error) => {
             console.log(error)
             alert('2')
