@@ -41,7 +41,7 @@
         </div>
         <v-container grid-list-md>
           <v-list two-line>
-            <div v-for="(item, index) in listRegisterDevice.devices" :key="item.model">
+            <div v-for="(item, index) in listDeviceClone" :key="item.model">
               <v-list-tile 
                 avatar
                 ripple
@@ -121,7 +121,14 @@
           v => !!v || 'Name is required'
         ],
         errorMessage: 'Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ CSKH',
-        selectedDevice: []
+        selectedDevice: [],
+        listDeviceClone: []
+      }
+    },
+    watch: {
+      listRegisterDevice (newValue) {
+        console.log('change')
+        this.listDeviceClone = JSON.parse(JSON.stringify(newValue.devices))
       }
     },
     methods: {
@@ -153,11 +160,11 @@
         const i = this.selectedDevice.indexOf(item)
         if (i > -1) {
           item.checkbox = false
-          this.$set(this.listRegisterDevice.devices, index, item)
+          this.$set(this.listDeviceClone, index, item)
           this.selectedDevice.splice(i, 1)
         } else {
           item.checkbox = true
-          this.$set(this.listRegisterDevice.devices, index, item)
+          this.$set(this.listDeviceClone, index, item)
           this.selectedDevice.push(item)
         }
       },

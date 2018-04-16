@@ -53,9 +53,6 @@ Vue.mixin({
     }
   },
   methods: {
-    test () {
-      console.log('test .......')
-    },
     checkAccountUse () {
       Auth.getAccountUse().then((response) => {
         if (response.status === Constant.statusCode.OK) {
@@ -73,7 +70,7 @@ Vue.mixin({
           let screenMax = this.getScreenMax(response.body.data)
           this.$store.dispatch('setScreenMax', screenMax)
           console.log(screenMax)
-          if ((screenMax === 0 || screenMax >= listRegisterDevice.registered) && accountInfo.status === 'inuse') {
+          if ((screenMax >= listRegisterDevice.registered) && accountInfo.status === 'inuse') {
             console.log('login success')
             let accountInfoStr = JSON.stringify(accountInfo)
             this.$localStorage.set('accountInfo', accountInfoStr)
@@ -89,7 +86,6 @@ Vue.mixin({
               this.isAutoLogin = false
             }
             this.$store.dispatch('setStepLogin', this.listStepLogin.kickDevice)
-            // this.step = this.listStep.kickDevice
           }
         }
       })
@@ -182,7 +178,6 @@ export default {
             this.checkAccountUse()
           }, (error) => {
             console.log(error)
-            alert('2')
           })
         }
       })
