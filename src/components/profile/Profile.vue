@@ -2,7 +2,7 @@
   <v-container grid-list-md text-xs-center class="packages">
       <v-layout row wrap>
         <v-flex xs3 v-for="pack in packages" :key="pack.id">
-            <v-card class="item-card" :class="{ 'registed' : pack.registed }">
+            <v-card class="item-card" :class="{ 'registed' : pack.registed }" v-show="pack.registed || !isBasicBought">
               <v-card-title>
                 {{pack.name}}
               </v-card-title>
@@ -34,7 +34,8 @@
 
     data () {
       return {
-        packages: []
+        packages: [],
+        isBasicBought: false
       }
     },
     computed: {
@@ -68,7 +69,9 @@
             }).then((response) => {
               let result = Ulti.checkRegisteredPackage(packages, response.data)
               this.packages = result.totalPackages
-              console.log(this.packages)
+              let isBasicBought = Ulti.checkBasic(this.packages)
+              this.isBasicBought = isBasicBought
+              console.log(this.isBasicBought)
             })
           })
         })

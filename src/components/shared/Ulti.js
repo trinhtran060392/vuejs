@@ -631,6 +631,15 @@ export default new Vue({
         }
       }
     },
+    checkBasic (packages) {
+      for (let i = 0; i < packages.length; i++) {
+        let temp = packages[0]
+        if (temp.pid === 'VIP2' && temp.registed) {
+          return true
+        }
+      }
+      return false
+    },
     saveAccountInfo (response) {
       let temp = this.getCurrentAccount()
       if (!temp || !temp.accessToken) temp = {}
