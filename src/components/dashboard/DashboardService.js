@@ -51,6 +51,10 @@ export default new Vue({
     getBanners () {
       let url = `${Constant.entryPoint}/api1/contents/campaigns/campaigns?pid=package.campaign://OTT.MAIN.PROMO.WEB`
       return this.$http.get(url)
+    },
+    getResumeList () {
+      let url = `${Constant.entryPoint}/api1/watches/resume_list?type=vod&offset=0&limit=10`
+      return this.$http.get(url)
     }
   }
 })

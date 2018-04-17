@@ -80,6 +80,17 @@ export default new Vue({
       }
       return vod
     },
+    transformLiteArrayVod (data) {
+      let result = []
+      _.forEach(data, (vod) => {
+        if (vod.program) {
+          vod.photoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}?width=215.000000&height=307.000000`
+          vod.bigPhotoUrl = `${Constant.entryPoint}/api1/contents/pictures/${vod.program.id}`
+        }
+        result.push(vod)
+      })
+      return result
+    },
     transformVod (vod) {
       let svod = {}
       svod.isVisiable = false

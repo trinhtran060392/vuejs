@@ -54,6 +54,9 @@
   .channel-content {
     height: 90px;
     padding: 10px 0;
+    &.small {
+      height: auto;
+    }
   }
   .vod-content:hover {
     transform: scale(1.1);

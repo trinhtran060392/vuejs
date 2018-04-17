@@ -68,6 +68,7 @@
 </template>
 <script>
 import _ from 'lodash'
+import PurchaseService from './PurchaseService'
 export default {
   data () {
     return {
@@ -129,7 +130,10 @@ export default {
       })
 
       product.amount = priceObj.price[0].value
-      console.log(product)
+
+      PurchaseService.create(product).then((response) => {
+        console.log(response)
+      })
     },
     close () {
       this.$store.dispatch('showPackage', false)

@@ -67,6 +67,18 @@ export default new Vue({
     getSeriesVod (id) {
       let url = `${Constant.entryPoint}/api1/contents/categories/${id}/programs?format=long&offset=0&until=now&include=product&limit=-1`
       return this.$http.get(url)
+    },
+    getVodByIds (programIds) {
+      let url = `${Constant.entryPoint}/api1/contents/programs?id=${programIds}&format=long&include=product`
+      return new Promise((resolve, reject) => {
+        this.$http.get(url).then((response) => {
+          let result = response.body
+          console.log(result.data, 'vod service')
+          resolve(Ulti.transformLiteArrayVod(result.data))
+        }, (error) => {
+          reject(error)
+        })
+      })
     }
   }
 })
