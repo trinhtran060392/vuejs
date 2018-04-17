@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="showLoginDialog" persistent max-width="400px">
-    <v-card v-show="step === listStep.login">
+    <v-card v-show="step === listStepLogin.login">
       <v-toolbar class="header" >
         <v-toolbar-title>ĐĂNG NHẬP</v-toolbar-title>
       </v-toolbar>
@@ -30,7 +30,7 @@
         </v-flex>
       </v-card-actions>
     </v-card>
-    <v-card v-show="step === listStep.kickDevice">
+    <v-card v-show="step === listStepLogin.kickDevice">
       <v-toolbar class="header">
         <v-toolbar-title>Danh sách thiết bị</v-toolbar-title>
       </v-toolbar>
@@ -41,7 +41,7 @@
         </div>
         <v-container grid-list-md>
           <v-list two-line>
-            <div v-for="(item, index) in listRegisterDevice.devices" :key="item.model">
+            <div v-for="(item, index) in listDeviceClone" :key="item.model">
               <v-list-tile 
                 avatar
                 ripple
@@ -87,17 +87,28 @@
         set: function (newValue) {
           this.$store.dispatch('showLoginDialog', false)
         }
+      },
+      isAutoLogin () {
+        return this.$store.getters.isAutoLogin
+      },
+      listRegisterDevice () {
+        return this.$store.getters.listRegisterDevice
+      },
+      step () {
+        return this.$store.getters.stepLogin
+      },
+      accountInfo: {
+        get: function () {
+          return this.$store.getters.accountInfo
+        },
+        set: function (accountInfo) {
+          this.$store.dispatch('setAccountInfo', accountInfo)
+        }
       }
     },
     data () {
       return {
         valid: false,
-        step: 0,
-        listStep: {
-          login: 0,
-          kickDevice: 1
-        },
-        accountInfo: {},
         user: {
           phone: '',
           password: ''
@@ -109,11 +120,16 @@
         passwordRules: [
           v => !!v || 'Name is required'
         ],
-        listRegisterDevice: {
-          devices: []
-        },
         errorMessage: 'Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ CSKH',
-        selectedDevice: []
+        selectedDevice: [],
+        listDeviceClone: []
+      }
+    },
+    watch: {
+      listRegisterDevice (newValue) {
+        console.log('change')
+        this.listDeviceClone = JSON.parse(JSON.stringify(newValue.devices))
+        // this.listDeviceClone = Object.assign({}, newValue.devices)
       }
     },
     methods: {
@@ -131,52 +147,11 @@
               status: response.body.status
             }
             this.accountInfo = accountInfo
-            Auth.token = accountInfo.accessToken
+            this.$store.dispatch('setToken', accountInfo.accessToken)
+            // Auth.token = accountInfo.accessToken
             this.checkAccountUse()
           }
         })
-      },
-      checkAccountUse () {
-        Auth.getAccountUse().then((response) => {
-          if (response.status === Constant.statusCode.OK) {
-            this.listRegisterDevice = response.body.registered_device
-            this.$localStorage.set('isSubscriber', response.body.config.vm_subscriber)
-            this.checkPackageDevice()
-          }
-        })
-      },
-      checkPackageDevice () {
-        Auth.getPackageDevice().then((response) => {
-          if (response.status === Constant.statusCode.OK) {
-            let screenMax = this.getScreenMax(response.body.data)
-            this.$store.dispatch('setScreenMax', screenMax)
-            if ((screenMax === 0 || screenMax >= this.listRegisterDevice.registered) && this.accountInfo.status === 'inuse') {
-              console.log('login success')
-              let accountInfoStr = JSON.stringify(this.accountInfo)
-              this.$localStorage.set('accountInfo', accountInfoStr)
-              this.$store.dispatch('changeStatus')
-              this.$store.dispatch('showLoginDialog', false)
-              this.step = this.listStep.login
-              this.user = {}
-            } else {
-              this.step = this.listStep.kickDevice
-            }
-          }
-        })
-      },
-      getScreenMax (data) {
-        let screenMax = 0
-        let length = data.length
-        if (length === 0) {
-          return 0
-        }
-        for (let i = 0; i < length; i++) {
-          let item = data[i]
-          if (item.product.screen_max && item.product.screen_max > screenMax) {
-            screenMax = item.product.screen_max
-          }
-        }
-        return screenMax
       },
       upgradeNDevice () {
         // this.$store.dispatch('showLoginDialog', false)
@@ -186,11 +161,11 @@
         const i = this.selectedDevice.indexOf(item)
         if (i > -1) {
           item.checkbox = false
-          this.$set(this.listRegisterDevice.devices, index, item)
+          this.$set(this.listDeviceClone, index, item)
           this.selectedDevice.splice(i, 1)
         } else {
           item.checkbox = true
-          this.$set(this.listRegisterDevice.devices, index, item)
+          this.$set(this.listDeviceClone, index, item)
           this.selectedDevice.push(item)
         }
       },

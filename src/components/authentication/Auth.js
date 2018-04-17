@@ -2,10 +2,13 @@ import Vue from 'vue'
 import Constant from '../shared/Constant'
 import Ulti from '../shared/Ulti'
 import CryptoJS from 'crypto-js'
+import store from '../../store'
 
 export default new Vue({
-  data: {
-    token: ''
+  computed: {
+    token () {
+      return store.getters.token
+    }
   },
   methods: {
     login (user) {
@@ -87,6 +90,35 @@ export default new Vue({
           'Authorization': `Bearer ${this.token}`
         }
       })
+    },
+    getRemoteId () {
+      let url = `${Constant.webHost}/api/getRemoteIP`
+      return this.$http.get(url, {
+        headers: {
+          cache: false,
+          isArray: false
+        }
+      })
+    },
+    automaticDetection (clientIp) {
+      let deviceObject = {
+        id: Ulti.getDeviceid(),
+        model: Ulti.getDeviceModel(),
+        model_no: Ulti.getDeviceModelNumber(),
+        type: Ulti.getTypeDevice()
+      }
+      let param = {}
+      var urls = document.location.hash.split('client_ip')
+      if (clientIp !== null) {
+        param.client_ip = clientIp
+      } else if (urls.length > 1) {
+        param.client_ip = urls[1].substr(1)
+      }
+      param.client_id = Constant.clientId
+      param.hash = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA1(deviceObject.id + param.client_id + param.client_ip, Constant.appSecret))
+      param.device = deviceObject
+      let url = `${Constant.entryPoint}/ott/accounts/automatic_detection`
+      return this.$http.post(url, param)
     }
   }
 })
