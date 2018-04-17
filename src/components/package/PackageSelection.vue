@@ -67,6 +67,7 @@
   </v-dialog>
 </template>
 <script>
+import _ from 'lodash'
 export default {
   data () {
     return {
@@ -109,7 +110,26 @@ export default {
   },
   methods: {
     buy () {
-      console.log(this.selectedPeriod, 'buy')
+      console.log(this.pack, this.selectedPeriod, 'buy')
+      let product = {}
+      product.promotion_id = ''
+      product.product_name = this.pack.name
+      product.product_id = this.pack.id
+      product.product_type = this.pack.type
+      product.product_category = 'vod'
+      product.rental_period = this.selectedPeriod
+      product.unit = 'D'
+      product.product_type = this.pack.type
+      product.entry_path = ''
+      product.content_id = this.step.hasOneStep ? '' : ''
+      product.auto_renewal = 'T'
+
+      let priceObj = _.find(this.pack.beautyRentalPeriods, (priceObjTemp) => {
+        return priceObjTemp.period === this.selectedPeriod
+      })
+
+      product.amount = priceObj.price[0].value
+      console.log(product)
     },
     close () {
       this.$store.dispatch('showPackage', false)
