@@ -129,6 +129,7 @@
       listRegisterDevice (newValue) {
         console.log('change')
         this.listDeviceClone = JSON.parse(JSON.stringify(newValue.devices))
+        // this.listDeviceClone = Object.assign({}, newValue.devices)
       }
     },
     methods: {
