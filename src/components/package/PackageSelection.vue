@@ -132,7 +132,37 @@ export default {
       product.amount = priceObj.price[0].value
 
       PurchaseService.create(product).then((response) => {
-        console.log(response)
+        product.currency = 'VND'
+        product.normal = 0
+        product.normal_vat = 0
+        product.point = 0
+        product.sale_code = ''
+        product.coupon_tx_id = ''
+        let purchaseObj = response.body
+        PurchaseService.pay(product, purchaseObj).then((response) => {
+          let result = response.body
+          console.log(result)
+        }, (response) => {
+          let result = response.body
+          if (result.error) {
+            let message
+            switch (result.error.code) {
+              case 'U0252':
+                message = 'Tài khoản không đủ để đăng ký dịch vụ, Quý khách vui lòng kiểm tra và thử lại. Trân trọng'
+                break
+              case 'U0232':
+                message = 'Tài khoản trong ví điện tử của bạn không đủ.'
+                break
+              case 'U0503':
+                message = 'Không thể kết nối với máy chủ BMS. Vui lòng thử lại.'
+                break
+              default:
+                message = 'Có lỗi trong quá trình thanh toán.'
+                break
+            }
+            console.log(message)
+          }
+        })
       })
     },
     close () {
