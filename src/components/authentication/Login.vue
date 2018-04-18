@@ -127,7 +127,6 @@
         console.log('change')
         let devices = JSON.parse(JSON.stringify(newValue.devices))
         this.listDeviceClone = this.removeDeviceCurrent(devices)
-        console.log(this.listDeviceClone)
       }
     },
     methods: {
@@ -146,7 +145,6 @@
             }
             this.accountInfo = accountInfo
             this.$store.dispatch('setToken', accountInfo.accessToken)
-            // Auth.token = accountInfo.accessToken
             this.checkAccountUse()
           }
         })
@@ -190,10 +188,7 @@
         let currentDeviceId = Ulti.getDeviceid()
         for (let index = 0; index < data.length; index++) {
           let element = data[index]
-          console.log(element.id + currentDeviceId)
-          console.log(element.id === currentDeviceId)
           if (element.id === currentDeviceId) {
-            console.log('remove')
             data.splice(index, 1)
             break
           }
