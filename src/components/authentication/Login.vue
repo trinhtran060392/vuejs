@@ -8,10 +8,10 @@
         <v-container grid-list-md>
           <v-layout wrap>
             <v-flex xs12>
-              <v-text-field label="Số điện thoại " solo  v-model="user.phone" required></v-text-field>
+              <v-text-field label="Số điện thoại " solo  v-model="userLogin.phone" required></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="Mật khẩu " solo type="password" v-model="user.password" required>
+              <v-text-field label="Mật khẩu " solo type="password" v-model="userLogin.password" required>
               </v-text-field>
             </v-flex>
           </v-layout>
@@ -41,7 +41,7 @@
         </div>
         <v-container grid-list-md>
           <v-list two-line>
-            <div v-for="(item, index) in listDeviceClone" :key="item.model">
+            <div v-for="(item, index) in listDeviceClone" :key="item.model" >
               <v-list-tile 
                 avatar
                 ripple
@@ -76,6 +76,7 @@
 <script>
   import Auth from '../authentication/Auth'
   import Constant from '../shared/Constant'
+  import Ulti from '../shared/Ulti'
   export default {
     computed: {
       showLoginDialog: {
@@ -109,10 +110,6 @@
     data () {
       return {
         valid: false,
-        user: {
-          phone: '',
-          password: ''
-        },
         nameRules: [
           v => !!v || 'Name is required',
           v => v.length <= 10 || 'Name must be less than 10 characters'
@@ -128,16 +125,17 @@
     watch: {
       listRegisterDevice (newValue) {
         console.log('change')
-        this.listDeviceClone = JSON.parse(JSON.stringify(newValue.devices))
-        // this.listDeviceClone = Object.assign({}, newValue.devices)
+        let devices = JSON.parse(JSON.stringify(newValue.devices))
+        this.listDeviceClone = this.removeDeviceCurrent(devices)
+        console.log(this.listDeviceClone)
       }
     },
     methods: {
       login: function () {
-        Auth.login(this.user).then((response) => {
+        Auth.login(this.userLogin).then((response) => {
           if (response.status === Constant.statusCode.OK) {
             let accountInfo = {
-              id: this.user.phone,
+              id: this.userLogin.phone,
               accessToken: response.body.access_token,
               tokenSecret: response.body.token_secret,
               refresh_token: response.body.refresh_token,
@@ -187,6 +185,20 @@
         } else {
           this.messegeError = 'Vui lòng chọn thiết bị muốn xóa !'
         }
+      },
+      removeDeviceCurrent (data) {
+        let currentDeviceId = Ulti.getDeviceid()
+        for (let index = 0; index < data.length; index++) {
+          let element = data[index]
+          console.log(element.id + currentDeviceId)
+          console.log(element.id === currentDeviceId)
+          if (element.id === currentDeviceId) {
+            console.log('remove')
+            data.splice(index, 1)
+            break
+          }
+        }
+        return data
       }
     }
   }

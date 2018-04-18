@@ -49,6 +49,10 @@ Vue.mixin({
       listStepLogin: {
         login: 0,
         kickDevice: 1
+      },
+      userLogin: {
+        phone: '',
+        password: ''
       }
     }
   },
@@ -70,16 +74,14 @@ Vue.mixin({
           let screenMax = this.getScreenMax(response.body.data)
           this.$store.dispatch('setScreenMax', screenMax)
           console.log(screenMax)
-          if ((screenMax >= listRegisterDevice.registered) && accountInfo.status === 'inuse') {
+          if ((screenMax === 0 || (screenMax >= listRegisterDevice.registered)) && accountInfo.status === 'inuse') {
             console.log('login success')
             let accountInfoStr = JSON.stringify(accountInfo)
             this.$localStorage.set('accountInfo', accountInfoStr)
             this.$store.dispatch('changeStatus')
             this.$store.dispatch('showLoginDialog', false)
             this.$store.dispatch('setStepLogin', this.listStepLogin.login)
-            // this.$store.dispatch('setAutoLogin', false)
-            // this.step = this.listStep.login
-            // this.user = {}
+            this.userLogin = {}
           } else {
             if (this.isAutoLogin) {
               this.$store.dispatch('showLoginDialog', true)
