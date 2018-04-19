@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire" dark>
+    <Notification></Notification>
     <Login></Login>
     <PackageSelection/>
     <!-- <Player></Player> -->
@@ -129,11 +130,14 @@
   import Login from '../authentication/Login'
   import Auth from '../authentication/Auth'
   import PackageSelection from '../package/PackageSelection'
+  import Notification from '../shared/Notification'
   import Constant from '../shared/Constant'
+  
   export default {
     components: {
       Login,
-      PackageSelection
+      PackageSelection,
+      Notification
     },
     computed: {
       isAuthenticated () {

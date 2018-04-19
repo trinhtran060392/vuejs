@@ -1,0 +1,19 @@
+.notify-modal {
+    background: $dark;
+    .card__title {
+        border-bottom: 1px solid $darken;
+        background: $darken;
+        border-radius: 4px 4px 0 0;
+        -moz-border-radius: 4px 4px 0 0;
+        -webkit-border-radius: 4px 4px 0 0;
+        color: $yellow;
+        font-size: $font-size-large;
+    }
+    .card__text {
+        background-color: $dark;
+        color: $yellow;
+    }
+    .card__text, .card__title, .card__actions {
+        padding: 20px;
+    }
+}

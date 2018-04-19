@@ -160,7 +160,12 @@ export default {
                 message = 'Có lỗi trong quá trình thanh toán.'
                 break
             }
+            this.close()
             console.log(message)
+            let obj = {}
+            obj.show = true
+            obj.text = message
+            this.$store.dispatch('setMessage', obj)
           }
         })
       })
