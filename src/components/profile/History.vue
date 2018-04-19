@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container grid-list-md>
     <v-tabs
       v-model="active"
       dark

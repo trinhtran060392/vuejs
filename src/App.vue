@@ -62,6 +62,7 @@ Vue.mixin({
         if (response.status === Constant.statusCode.OK) {
           this.$store.dispatch('setListRegisterDevice', response.body.registered_device)
           this.$localStorage.set('isSubscriber', response.body.config.vm_subscriber)
+          this.$store.dispatch('setIsSubcriber', response.body.config.vm_subscriber)
           this.checkPackageDevice()
         }
       })

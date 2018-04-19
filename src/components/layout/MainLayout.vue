@@ -12,7 +12,7 @@
       <v-list dense>
         <v-list-tile  to="/account" exact>
           <v-list-tile-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon>account_circle</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
@@ -24,12 +24,24 @@
         </v-list-tile>
         <v-list-tile  to="/history" exact>
           <v-list-tile-action>
-            <v-icon>settings</v-icon>
+            <v-icon>history</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
               <router-link :to="{ name: 'history' }" class="text-item">
                 Lịch sử giao dịch
+              </router-link>
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile  to="/wallet" exact>
+          <v-list-tile-action>
+            <v-icon>account_balance_wallet</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>
+              <router-link :to="{ name: 'wallet' }" class="text-item">
+                Ví điện tử
               </router-link>
             </v-list-tile-title>
           </v-list-tile-content>
@@ -132,7 +144,7 @@
   import PackageSelection from '../package/PackageSelection'
   import Notification from '../shared/Notification'
   import Constant from '../shared/Constant'
-  
+
   export default {
     components: {
       Login,
@@ -271,7 +283,7 @@
           }
         })
         let account = Ulti.getCurrentAccount()
-        if (!account || account.accessTokenaccessToken !== Constant.guestToken) return
+        if (!account || account.accessToken === Constant.guestToken) return
         Auth.info().then((response) => {
           return response.body
         }).then((response) => {
