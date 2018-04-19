@@ -142,6 +142,10 @@ export default {
         PurchaseService.pay(product, purchaseObj).then((response) => {
           let result = response.body
           console.log(result)
+          let obj = {}
+          obj.show = true
+          obj.text = 'Quý Khách Đã Thanh Toán Thành Công'
+          this.$store.dispatch('setMessage', obj)
         }, (response) => {
           let result = response.body
           if (result.error) {
