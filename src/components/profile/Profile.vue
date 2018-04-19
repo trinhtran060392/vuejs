@@ -1,5 +1,29 @@
 <template>
   <v-container grid-list-md text-xs-center class="packages">
+      <v-layout>
+        <v-flex class="text-xs-left">
+          <div class="account-info">
+            Tài khoản: <span class="phone">{{accountInfo.id}}</span>
+          </div>
+        </v-flex>
+      </v-layout>
+      <v-layout>
+        <v-flex xs12 class="text-xs-left payment-name">
+          Phương thức thanh toán
+        </v-flex>
+      </v-layout>
+      <v-layout class="payment-container">
+        <v-flex xs12 sm6 md3>
+          <div class="payment" v-if="!isSubcriber">
+              <div>Ví điện tử</div>
+              <div>Dành cho tất cả thuê bao</div>
+          </div>
+          <div class="payment" v-if="isSubcriber">
+              <div>Tài khoản điện thoại</div>
+              <div>Dành cho thuê bao của Viettel</div>
+          </div>
+        </v-flex>
+      </v-layout>
       <v-layout row wrap>
         <v-flex xs3 v-for="pack in packages" :key="pack.id">
             <v-card class="item-card" :class="{ 'registed' : pack.registed }" v-show="pack.registed || !isBasicBought">
@@ -41,6 +65,12 @@
     computed: {
       tokenReady () {
         return this.$store.getters.tokenReady
+      },
+      accountInfo () {
+        return this.$store.getters.accountInfo
+      },
+      isSubcriber () {
+        return this.$store.getters.isSubcriber
       }
     },
     created () {

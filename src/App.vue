@@ -76,9 +76,10 @@ Vue.mixin({
           this.$store.dispatch('setScreenMax', screenMax)
           console.log(screenMax)
           if ((screenMax === 0 || (screenMax >= listRegisterDevice.registered)) && accountInfo.status === 'inuse') {
-            console.log('login success')
             let accountInfoStr = JSON.stringify(accountInfo)
             this.$localStorage.set('accountInfo', accountInfoStr)
+            console.log('login success', accountInfoStr)
+            this.$store.dispatch('setAccountInfo', accountInfo)
             this.$store.dispatch('changeStatus')
             this.$store.dispatch('showLoginDialog', false)
             this.$store.dispatch('setStepLogin', this.listStepLogin.login)
@@ -122,6 +123,7 @@ export default {
         console.log('token is valid')
         store.dispatch('setTokenStatus', true)
         store.dispatch('setStatus', true)
+        store.dispatch('setAccountInfo', accountInfo)
       }, (error) => {
         console.log('token is not valid', error)
         // try to renew token

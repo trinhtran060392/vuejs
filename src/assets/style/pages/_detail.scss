@@ -18,3 +18,34 @@
     box-shadow: none !important;
   }
 }
+.account-info {
+  padding: 10px 0;
+  font-size: $font-size-larger;
+  .phone {
+    color: $yellow;
+  }
+}
+.payment {
+  div {
+    background-color: $white;
+    color: $black;
+    &:first-child {
+      padding-top: 5px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      font-weight: bold;
+    }
+    &:last-child {
+      padding-bottom: 5px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}
+.payment-name {
+  font-size: $font-size-larger;
+}
+
+.container.grid-list-md .layout.payment-container:not(:only-child) {
+  margin-bottom: 20px;
+}
