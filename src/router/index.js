@@ -9,6 +9,7 @@ import Channel from '@/components/channel/Channel'
 import VodDetail from '@/components/vod/VodDetail'
 import History from '@/components/profile/History'
 import ThePlayer from '@/components/player/ThePlayer'
+import Wallet from '@/components/profile/Wallet'
 import Search from '@/components/search/Search'
 import Ulti from '../components/shared/Ulti'
 import store from '../store'
@@ -28,7 +29,8 @@ const router = new Router({
         { path: 'vod/:vodId', name: 'detail', component: VodDetail },
         { path: 'history', name: 'history', component: History, meta: { requiresAuth: true, leftMenu: true } },
         { path: 'play/:videoId', name: 'play', component: ThePlayer },
-        { path: 'search', name: 'search', component: Search }
+        { path: 'search', name: 'search', component: Search },
+        { path: 'wallet', name: 'wallet', component: Wallet, meta: { requiresAuth: true, leftMenu: true } }
       ]
     }
   ]
