@@ -24,11 +24,29 @@
             <v-layout>
                 <v-flex xs9>
                     <v-layout>
-                        <v-flex xs6 class="wallet-money">
-                            <div>Tài khoản gốc</div>
+                        <v-flex xs6>
+                            <div class="wallet-money has-border">
+                                <v-layout align-center>
+                                    <v-flex xs6>
+                                        Tài khoản ví
+                                    </v-flex>
+                                    <v-flex xs6>
+                                      <span class="money">{{wallet.topup}}</span> VND
+                                    </v-flex>
+                                </v-layout>
+                            </div>
                         </v-flex>
-                        <v-flex xs6 class="wallet-money">
-                            <div>Tài khoản khuyến mại</div>
+                        <v-flex xs6>
+                            <div class="wallet-money">
+                                <v-layout align-center>
+                                    <v-flex xs6>
+                                        Tài khoản khuyến mại
+                                    </v-flex>
+                                    <v-flex xs6>
+                                      <span class="money">{{wallet.bonus}}</span> VND
+                                    </v-flex>
+                                </v-layout>
+                            </div>
                         </v-flex>
                     </v-layout>
                 </v-flex>
@@ -46,7 +64,35 @@
 </template>
 
 <script>
+import HistoryService from './HistoryService'
 export default {
+  data () {
+    return {
+      wallet: {}
+    }
+  },
+  computed: {
+    tokenReady () {
+      return this.$store.getters.tokenReady
+    }
+  },
+  created () {
+    this.initData()
+  },
+  watch: {
+    tokenReady () {
+      this.initData()
+    }
+  },
+  methods: {
+    initData () {
+      if (!this.tokenReady) return
+      HistoryService.wallet().then((response) => {
+        let result = response.body
+        this.wallet = result
+      })
+    }
+  }
 }
 </script>
 

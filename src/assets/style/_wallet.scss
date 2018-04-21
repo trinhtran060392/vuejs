@@ -2,8 +2,27 @@
     .wallet-title {
         font-size: $font-size-large;
         font-weight: bold;
+        margin-bottom: 10px;
     }
     .wallet-info {
         margin-bottom: 30px;
+    }
+    .wallet-money {
+        height: 120px;
+        background-color: $darkest;
+        .layout {
+            height: 100%;
+            .flex {
+                &:last-child {
+                    font-size: $font-size-large;
+                }
+            }
+        }
+        &.has-border {
+            border-right: 1px solid $white;
+        }
+    }
+    .money {
+        color: $yellow;
     }
 }

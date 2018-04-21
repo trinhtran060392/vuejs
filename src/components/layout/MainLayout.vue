@@ -86,8 +86,16 @@
         <v-menu offset-y>
           <v-btn color="" class="btn-login" dark slot="activator">{{account.id}}</v-btn>
           <v-list>
-            <v-list-tile v-for="item in items" :key="item.type" @click="clickSubAccount(item)">
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            <v-list-tile v-for="item in items" :key="item.type">
+              <v-list-tile-action>
+                <v-icon>{{item.icon}}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  <a @click="clickSubAccount(item)"> {{ item.title }}
+                  </a>
+                </v-list-tile-title>
+              </v-list-tile-content>
             </v-list-tile>
           </v-list>
         </v-menu>
@@ -183,10 +191,11 @@
       return {
         menus: [],
         items: [
-          { title: 'Trang Tài Khoản', type: 1 },
+          { title: 'Trang Tài Khoản', type: 1, icon: 'account_circle' },
           {
             type: 2,
-            title: 'Đăng xuất'
+            title: 'Đăng xuất',
+            icon: 'exit_to_app'
           }
         ],
         searchText: '',
