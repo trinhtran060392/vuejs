@@ -18,6 +18,10 @@ export default new Vue({
     wallet () {
       let url = `${Constant.entryPoint}/api1/payments/wallet/inquire_wallet`
       return this.$http.get(url)
+    },
+    payment () {
+      let url = `${Constant.entryPoint}/api1/payments/wallet/inquire_topup_method`
+      return this.$http.get(url)
     }
   }
 })

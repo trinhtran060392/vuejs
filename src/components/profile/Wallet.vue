@@ -22,7 +22,7 @@
                 </div>
             </v-layout>
             <v-layout>
-                <v-flex xs9>
+                <v-flex xs10>
                     <v-layout>
                         <v-flex xs6>
                             <div class="wallet-money has-border">
@@ -58,6 +58,51 @@
                     NẠP TIỀN
                 </div>
             </v-layout>
+            <v-layout>
+                <v-flex xs10>
+                    <v-layout>
+                        <v-flex xs6>
+                            <v-card class="phone-recharge">
+                                <v-card-title>
+                                    Từ tài khoản di động Viettel
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-text-field required
+                                    label="Số điện thoại Viettel"
+                                    ></v-text-field>
+                                    <v-select
+                                      :items="phone.predefined_amount"
+                                      v-model="selectedOption"
+                                      label="Số Tiền Cần Nạp (Tối thiểu 10.000 VND)"
+                                    ></v-select>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-btn @click="phoneRechargeConfirm()">Nạp tiền</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-flex>
+
+                        <v-flex xs6>
+                            <v-card class="card-recharge">
+                                <v-card-title>
+                                    Từ thẻ cào Viettel
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-text-field label="Serial Thẻ Cào" required="">
+
+                                    </v-text-field>
+                                    <v-text-field label="Mã Thẻ Cào" required="">
+
+                                    </v-text-field>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-btn @click="cardRechargeConfirm()">Nạp tiền</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-flex>
+                    </v-layout>
+                </v-flex>
+            </v-layout>
         </div>
 
     </v-container>
@@ -65,10 +110,13 @@
 
 <script>
 import HistoryService from './HistoryService'
+import _ from 'lodash'
 export default {
   data () {
     return {
-      wallet: {}
+      wallet: {},
+      phone: {},
+      selectedOption: null
     }
   },
   computed: {
@@ -91,6 +139,16 @@ export default {
         let result = response.body
         this.wallet = result
       })
+      HistoryService.payment().then((response) => {
+        let result = response.body
+        let phone = _.find(result.wallet_topup_methods, (payment) => {
+          return payment.method === 'phone'
+        })
+        this.phone = phone
+        console.log(phone)
+      })
+    },
+    cardRechargeConfirm () {
     }
   }
 }

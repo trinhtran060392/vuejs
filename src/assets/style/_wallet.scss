@@ -6,6 +6,10 @@
     }
     .wallet-info {
         margin-bottom: 30px;
+        .btn {
+            background-color: $btn !important;
+            margin-bottom: 15px;
+        }
     }
     .wallet-money {
         height: 120px;
@@ -24,5 +28,24 @@
     }
     .money {
         color: $yellow;
+    }
+    .card.phone-recharge, .card.card-recharge {
+        background-color: $darkest !important;
+    }
+    .card-recharge {
+        margin-left: 20px;
+    }
+    .phone-recharge {
+        margin-right: 20px;
+    }
+    .card__title {
+        border-bottom: 0;
+        padding-top: 20px;
+        font-weight: bold;
+    }
+    .input-group {
+        label {
+            font-size: $font-size-normal;
+        }
     }
 }
