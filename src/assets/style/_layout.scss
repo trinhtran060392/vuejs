@@ -127,11 +127,10 @@
     border: 1px solid #292929;
     padding: 10px;
   }
-  .application .theme--dark.card, .theme--dark .card {
+.theme--dark .card {
     background-color: none;
     cursor: pointer;
     border-radius: 5px;
-    border: 1px solid hsla(0,0%,100%,.09);
   }
   .application .theme--dark.toolbar, .theme--dark .toolbar {
     background-color: transparent;
