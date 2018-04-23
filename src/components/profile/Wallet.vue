@@ -25,8 +25,8 @@
                 <v-flex xs10>
                     <v-layout>
                         <v-flex xs6>
-                            <div class="wallet-money has-border">
-                                <v-layout align-center>
+                            <div class="wallet-money">
+                                <v-layout align-center class="has-border">
                                     <v-flex xs6>
                                         Tài khoản ví
                                     </v-flex>
@@ -77,7 +77,7 @@
                                     ></v-select>
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn @click="phoneRechargeConfirm()">Nạp tiền</v-btn>
+                                    <v-btn @click="phoneRechargeConfirm()" class="btn-recharge">Nạp tiền</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-flex>
@@ -96,7 +96,7 @@
                                     </v-text-field>
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn @click="cardRechargeConfirm()">Nạp tiền</v-btn>
+                                    <v-btn @click="cardRechargeConfirm()" class="btn-recharge">Nạp tiền</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-flex>

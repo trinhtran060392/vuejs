@@ -1,7 +1,7 @@
 
 <template>
   <v-container grid-list-md text-xs-center>
-      <h3>{{title}}</h3>
+      <h3 class="title-text">{{title}}</h3>
       <v-layout row wrap>
         <v-flex xs2 v-for="i in catData" :key="i.id">
             <div class="vod-content">
@@ -12,7 +12,7 @@
         </v-flex>
       </v-layout>
       <v-layout justify-center>
-        <v-btn @click="loadMoreItem()">Xem thêm</v-btn>
+        <v-btn @click="loadMoreItem()" class="btn-add">Xem thêm</v-btn>
       </v-layout>
     </v-container>
 </template>

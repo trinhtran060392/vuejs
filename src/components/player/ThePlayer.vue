@@ -135,9 +135,13 @@
   }
 </script>
 <style lang="scss">
+  .player .video-js .vjs-big-play-button {
+    top: 46% !important;
+    left: 46% !important;
+  }
   .video-js .vjs-big-play-button {
-    top: 50% !important;
-    left: 50% !important;
+    top: 46% !important;
+    left: 44% !important;
   }
   .video-js {
     width: auto !important

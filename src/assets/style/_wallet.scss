@@ -12,22 +12,26 @@
         }
     }
     .wallet-money {
-        height: 120px;
+        height: 97px;
+        padding-top: 10px;
+        padding-bottom: 10px;
         background-color: $darkest;
         .layout {
             height: 100%;
             .flex {
                 &:last-child {
-                    font-size: $font-size-large;
+                    font-size: $font-size-larger;
+                    color: $grey;
                 }
             }
         }
-        &.has-border {
+        .has-border {
             border-right: 1px solid $white;
         }
     }
     .money {
         color: $yellow;
+        font-size: 30px;
     }
     .card.phone-recharge, .card.card-recharge {
         background-color: $darkest !important;
@@ -37,6 +41,12 @@
     }
     .phone-recharge {
         margin-right: 20px;
+    }
+    .btn-recharge {
+        font-size: 14px;
+        line-height: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 4px;
     }
     .card__title {
         border-bottom: 0;
