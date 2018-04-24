@@ -56,7 +56,7 @@
                     Ngày đăng ký {{i.date.beautyDay}} {{i.date.beautyTime}}
                   </p>
                   <p>
-                    Ngày hết hạn {{i.date.beautyDay}} {{i.date.beautyTime}}
+                    Ngày hết hạn {{i.endDate.beautyDay}} {{i.endDate.beautyTime}}
                   </p>
                 </v-card-text>
               </v-card>
@@ -152,7 +152,6 @@
             }).then((response) => {
               let result = Ulti.checkRegisteredPackage(packages, response.data)
               this.registeredPacks = result.registeredPackages
-              console.log(this.registeredPacks)
             })
           })
         })

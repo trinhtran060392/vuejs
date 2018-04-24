@@ -77,7 +77,7 @@
                                     ></v-select>
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn @click="phoneRechargeConfirm()" class="btn-recharge">Nạp tiền</v-btn>
+                                    <v-btn @click="phoneRechargeConfirm()" class="vt-btn">Nạp tiền</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-flex>
@@ -88,15 +88,19 @@
                                     Từ thẻ cào Viettel
                                 </v-card-title>
                                 <v-card-text>
-                                    <v-text-field label="Serial Thẻ Cào" required="">
+                                    <v-text-field label="Serial Thẻ Cào" required="" v-model="card.serial">
 
                                     </v-text-field>
-                                    <v-text-field label="Mã Thẻ Cào" required="">
+                                    <v-text-field label="Mã Thẻ Cào" required="" v-model="card.pin">
 
                                     </v-text-field>
                                 </v-card-text>
+                                
                                 <v-card-actions>
-                                    <v-btn @click="cardRechargeConfirm()" class="btn-recharge">Nạp tiền</v-btn>
+                                    <v-btn @click="cardRechargeConfirm()" class="vt-btn">Nạp tiền</v-btn>
+                                    <div class="error-text" v-if="errorMess">
+                                      {{errorMess}}
+                                    </div>
                                 </v-card-actions>
                             </v-card>
                         </v-flex>
@@ -116,7 +120,9 @@ export default {
     return {
       wallet: {},
       phone: {},
-      selectedOption: null
+      selectedOption: null,
+      card: {},
+      errorMess: ''
     }
   },
   computed: {
@@ -149,6 +155,16 @@ export default {
       })
     },
     cardRechargeConfirm () {
+      console.log(this.card)
+      if (!this.card.serial || !this.card.pin) {
+        this.errorMess = 'Số serial và pin là bắt buộc.'
+        return
+      }
+      this.errorMess = ''
+      let obj = {}
+      obj.show = true
+      obj.data = this.card
+      this.$store.dispatch('setConfirmObj', obj)
     }
   }
 }

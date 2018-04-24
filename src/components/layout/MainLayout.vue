@@ -3,6 +3,7 @@
     <Notification></Notification>
     <Login></Login>
     <PackageSelection/>
+    <ConfirmDialog/>
     <!-- <Player></Player> -->
     <v-navigation-drawer
       v-if="isInSettingPage"
@@ -162,13 +163,15 @@
   import Auth from '../authentication/Auth'
   import PackageSelection from '../package/PackageSelection'
   import Notification from '../shared/Notification'
+  import ConfirmDialog from '../shared/ConfirmDialog'
   import Constant from '../shared/Constant'
 
   export default {
     components: {
       Login,
       PackageSelection,
-      Notification
+      Notification,
+      ConfirmDialog
     },
     computed: {
       isAuthenticated () {

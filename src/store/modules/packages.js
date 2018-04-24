@@ -10,6 +10,9 @@ const state = {
   message: {
     show: false,
     text: ''
+  },
+  confirmObj: {
+
   }
 }
 
@@ -20,7 +23,8 @@ const getters = {
   listDevice: state => state.listDevice,
   pack: state => state.pack,
   step: state => state.step,
-  message: state => state.message
+  message: state => state.message,
+  confirmObj: state => state.confirmObj
 }
 
 const actions = {
@@ -44,6 +48,9 @@ const actions = {
   },
   setMessage ({ commit }, message) {
     commit(types.SET_MESS, message)
+  },
+  setConfirmObj ({ commit }, obj) {
+    commit(types.SET_CONFIRM, obj)
   }
 }
 
@@ -68,6 +75,9 @@ const mutations = {
   },
   [types.SET_MESS] (state, message) {
     state.message = message
+  },
+  [types.SET_CONFIRM] (state, obj) {
+    state.confirmObj = obj
   }
 }
 
