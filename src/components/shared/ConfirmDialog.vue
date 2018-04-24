@@ -24,7 +24,7 @@
         </v-layout>
       </v-card-text>
     </v-card>
-    <v-card-actions>
+    <v-card-actions class="group-btn">
       <v-btn @click="closeNotify()" class="vt-btn">Đóng</v-btn>
       <v-btn class="vt-btn">Xác nhận</v-btn>
     </v-card-actions>
