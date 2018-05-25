@@ -62,7 +62,9 @@
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left class="nav-head">
       <v-toolbar-title>
-        <img src="../../assets/static/logo.png">
+        <router-link :to = "{path: '/'}">
+          <img src="../../assets/static/logo.png">
+        </router-link>
       </v-toolbar-title>
       
       <v-toolbar-items class="hidden-sm-and-down">
@@ -232,6 +234,7 @@
         this.$router.push({ path: `/subcat/${catId}?name=${menu.name[0].text}` })
       },
       openAllMenu (menu) {
+        console.log(menu)
         let pathId = menu.path_id
         if (pathId === '/WEB_HOME') {
           this.$router.push({path: '/'})

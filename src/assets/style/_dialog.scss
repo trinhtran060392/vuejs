@@ -1,0 +1,6 @@
+.overlay:before{
+  background-color: rgba(159, 186, 230, 0.38);
+}
+.overlay--active:before {
+  opacity: 1;
+}

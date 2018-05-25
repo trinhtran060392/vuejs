@@ -218,6 +218,10 @@
   color: white !important;
   text-transform: none;
 }
+.btn-login:hover {
+  background-color: #ffcc05 !important;
+  color: #000 !important;
+}
 .input-group.input-group--solo {
   background: rgba(86,86,86,0.28) !important;
 }
